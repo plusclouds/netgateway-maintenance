@@ -1,0 +1,19 @@
+- name: include vars
+  include_vars: "{{ playbook_dir }}/config.yml"
+
+- name: make sure ip_forwarding enabled
+  shell: echo 1 > /proc/sys/net/ipv4/ip_forward
+  
+- name: backup iptables
+  shell: iptables-save > /home/iptables.save
+
+- name: Copy iptables-rules to home
+  template:
+    src: iptables-save.j2
+    dest: /home/iptables.out
+
+- name: Flush Iptables
+  shell: iptables -F
+  
+- name: Execute rules
+  shell: iptables -F -t nat & iptables-restore /home/iptables.out

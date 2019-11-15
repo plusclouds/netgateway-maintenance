@@ -1,0 +1,17 @@
+---
+- name: Deploy Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.deploy
+    -  role: plusclouds.environment.information
+
+- name: Install netgateway services to server
+  hosts: netgateway
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.set.ipaddr
+    -  role: plusclouds.netgateway.proxy.setup
+    -  role: plusclouds.netgateway.iptables.setup

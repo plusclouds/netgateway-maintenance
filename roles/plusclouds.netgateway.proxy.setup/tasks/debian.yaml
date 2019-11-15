@@ -1,0 +1,18 @@
+---
+- name: Update and upgrade apt packages
+  apt:
+    update_cache: yes
+
+- name: Install packages
+  apt: 
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - software-properties-common
+    - nginx
+    - build-essential
+
+- name: Remove default config
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent

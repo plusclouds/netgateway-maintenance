@@ -1,0 +1,11 @@
+---
+- name: include vars
+  include_vars: "{{ playbook_dir }}/config.yml"
+  
+- name: Set Static IP Addresses
+  template:
+    src: interfaces.j2
+    dest: /etc/network/interfaces
+
+- name: 
+  shell: systemctl restart networking

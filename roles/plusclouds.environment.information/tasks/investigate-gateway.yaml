@@ -1,0 +1,53 @@
+---
+# Cache de var mı yok mu diye kontrol et
+- name: Check for netgateway cache
+  local_action: stat path=cache/netgateway.cache
+  register: cache_netgateway
+
+# Eğer yok ise API'dan listeyi talep et
+- name: Find netgateways server in related datacenter node
+  uri:
+    url: http://apiv2/v2/iaas/virtual-machines?name=netgateway-{{ application }}&type=system&fields=ip_addr,username,password
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: netgateway
+  when: cache_netgateway.stat.exists == false
+  delegate_to: localhost
+
+# Eğer cache'de yok ise API'dan dönen sonucu cache'le
+- name: Cache netgateway to file
+  local_action: copy content="{{ netgateway }}" dest="cache/netgateway.cache"
+  when: cache_netgateway.stat.exists == false
+  delegate_to: localhost
+
+# hypervisors'u cache'den geri getir
+- name: Get netgateway from cache
+  set_fact:
+    netgateway: "{{ lookup('file', 'cache/netgateway.cache') }}"
+  when: cache_netgateway.stat.exists == true
+  delegate_to: localhost
+
+- debug:
+    var: netgateway.json.data
+
+- name: Add host to group netservers
+  add_host:
+    name: "{{ item.connectionParameters.data.0.ip_addr }}"
+    groups: netgateway
+    ansible_ssh_user: "{{ item.username }}"
+    ansible_ssh_pass: "{{ item.password }}"
+    public_ip_addr: "{{ public_ip_address.json.data.ip_addr }}"
+    vlan_ip_addr: "{{ vlan_ip_address.json.data.ip_addr }}"
+    vlan_netmask: "{{ cloned_vm_vif0.json.data.network.data.netmask }}"
+    node_name: "{{ item.name }}"
+    public_netmask: "{{ cloned_vm_vif1.json.data.network.data.netmask }}"
+    public_gateway: "{{ cloned_vm_vif1.json.data.network.data.gateway }}"
+  args: "ansible_ssh_user={{ item.username }} ansible_ssh_pass={{ item.password }} ansible_sudo_pass={{ item.username }} ip_addr={{ item.connectionParameters.data.0.ip_addr }} node_name={{ item.name }}" 
+  with_items: "{{ netgateway.json.data }}"
+
+- debug:
+    var: play_hosts
