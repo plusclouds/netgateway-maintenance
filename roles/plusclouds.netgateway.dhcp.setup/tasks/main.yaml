@@ -1,0 +1,19 @@
+---
+# tasks file for plusclouds.dhcp
+#include tasks
+
+- name: Setup Ubuntu 16.04 dhcp Server
+  include_tasks: dhcp-install.yaml
+
+- name: Copy the dhcp configuration file
+  template:
+    src: mac.conf
+    dest: /etc/dhcp/mac.conf
+
+- name: Copy the Customize dhcpd file
+  template:
+    src: dhcpd.conf
+    dest: /etc/dhcp/dhcpd.conf
+
+- name: Save config
+  include_tasks: save-config.yaml

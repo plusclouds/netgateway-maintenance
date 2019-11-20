@@ -5,15 +5,18 @@
   shell: echo 1 > /proc/sys/net/ipv4/ip_forward
   
 - name: backup iptables
-  shell: iptables-save > /home/iptables.save
+  shell: iptables-save > /home/iptables.old
 
 - name: Copy iptables-rules to home
   template:
     src: iptables-save.j2
     dest: /home/iptables.out
 
-- name: Flush Iptables
+- name: Flush filter rules
   shell: iptables -F
   
-- name: Execute rules
-  shell: iptables -F -t nat & iptables-restore /home/iptables.out
+- name: Flush nat rules
+  shell: iptables -F -t nat 
+
+- name: Apply rules
+  shell: iptables-restore /home/iptables.out

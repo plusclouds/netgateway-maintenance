@@ -4,7 +4,7 @@
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"
-    body: "name={{ application }}_vif_0&network_ref={{ vlan_network_card_ref }}&device=0"
+    body: "name={{ application }}_vif_0&network_ref={{ public_network_card_ref }}&device=0"
     return_content: yes
     status_code: 201
   register: cloned_vm_vif0
@@ -22,7 +22,7 @@
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"
-    body: "name={{ application }}_vif_1&network_ref={{ public_network_card_ref }}&device=1"
+    body: "name={{ application }}_vif_1&network_ref={{ vlan_network_card_ref }}&device=1"
     return_content: yes
     status_code: 201
   register: cloned_vm_vif1
@@ -40,9 +40,9 @@
     method: POST
     headers:
       Authorization: "Bearer {{ user_token }}"
-    body: "network_ref={{ vlan_network_card_ref }}&virtual_network_card_ref={{ cloned_vm_vif0.json.data.id }}&allow=1"
+    body: "network_ref={{ public_network_card_ref }}&virtual_network_card_ref={{ cloned_vm_vif0.json.data.id }}&allow=1"
     status_code: 201
-  register: vlan_ip_address
+  register: public_ip_address
 
 - name: wait for config apply
   wait_for:
@@ -54,9 +54,9 @@
     method: POST
     headers:
       Authorization: "Bearer {{ user_token }}"
-    body: "network_ref={{ public_network_card_ref }}&virtual_network_card_ref={{ cloned_vm_vif1.json.data.id }}&allow=1"
+    body: "network_ref={{ vlan_network_card_ref }}&virtual_network_card_ref={{ cloned_vm_vif1.json.data.id }}&allow=1"
     status_code: 201
-  register: public_ip_address
+  register: vlan_ip_address
 
 - name: wait for config apply
   wait_for:
@@ -73,15 +73,10 @@
     timeout: 300
 
 - name: Wait for ping loss
-  local_action: shell ping -q -c 1 -W 1 {{ vlan_ip_address.json.data.ip_addr }}
+  local_action: shell ping -q -c 1 -W 1 {{ public_ip_address.json.data.ip_addr }}
   register: res
   retries: 10
   until: ('100% packet loss' not in res.stdout)
-  ignore_errors: yes
-
-- name: Import Role again
-  include_tasks: "main.yaml"
-  when: res is failed
 
 - debug:
     var: cloned_vm.json.data

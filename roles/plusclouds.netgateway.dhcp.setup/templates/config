@@ -1,0 +1,2 @@
+subnets: {{ vlan_network }}
+ips:

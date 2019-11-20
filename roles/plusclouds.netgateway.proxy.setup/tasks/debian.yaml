@@ -9,10 +9,23 @@
     state: present
   with_items:
     - software-properties-common
-    - nginx
     - build-essential
+
+- name: install Openresty Key
+  shell: wget -qO - https://openresty.org/package/pubkey.gpg | apt-key add -
+
+- name: add openresty to repostroy
+  shell: add-apt-repository -y "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main"
+
+- name: Update and upgrade apt packages
+  apt:
+    update_cache: yes
+
+- name: install openresty
+  apt: name=openresty state=present
 
 - name: Remove default config
   file:
-    path: /etc/nginx/sites-enabled/default
+    path: /etc/openresty/sites-enabled/default
     state: absent
+  notify: restart openresty

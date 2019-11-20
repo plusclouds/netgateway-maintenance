@@ -11,6 +11,6 @@
 
 - name: Enable init.d
   service:
-    name: nginx
+    name: openresty
     state: started
     enabled: yes
