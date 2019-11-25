@@ -1,0 +1,51 @@
+---
+- name: Find required template from template engine
+  uri:
+    url: http://apiv2/v2/iaas/virtual-machines/templates?distro={{ preferred_template }}&version={{ preferred_version }}&datacenterNode={{ preferred_node }}
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: template
+
+- name: Clone the template
+  uri:
+    url: http://apiv2/v2/iaas/virtual-machines/{{ template.json.data.0.id }}/clone
+    body: "name=netgateway-{{ application }}&total_cpu={{ netgateway_cpu }}&total_ram={{ netgateway_ram }}&total_disk={{ netgateway_disk }}"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 201
+    timeout: 300
+  register: cloned_vm
+
+- debug: 
+    var: cloned_vm
+
+- name: Wait until the template is cloned
+  uri:
+    url: http://apiv2/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/status
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: cloned_vm_status
+  until: cloned_vm_status.json.data.status == "halted"
+  retries: 30
+  delay: 3
+
+- name: Tag vm as application
+  uri:
+    url: http://apiv2/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/tags
+    method: POST
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "name[]=netgateway-{{ application }}&name[]=&name[]=netgateway"
+    return_content: yes
+    status_code: 201
+    timeout: 300

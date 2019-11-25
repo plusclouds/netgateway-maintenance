@@ -1,0 +1,41 @@
+---
+# API'dan listeyi talep et
+- name: Find netgateways server in related datacenter node
+  uri:
+    url: http://apiv2/v2/iaas/virtual-machines?name=netgateway-{{ application }}&type=system&fields=ip_addr,username,password
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: netgateway
+  delegate_to: localhost
+
+- debug:
+    var: netgateway.json.data
+
+- name: Add host to group netservers
+  add_host:
+    name: "{{ item.connectionParameters.data.0.ip_addr }}"
+    groups: netgateway
+    ansible_ssh_user: "{{ item.username }}"
+    ansible_ssh_pass: "{{ item.password }}"
+    public_ip_addr: "{{ public_ip_address.json.data.ip_addr }}"
+    vlan_ip_addr: "{{ public_ip_address.json.data.ip_addr }}"
+    vlan_netmask: "{{ cloned_vm_vif0.json.data.network.data.netmask }}"
+    vlan_subnet: "{{ cloned_vm_vif0.json.data.network.data.subnet }}"
+    vlan_broadcast: "{{ cloned_vm_vif0.json.data.network.data.network }}"
+    vlan_gateway: "{{ cloned_vm_vif0.json.data.network.data.gateway }}"
+#    vlan_start_ip_range: "{{ cloned_vm_vif0.json.data.network.data.start_ip_range }}"
+#    vlan_end_ip_range: "{{ cloned_vm_vif0.json.data.network.data.end_ip_range }}"
+#    vlan_network: "{{ vlan_start_ip_range }}{{ vlan_subnet }}"
+    node_name: "{{ item.name }}"
+    public_ip_addr: "{{ public_ip_address.json.data.ip_addr }}"
+    public_netmask: "{{ cloned_vm_vif0.json.data.network.data.netmask }}"
+    public_gateway: "{{ cloned_vm_vif0.json.data.network.data.gateway }}"
+  args: "ansible_ssh_user={{ item.username }} ansible_ssh_pass={{ item.password }} ansible_sudo_pass={{ item.username }} ip_addr={{ item.connectionParameters.data.0.ip_addr }} node_name={{ item.name }}" 
+  with_items: "{{ netgateway.json.data }}"
+
+- debug:
+    var: play_hosts
