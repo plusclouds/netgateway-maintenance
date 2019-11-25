@@ -10,22 +10,31 @@
   with_items:
     - software-properties-common
     - build-essential
-
-- name: install Openresty Key
-  shell: wget -qO - https://openresty.org/package/pubkey.gpg | apt-key add -
-
-- name: add openresty to repostroy
-  shell: add-apt-repository -y "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main"
-
-- name: Update and upgrade apt packages
-  apt:
-    update_cache: yes
-
-- name: install openresty
-  apt: name=openresty state=present
+    - nginx
 
 - name: Remove default config
   file:
-    path: /etc/openresty/sites-enabled/default
+    path: /etc/nginx/sites-enabled/default
     state: absent
-  notify: restart openresty
+  notify: restart nginx
+
+#- name: install prerequirement
+#  shell: apt-get -y install --no-install-recommends wget gnupg ca-certificates
+#- name: install Openresty Key
+#  shell: wget -qO - https://openresty.org/package/pubkey.gpg | apt-key add -
+#
+#- name: add openresty to repostroy
+#  shell: add-apt-repository -y "deb http://openresty.org/package/debian $(lsb_release -sc) openresty"
+#
+#- name: Update and upgrade apt packages
+#  apt:
+#    update_cache: yes
+#
+#- name: install openresty
+#  apt: name=openresty state=present
+#
+#- name: Remove default config
+#  file:
+#    path: /etc/openresty/sites-enabled/default
+#    state: absent
+#  notify: restart openresty

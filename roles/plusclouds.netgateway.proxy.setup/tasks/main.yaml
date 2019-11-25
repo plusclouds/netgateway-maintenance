@@ -9,8 +9,14 @@
 #  template: src=vhosts.j2 dest=/etc/nginx/sites-enabled/proxy-{{ application }}.conf
 #  notify: restart nginx
 
+#- name: Enable init.d
+#  service:
+#    name: openresty
+#    state: started
+#    enabled: yes
+
 - name: Enable init.d
   service:
-    name: openresty
+    name: nginx
     state: started
     enabled: yes

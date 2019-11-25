@@ -6,6 +6,7 @@
   roles:
     -  role: plusclouds.netgateway.deploy
     -  role: plusclouds.environment.information
+#    -  role: plusclouds.netgateway.set
 
 - name: Install netgateway services to server
   hosts: netgateway

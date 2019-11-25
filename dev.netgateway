@@ -1,0 +1,6 @@
+[netgateway]
+10.100.0.72
+
+[netgateway:vars]
+ansible_ssh_user: "root"
+ansible_ssh_pass: "template1"

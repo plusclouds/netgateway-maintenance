@@ -1,13 +1,12 @@
 ---
 # defaults file for plusclouds.netgateway.dhcp.add.subnet
-
-subnet: "{{ vlan_subnet }"
+subnet: "{{ vlan_network }}"
 netmask: "{{ vlan_netmask }}"
 start_ip_range: "{{ vlan_start_ip_range }}"
 finish_ip_range: "{{ vlan_end_ip_range }}"
 broadcast_address: "{{ vlan_broadcast }}"
 routers_address: "{{ vlan_ip_addr }}"
-domain_name: "plusclouds"
+domain_name: "plusclouds.leo"
 domain_name_servers: "8.8.4.4, 4.4.2.2"
 network_id: ""
 backup: yes

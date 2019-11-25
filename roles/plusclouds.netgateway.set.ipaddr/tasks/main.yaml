@@ -9,3 +9,9 @@
 
 - name: 
   shell: systemctl restart networking
+
+- name: set mtu 9000
+  shell: "{{ item }}"
+  with_items:
+    - ifconfig eth0 mtu 9000 up
+    - ifconfig eth1 mtu 9000 up

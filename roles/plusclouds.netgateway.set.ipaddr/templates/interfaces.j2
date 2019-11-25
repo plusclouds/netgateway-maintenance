@@ -4,12 +4,11 @@ iface lo inet loopback
 auto eth0
 iface eth0 inet static
     address {{ public_ip_addr }}
-    netmask {{ vlan_netmask }}
+    netmask {{ public_netmask }}
+    gateway {{ public_gateway }}
+    dns_nameservers 8.8.4.4 4.4.2.2
 
 auto eth1
 iface eth1 inet static
     address {{ vlan_ip_addr }}
     netmask {{ vlan_netmask }}
-    gateway {{ public_gateway }}
-    dns_nameservers 8.8.4.4 4.4.2.2
-
