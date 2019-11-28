@@ -1,0 +1,4 @@
+source_ip: '{{ public_ip_addr }}' #Must be unique
+source_port: '{{ nat_port }}' #Must be unique
+destination_ip: '{{ destination_ip }}' #Must be unique
+destination_port: '{{ destination_port }}' #Must be unique

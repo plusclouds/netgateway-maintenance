@@ -12,8 +12,6 @@
   lineinfile:
     path: /etc/dhcp/dhcpd.conf
     line: 'include "/etc/dhcp/subnets/{{start_ip_range}}-{{ finish_ip_range }}.conf";'
-    backup: {{ backup }}
-
 
 
 - name: Set dhcp config file
@@ -21,8 +19,6 @@
     path: /etc/dhcp/dhcpd.conf
     state: absent
     regexp: 'include "/etc/dhcp/subnets/{{start_ip_range}}-{{ finish_ip_range }}.conf";'
-    backup: {{ backup }}
-
 
 
 - name: Restart DHCP service

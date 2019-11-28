@@ -14,7 +14,7 @@ gitlab_assignee_id: "2"
 #preferred_template_tag: "template v1.1"
 #
 #preferred_node_slug: "mednautilus-cell5"
-preferred_node: "POJYAWrdjZ"
+preferred_node: "XzBYDyLvgq"
 
 preferred_template_distribution: "debian"
 preferred_template_version: "9.9"
@@ -29,28 +29,28 @@ preferred_api_ram: 4096
 netgateway_cpu: 2
 netgateway_disk: 12000
 netgateway_ram: 512
-#default_username: leo
-#default_password: fO0OeDwoW)bIrZuAs|aU
+default_username: leo
+default_password: fO0OeDwoW)bIrZuAs|aU
 
-vlan_network_card_ref: GqdrRlVYPe
-public_network_card_ref: BgmLvwErxe
-dhcp_bind: eth1
-default_username: root
-default_password: template1
+vlan_network_card_ref: VGxLmgzNpe
+public_network_card_ref: VGxLmgzNpe
+dhcp_bind: eth0
+#default_username: root
+#default_password: template1
 
 
 # temporary variables
 #ansible_ssh_user: "root"
 #ansible_ssh_pass: "template1"
-#vlan_ip_addr: "10.100.0.1"
-#vlan_netmask: "255.255.0.0"
-#vlan_subnet: "/16"
-#vlan_broadcast: "10.100.255.255"
-#vlan_gateway: "10.100.0.1"
-#vlan_start_ip_range: "10.100.0.10"
-#vlan_end_ip_range: "10.100.255.254"
-#vlan_network: "10.100.0.0"
-#node_name: "netgateway-leo"
-#public_ip_addr: "10.100.0.72"
-#public_netmask: "255.255.0.0"
-#public_gateway: "10.100.0.1"
+vlan_ip_addr: "10.100.0.1"
+vlan_netmask: "255.255.0.0"
+vlan_subnet: "/16"
+vlan_broadcast: "10.100.255.255"
+vlan_gateway: "10.100.0.1"
+vlan_start_ip_range: "10.100.0.10"
+vlan_end_ip_range: "10.100.255.254"
+vlan_network: "10.100.0.0"
+node_name: "netgateway-leo"
+public_ip_addr: "10.100.0.100"
+public_netmask: "255.255.0.0"
+public_gateway: "10.100.0.1"
