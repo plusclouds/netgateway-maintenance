@@ -1,6 +1,0 @@
----
-- name: include vars
-  include_vars: "{{ playbook_dir }}/config.yml"
-
-- name: Create Netgateway Servers
-  include_tasks: "netgateway-add-dhcp.yaml"

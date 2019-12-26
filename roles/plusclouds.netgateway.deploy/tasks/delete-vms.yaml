@@ -3,7 +3,7 @@
 
 - name: find all vms with name {{ application }}
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines?name=netgateway-{{ application }}
+    url: http://apiv2/v2/iaas/virtual-machines?name=netgateway-{{ application }}&datacenterNode={{ preferred_node }}
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
