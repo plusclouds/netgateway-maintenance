@@ -1,0 +1,4 @@
+---
+# defaults file for plusclouds.netgateway.dhcp.add.subnet
+start_ip_range: "{{ vlan_start_ip_range }}"
+finish_ip_range: "{{ vlan_end_ip_range }}"

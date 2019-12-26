@@ -1,0 +1,85 @@
+- name: Set Virtual Interface 0 for cloned vm
+  uri:
+    url: http://apiv2/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/set-network-card
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "name={{ application }}_vif_0&network_ref={{ public_network_card_ref }}&device=0"
+    return_content: yes
+    status_code: 201
+  register: cloned_vm_vif0
+
+- name: wait for config apply
+  wait_for:
+    timeout: 10
+
+- debug:
+    var: cloned_vm_vif0.json.data
+
+- name: Set Virtual Interface 1 for cloned vm
+  uri:
+    url: http://apiv2/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/set-network-card
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "name={{ application }}_vif_1&network_ref={{ vlan_network_card_ref }}&device=1"
+    return_content: yes
+    status_code: 201
+  register: cloned_vm_vif1
+
+- name: wait for config apply
+  wait_for:
+    timeout: 10
+
+- debug:
+    var: cloned_vm_vif1.json.data
+
+- name: Add new IP to VIF0
+  uri:
+    url: http://apiv2/v2/packetbender/ip
+    method: POST
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "network_ref={{ public_network_card_ref }}&virtual_network_card_ref={{ cloned_vm_vif0.json.data.id }}&allow=1"
+    status_code: 201
+  register: public_ip_address
+
+- name: wait for config apply
+  wait_for:
+    timeout: 20
+
+- name: Add new IP to VIF1
+  uri:
+    url: http://apiv2/v2/packetbender/ip
+    method: POST
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "network_ref={{ vlan_network_card_ref }}&virtual_network_card_ref={{ cloned_vm_vif1.json.data.id }}&allow=1"
+    status_code: 201
+  register: vlan_ip_address
+
+- name: wait for config apply
+  wait_for:
+    timeout: 20
+
+- name: Boot the server
+  uri:
+    url: http://apiv2/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/start
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 204
+    timeout: 300
+
+- name: Wait for ping loss
+  local_action: shell ping -q -c 1 -W 1 {{ public_ip_address.json.data.ip_addr }}
+  register: res
+  retries: 10
+  until: ('100% packet loss' not in res.stdout)
+
+- debug:
+    var: cloned_vm.json.data
+
+- debug:
+    var: public_ip_address.json.data

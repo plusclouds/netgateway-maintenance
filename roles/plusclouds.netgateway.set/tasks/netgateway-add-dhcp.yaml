@@ -1,0 +1,39 @@
+- name: set server as a dhcp server
+  uri:
+    url: http://apiv2/v2/packetbender/dhcp/server
+    body: "name=netgateway-{{ application }}&virtual_machine_id={{ cloned_vm.json.data.id }}&type=isc"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 201
+    timeout: 300
+  register: dhcp_server
+
+- debug:
+    var: dhcp_server
+
+- name: add new subnet to db
+  uri:
+    url: http://apiv2/v2/packetbender/dhcp/subnet/{{ dhcp_server.json.data.id }}
+    body: "
+    subnet={{ cloned_vm_vif1.json.data.network.data.ip_addr }}&
+netmask={{ cloned_vm_vif1.json.data.network.data.netmask }}&
+range_start={{ cloned_vm_vif1.json.data.network.data.range_start }}&
+range_end={{cloned_vm_vif1.json.data.network.data.range_end}}&
+option_subnet_mask={{cloned_vm_vif1.json.data.network.data.netmask}}&
+option_dns={{cloned_vm_vif1.json.data.network.data.dns_nameservers}}&
+option_routers={{cloned_vm_vif1.json.data.network.data.gateway}}&
+default_lease_time=36000&max_lease_time=72000&
+broadcast={{cloned_vm_vif1.json.data.network.data.network}}&
+option_domain={{cloned_vm_vif1.json.data.network.data.local_domain}}"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 201
+    timeout: 300
+  register: new_subnet
+
+- debug:
+    var: new_subnet

@@ -1,0 +1,8 @@
+application: "ansible-role-test-servers"
+application_type: "micro"
+
+app_server_count: 2
+
+preferred_template_distribution: "centos"
+preferred_template_version: "7_x64"
+
