@@ -4,7 +4,7 @@
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"
-    body: "name={{ application }}_vif_0&network_ref={{ public_network_card_ref }}&device=0"
+    body: "name={{ server_name }}_vif_0&network_ref={{ public_network_card_ref }}&device=0"
     return_content: yes
     status_code: 201
   register: cloned_vm_vif0
@@ -22,7 +22,7 @@
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"
-    body: "name={{ application }}_vif_1&network_ref={{ vlan_network_card_ref }}&device=1"
+    body: "name={{ server_name }}_vif_1&network_ref={{ vlan_network_card_ref }}&device=1"
     return_content: yes
     status_code: 201
   register: cloned_vm_vif1
@@ -48,19 +48,19 @@
   wait_for:
     timeout: 20
 
-- name: Add new IP to VIF1
-  uri:
-    url: http://apiv2/v2/packetbender/ip
-    method: POST
-    headers:
-      Authorization: "Bearer {{ user_token }}"
-    body: "network_ref={{ vlan_network_card_ref }}&virtual_network_card_ref={{ cloned_vm_vif1.json.data.id }}&allow=1"
-    status_code: 201
-  register: vlan_ip_address
-
-- name: wait for config apply
-  wait_for:
-    timeout: 20
+#- name: Add new IP to VIF1
+#  uri:
+#    url: http://apiv2/v2/packetbender/ip
+#    method: POST
+#    headers:
+#      Authorization: "Bearer {{ user_token }}"
+#    body: "network_ref={{ vlan_network_card_ref }}&virtual_network_card_ref={{ cloned_vm_vif1.json.data.id }}&allow=1"
+#    status_code: 201
+#  register: vlan_ip_address
+#
+#- name: wait for config apply
+#  wait_for:
+#    timeout: 20
 
 - name: Boot the server
   uri:
@@ -78,8 +78,8 @@
   retries: 10
   until: ('100% packet loss' not in res.stdout)
 
-- debug:
-    var: cloned_vm.json.data
-
-- debug:
-    var: public_ip_address.json.data
+#- debug:
+#    var: cloned_vm.json.data
+#
+#- debug:
+#    var: public_ip_address.json.data

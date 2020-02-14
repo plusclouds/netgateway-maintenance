@@ -1,37 +1,51 @@
+---
+- name: Find netgateways server in related datacenter node
+  uri:
+    url: http://apiv2/v2/iaas/virtual-machines?name={{ server_name }}&type=system&fields=ip_addr,username,password
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: netgateway
+  delegate_to: localhost
+
+- debug:
+    var: netgateway.json.data.0.id
+
 - name: set server as a dhcp server
   uri:
     url: http://apiv2/v2/packetbender/dhcp/server
-    body: "name=netgateway-{{ application }}&virtual_machine_id={{ cloned_vm.json.data.id }}&type=isc"
+    body: "name={{ server_name }}&virtual_machine_id={{ netgateway.json.data.0.id }}&type=isc"
     method: POST
     headers:
       Authorization: "Bearer {{ user_token }}"
     return_content: yes
-    status_code: 201
+    status_code: 200
     timeout: 300
   register: dhcp_server
 
-- debug:
-    var: dhcp_server
-
 - name: add new subnet to db
   uri:
-    url: http://apiv2/v2/packetbender/dhcp/subnet/{{ dhcp_server.json.data.id }}
+    url: http://apiv2/v2/packetbender/dhcp/subnet
     body: "
-    subnet={{ cloned_vm_vif1.json.data.network.data.ip_addr }}&
-netmask={{ cloned_vm_vif1.json.data.network.data.netmask }}&
-range_start={{ cloned_vm_vif1.json.data.network.data.range_start }}&
-range_end={{cloned_vm_vif1.json.data.network.data.range_end}}&
-option_subnet_mask={{cloned_vm_vif1.json.data.network.data.netmask}}&
-option_dns={{cloned_vm_vif1.json.data.network.data.dns_nameservers}}&
-option_routers={{cloned_vm_vif1.json.data.network.data.gateway}}&
+dhcp_server_id={{ dhcp_server.json.data.id }}&
+subnet={{ vlan_ip }}&
+netmask={{ vlan_netmask }}&
+range_start={{ vlan_start_ip_range }}&
+range_end={{ vlan_end_ip_range }}&
+option_subnet_mask={{ vlan_netmask }}&
+option_dns=8.8.4.4,4.4.2.2&
+option_routers={{ vlan_gateway }}&
 default_lease_time=36000&max_lease_time=72000&
-broadcast={{cloned_vm_vif1.json.data.network.data.network}}&
-option_domain={{cloned_vm_vif1.json.data.network.data.local_domain}}"
+broadcast={{ vlan_broadcast }}&
+network_id={{ vlan_network_card_ref }}&"
     method: POST
     headers:
       Authorization: "Bearer {{ user_token }}"
     return_content: yes
-    status_code: 201
+    status_code: 200
     timeout: 300
   register: new_subnet
 

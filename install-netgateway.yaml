@@ -7,14 +7,28 @@
     -  role: plusclouds.netgateway.deploy
     -  role: plusclouds.environment.information
     -  role: plusclouds.netgateway.set
+  vars:
+    - template: "wpOYoOyYzq"
+    - domain_name: "plusclouds.com"
+    - server_name: "demo_netgateway8"
+    - datacenter_node: "yVMNlGrzlo"
+    - vlan_network_card_ref: "mkgNWxxYxp"
+    - cpu: "8"
+    - disk_size: "10200"
+    - ram_size: "1024"
+    - fa1se: false
 
 - name: Install netgateway services to server
   hosts: netgateway
   become: false
-  gather_facts: false
+  gather_facts: true
   roles:
+   -  role: plusclouds.environment.information
    -  role: plusclouds.netgateway.set.ipaddr
    -  role: plusclouds.netgateway.proxy.setup
    -  role: plusclouds.netgateway.iptables.setup
    -  role: plusclouds.netgateway.dhcp.setup
    -  role: plusclouds.netgateway.dhcp.add.subnet
+  vars: 
+   - server_name: "demo_netgateway8"
+   - datacenter_node: "yVMNlGrzlo"

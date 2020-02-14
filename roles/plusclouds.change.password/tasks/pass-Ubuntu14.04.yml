@@ -1,0 +1,10 @@
+---
+# tasks file for plusclouds.change.passwords
+
+#- name: Change Password for {{ username }}
+#  shell: "(echo {{ password }}; echo {{ password }}) | passwd  {{ username }}"
+
+- name: Update Root user's Password
+  user: 
+    name: "{{ username }}"
+    password: "{{ password }}"

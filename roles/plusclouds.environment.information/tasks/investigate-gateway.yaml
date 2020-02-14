@@ -2,7 +2,7 @@
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines?name=netgateway-{{ application }}&type=system&fields=ip_addr,username,password
+    url: http://apiv2/v2/iaas/virtual-machines?name={{ server_name }}&type=system&fields=ip_addr,username,password
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -17,25 +17,25 @@
 
 - name: Add host to group netservers
   add_host:
-    name: "{{ item.connectionParameters.data.0.ip_addr }}"
+    name: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     groups: netgateway
-    ansible_ssh_user: "{{ item.username }}"
-    ansible_ssh_pass: "{{ item.password }}"
-    public_ip_addr: "{{ public_ip_address.json.data.ip_addr }}"
-    vlan_ip_addr: "{{ vlan_ip_address.json.data.ip_addr }}"
-    vlan_netmask: "{{ cloned_vm_vif0.json.data.network.data.netmask }}"
-    vlan_subnet: "{{ cloned_vm_vif0.json.data.network.data.subnet }}"
-    vlan_broadcast: "{{ cloned_vm_vif0.json.data.network.data.network }}"
-    vlan_gateway: "{{ cloned_vm_vif0.json.data.network.data.gateway }}"
-    vlan_start_ip_range: "{{ cloned_vm_vif0.json.data.network.data.ip_range_start }}"
-    vlan_end_ip_range: "{{ cloned_vm_vif0.json.data.network.data.ip_range_end }}"
-    vlan_network: "{{ vlan_start_ip_range }}{{ vlan_subnet }}"
-    node_name: "{{ item.name }}"
-    public_ip_addr: "{{ public_ip_address.json.data.ip_addr }}"
-    public_netmask: "{{ cloned_vm_vif1.json.data.network.data.netmask }}"
-    public_gateway: "{{ cloned_vm_vif1.json.data.network.data.gateway }}"
-  args: "ansible_ssh_user={{ item.username }} ansible_ssh_pass={{ item.password }} ansible_sudo_pass={{ item.username }} ip_addr={{ item.connectionParameters.data.0.ip_addr }} node_name={{ item.name }}" 
-  with_items: "{{ netgateway.json.data }}"
+    ansible_ssh_user: "{{ default_username }}"
+    ansible_ssh_pass: "{{ default_password }}"
 
-- debug:
-    var: play_hosts
+- set_fact: 
+    vlan_ip_addr: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.gateway }}"
+    vlan_netmask: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.netmask }}"
+    vlan_subnet: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.subnet }}"
+    vlan_ip: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.ip_addr }}"
+    vlan_broadcast: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.network }}"
+    vlan_gateway: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.gateway }}"
+    vlan_start_ip_range: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.ip_range_start }}"
+    vlan_end_ip_range: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.ip_range_end }}"
+    vlan_network: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.ip_addr }}{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.subnet }}"
+    node_name: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
+    public_ip_addr: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
+    public_netmask: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.network.data.netmask }}"
+    public_gateway: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.network.data.gateway }}"
+
+- name: hostkey disable
+  shell: export ANSIBLE_HOST_KEY_CHECKING=False
