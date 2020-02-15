@@ -6,7 +6,7 @@
   roles:
     -  role: plusclouds.environment.information
 
-- name: drop proxy conf
+- name: Drop Proxy Configuration
   hosts: netgateway
   become: false
   gather_facts: false
