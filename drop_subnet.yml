@@ -1,11 +1,4 @@
 ---
-#- name: Deploy Netgateway Server
-#  hosts: localhost
-#  become: false
-#  gather_facts: false
-#  roles:
-#    -  role: plusclouds.environment.information
-
 - name: Drop Subnet Configuration
   hosts: netgateway
   become: false

@@ -1,11 +1,4 @@
 ---
-#- name: Deploy Netgateway Server
-#  hosts: localhost
-#  become: false
-#  gather_facts: false
-#  roles:
-#    -  role: plusclouds.environment.information
-
 - name: Drop Proxy Configuration
   hosts: netgateway
   become: false
@@ -13,4 +6,4 @@
   roles:
     -  role: plusclouds.netgateway.proxy.drop
   vars: 
-    - domain_name: deneme123.com
+    - host: myproxy.com

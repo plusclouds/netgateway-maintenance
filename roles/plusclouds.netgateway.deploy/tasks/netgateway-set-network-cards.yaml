@@ -4,7 +4,7 @@
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"
-    body: "name={{ server_name }}_vif_0&network_ref={{ public_network_card_ref }}&device=0"
+    body: "name={{ server_name }}_vif_0&network_ref={{ network }}&device=0"
     return_content: yes
     status_code: 201
   register: cloned_vm_vif0
@@ -22,7 +22,7 @@
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"
-    body: "name={{ server_name }}_vif_1&network_ref={{ vlan_network_card_ref }}&device=1"
+    body: "name={{ server_name }}_vif_1&network_ref={{ network }}&device=1"
     return_content: yes
     status_code: 201
   register: cloned_vm_vif1

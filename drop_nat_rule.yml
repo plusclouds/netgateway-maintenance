@@ -1,12 +1,5 @@
 ---
-- name: Deploy Netgateway Server
-  hosts: localhost
-  become: false
-  gather_facts: false
-  roles:
-    -  role: plusclouds.environment.information
-
-- name: Drop Proxy Configuration
+- name: Drop NAT Configuration
   hosts: netgateway
   become: false
   gather_facts: false

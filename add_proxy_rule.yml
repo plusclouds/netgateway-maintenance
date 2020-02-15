@@ -1,11 +1,11 @@
 ---
-- name: drop proxy conf
+- name: Add Proxy Rule
   hosts: netgateway
   become: false
   gather_facts: false
   roles:
     -  role: plusclouds.netgateway.proxy.configure
   vars: 
-    - domain_name: deneme123.com
-    - ip_address: 10.100.0.23
-    - port: 99
+    - domain_name: myproxy.com
+    - ip_address: 8.8.4.4
+    - port: 80

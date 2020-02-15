@@ -10,13 +10,12 @@
   vars:
     - template: "wpOYoOyYzq"
     - domain_name: "plusclouds.com"
-    - server_name: "demo_netgateway8"
+    - server_name: "NetGateway"
     - datacenter_node: "yVMNlGrzlo"
-    - vlan_network_card_ref: "mkgNWxxYxp"
+    - network: "mkgNWxxYxp"
     - cpu: "8"
     - disk_size: "10200"
     - ram_size: "1024"
-    - fa1se: false
 
 - name: Install netgateway services to server
   hosts: netgateway
@@ -30,5 +29,5 @@
    -  role: plusclouds.netgateway.dhcp.setup
    -  role: plusclouds.netgateway.dhcp.add.subnet
   vars: 
-   - server_name: "demo_netgateway8"
+   - server_name: "NetGateway"
    - datacenter_node: "yVMNlGrzlo"

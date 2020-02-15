@@ -1,11 +1,11 @@
 ---
-- name: drop proxy conf
+- name: Add NAT Rule
   hosts: netgateway
   become: false
   gather_facts: false
   roles:
     -  role: plusclouds.netgateway.iptables.add.rule
   vars: 
-    - nat_port: 9999
-    - destination_ip: 10.100.0.2
-    - destination_port: 9912
+    - nat_port: 10000
+    - destination_ip: 8.8.4.4
+    - destination_port: 80
