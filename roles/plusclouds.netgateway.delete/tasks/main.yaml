@@ -1,0 +1,6 @@
+---
+- name: include vars
+  include_vars: "{{ playbook_dir }}/config.yml"
+
+- name: Delete Netgateway Servers
+  include_tasks: "delete_server.yaml"

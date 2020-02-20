@@ -2,7 +2,7 @@
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines?name={{ server_name }}&type=system&fields=ip_addr,username,password
+    url: http://apiv2/v2/iaas/virtual-machines?name={{ server_name }}&type=system&fields=ip_addr,username,password&include=datacenterNode
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -19,8 +19,8 @@
   add_host:
     name: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     groups: netgateway
-    ansible_ssh_user: "{{ default_username }}"
-    ansible_ssh_pass: "{{ default_password }}"
+    ansible_ssh_user: "{{ netgateway.json.data.0.username }}"
+    ansible_ssh_pass: "{{ netgateway.json.data.0.password }}"
 
 - set_fact: 
     vlan_ip_addr: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.gateway }}"
@@ -36,6 +36,8 @@
     public_ip_addr: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     public_netmask: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.network.data.netmask }}"
     public_gateway: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.network.data.gateway }}"
-
-- name: hostkey disable
-  shell: export ANSIBLE_HOST_KEY_CHECKING=False
+    datacenterNode: "{{ netgateway.json.data.0.datacenterNode.data.id }}"
+    public_network_card_ref: "{{ wan }}"
+    vlan_network_card_ref: "{{ network }}"
+    vm_id: "{{ netgateway.json.data.0.id }}"
+    username: "root"

@@ -1,0 +1,14 @@
+- name: Get random password
+  uri:
+    url: http://apiv2/v2/generator/password?length=10
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: password
+  delegate_to: localhost
+
+- debug:
+    var: password.json.data.password

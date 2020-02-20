@@ -7,6 +7,9 @@
     src: interfaces.j2
     dest: /etc/network/interfaces
 
+- name: install net-tools
+  shell: apt update && apt install net-tools -y
+
 - name: 
   shell: systemctl restart networking
 

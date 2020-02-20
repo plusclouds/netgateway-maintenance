@@ -1,8 +1,10 @@
 ---
-#- name: Delete Netgateway
-#  hosts: localhost
-#  become: false
-#  gather_facts: false
-#  roles:
-#  tasks:
-#    - include: roles/plusclouds.netgateway.deploy/tasks/delete-vms.yaml
+- name: Delete Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.environment.information
+    -  role: plusclouds.netgateway.delete
+  vars:
+    - server_name: "NetGatewayDemo5"
