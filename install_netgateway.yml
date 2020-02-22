@@ -8,13 +8,8 @@
     -  role: plusclouds.environment.information
     -  role: plusclouds.netgateway.set
   vars:
-    - template: "plusclouds_linux"
-    - domain_name: "plusclouds.com"
-    - server_name: "NetGatewayDemo7"
     - wan: "VGxLmRrpeX"
     - network: "mkgNWxxYxp"
-    - type: "small" 
-    #- root_password: ""
 
 - name: Install netgateway services to server
   hosts: netgateway
@@ -29,9 +24,5 @@
    -  role: plusclouds.netgateway.dhcp.add.subnet
    -  role: plusclouds.random.password.change
    -  role: plusclouds.vm.set.password
-  vars: 
-   - server_name: "NetGatewayDemo7"
-   - wan: "VGxLmRrpeX"
-   - network: "mkgNWxxYxp"
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

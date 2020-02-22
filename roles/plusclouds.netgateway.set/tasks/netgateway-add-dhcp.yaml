@@ -40,7 +40,7 @@ option_dns=8.8.4.4,4.4.2.2&
 option_routers={{ vlan_gateway }}&
 default_lease_time=36000&max_lease_time=72000&
 broadcast={{ vlan_broadcast }}&
-network_id={{ vlan_network_card_ref }}&"
+network_id={{ network }}&"
     method: POST
     headers:
       Authorization: "Bearer {{ user_token }}"

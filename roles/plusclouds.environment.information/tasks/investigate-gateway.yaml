@@ -1,4 +1,21 @@
 ---
+- set_fact:
+    network: "{{ network }}"
+  when: network is defined
+
+- set_fact:
+    wan: "{{ wan }}"
+  when: wan is defined
+
+- set_fact:
+    network: "{{ hostvars['localhost']['network'] }}"
+  when: hostvars['localhost']['network'] is defined
+
+- set_fact:
+    wan: "{{ hostvars['localhost']['wan'] }}"
+  when: hostvars['localhost']['wan'] is defined
+
+
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
   uri:
@@ -12,8 +29,6 @@
   register: netgateway
   delegate_to: localhost
 
-- debug:
-    var: netgateway.json.data
 
 - name: Add host to group netservers
   add_host:
@@ -37,7 +52,6 @@
     public_netmask: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.network.data.netmask }}"
     public_gateway: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.network.data.gateway }}"
     datacenterNode: "{{ netgateway.json.data.0.datacenterNode.data.id }}"
-    public_network_card_ref: "{{ wan }}"
-    vlan_network_card_ref: "{{ network }}"
     vm_id: "{{ netgateway.json.data.0.id }}"
     username: "root"
+

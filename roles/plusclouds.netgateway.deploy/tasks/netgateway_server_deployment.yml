@@ -35,6 +35,9 @@
   register: template_info
   delegate_to: localhost
 
+- debug:
+    var: template_info
+
 - name: Clone the template
   uri:
     url: http://apiv2/v2/iaas/virtual-machines/{{ template_info.json.data.0.id }}/clone

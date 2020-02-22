@@ -13,16 +13,20 @@
   delegate_to: localhost
   register: cloned_vm
 
-- name: "Force shutdown !!!!!!!!!!"
-  uri:
-    url: http://apiv2/v2/iaas/virtual-machines/{{ item.id }}/shutdown
-    method: PUT
-    headers:
-      Authorization: "Bearer {{ user_token }}"
-    body: "force=1"
-    return_content: yes
-    status_code: 204
-  with_items: "{{ cloned_vm.json.data }}"
+#- name: "Force shutdown !!!!!!!!!!"
+#  uri:
+#    url: http://apiv2/v2/iaas/virtual-machines/{{ item.id }}/shutdown
+#    method: PUT
+#    headers:
+#      Authorization: "Bearer {{ user_token }}"
+#    body: "force=1"
+#    return_content: yes
+#    status_code: 204
+#  with_items: "{{ cloned_vm.json.data }}"
+##
+- name: wait for config apply
+  wait_for:
+    timeout: 10
 
 - name: "Delete halted VM !!!!!!!!!!"
   uri:
@@ -30,7 +34,7 @@
     method: DELETE
     headers:
       Authorization: "Bearer {{ user_token }}"
-    body: "force=1"
+    body: "force=1" 
     return_content: yes
     status_code: 204
   ignore_errors: True

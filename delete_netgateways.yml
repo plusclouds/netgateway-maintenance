@@ -4,7 +4,7 @@
   become: false
   gather_facts: false
   roles:
-    -  role: plusclouds.environment.information
+    #-  role: plusclouds.environment.information
     -  role: plusclouds.netgateway.delete
   vars:
-    - server_name: "NetGatewayDemo5"
+    - server_name: "netgateway"
