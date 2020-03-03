@@ -1,4 +1,0 @@
-domain_name: ''
-ip_address: ''
-port: ''
-proxy_address: "{{ ip_address }}:{{ port }}"

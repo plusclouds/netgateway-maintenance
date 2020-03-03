@@ -1,4 +1,11 @@
 ---
+- name: Discover Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.environment.information
+
 - name: Drop Proxy Configuration
   hosts: netgateway
   become: false
@@ -6,4 +13,6 @@
   roles:
     -  role: plusclouds.netgateway.proxy.drop
   vars: 
-    - host: myproxy.com
+    - domain_name: myproxy.com
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false

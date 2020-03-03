@@ -1,4 +1,11 @@
 ---
+- name: Discover Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.environment.information
+
 - name: Add Proxy Rule
   hosts: netgateway
   become: false
@@ -9,3 +16,5 @@
     - domain_name: myproxy.com
     - ip_address: 8.8.4.4
     - port: 80
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false

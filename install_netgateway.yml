@@ -4,9 +4,9 @@
   become: false
   gather_facts: false
   roles:
-    -  role: plusclouds.netgateway.deploy
+ #   -  role: plusclouds.netgateway.deploy
     -  role: plusclouds.environment.information
-    -  role: plusclouds.netgateway.set
+#    -  role: plusclouds.netgateway.set
   vars:
     - wan: "VGxLmRrpeX"
     - network: "mkgNWxxYxp"

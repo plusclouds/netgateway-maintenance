@@ -4,6 +4,6 @@ server {
 	access_log /var/log/nginx/access.{{ domain_name }}.log;
 	location / {
 		proxy_pass http://{{ proxy_address }}/;
-		include /etc/openresty/proxy_params;
+		include /etc/nginx/proxy_params;
 	}
 }
