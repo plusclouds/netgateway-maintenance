@@ -19,7 +19,7 @@
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines?name={{ server_name }}&type=system&fields=ip_addr,username,password&include=datacenterNode
+    url: http://apiv2/v2/iaas/virtual-machines?name={{ server_name }}&datacenterNode={{ datacenterNode }}&type=system&fields=ip_addr,username,password&include=datacenterNode
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
