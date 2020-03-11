@@ -50,4 +50,32 @@ network_id={{ network }}&"
   register: new_subnet
 
 - debug:
-    var: new_subnet
+    var: new_subnet.json.data.id
+
+- name: Set as default dhcp server on this network
+  uri:
+    url: http://apiv2/v2/iaas/networks/{{ network }}/set-dhcp-server
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "dhcpServer={{ dhcp_server.json.data.id }}"
+    return_content: yes
+    status_code: 204
+  register: new_network
+
+- debug:
+    var: new_network
+
+- name: Set as default network server on this dhcp
+  uri:
+    url: http://apiv2/v2/packetbender/dhcp/subnet/{{ new_subnet.json.data.id }}/set-network
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "network={{ network }}"
+    return_content: yes
+    status_code: 200
+  register: new_dhcp
+
+- debug:
+    var: new_dhcp

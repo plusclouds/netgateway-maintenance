@@ -1,0 +1,21 @@
+
+- name: Discover Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.environment.information
+
+- name: Add Proxy Rule
+  hosts: netgateway
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.proxy.configure
+  vars: 
+    - balancer_vhosts:
+        - { name: "",  upstreams: ["", "" ] }
+    - balancing_method: "" #default round robin empty, least_conn, ip-hash
+
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false
