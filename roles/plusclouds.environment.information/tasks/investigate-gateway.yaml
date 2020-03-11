@@ -8,6 +8,10 @@
   when: wan is defined
 
 - set_fact:
+    datacenterNode: "{{ datacenterNode }}"
+  when: datacenterNode is defined
+
+- set_fact:
     network: "{{ hostvars['localhost']['network'] }}"
   when: hostvars['localhost']['network'] is defined
 
@@ -15,6 +19,10 @@
     wan: "{{ hostvars['localhost']['wan'] }}"
   when: hostvars['localhost']['wan'] is defined
 
+- set_fact:
+    datacenterNode: "{{ hostvars['localhost']['datacenterNode'] }}"
+  when: hostvars['localhost']['datacenterNode'] is defined
+  
 
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
