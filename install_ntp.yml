@@ -4,16 +4,16 @@
   gather_facts: false
   roles:
     -  role: plusclouds.environment.information
+  vars:
+    datacenterNode: yVMNlGrzlo
 
-- name: Add Proxy Rule
+- name: Install NTP to Netgateway
   hosts: netgateway
   become: false
   gather_facts: false
   roles:
-    -  role: plusclouds.netgateway.proxy.configure
-  vars: 
-    - domain_name: myproxy.com
-    - ip_address: 8.8.4.4
-    - port: 80
+    -  role: plusclouds.netgateway.ntp.install
+  vars:
+    - pools: tr.pool.ntp.org
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

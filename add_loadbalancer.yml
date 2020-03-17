@@ -5,17 +5,18 @@
   gather_facts: false
   roles:
     -  role: plusclouds.environment.information
+  vars:
+    datacenterNode: yVMNlGrzlo
 
-- name: Add Proxy Rule
+- name: Add loadbalancer
   hosts: netgateway
   become: false
   gather_facts: false
   roles:
-    -  role: plusclouds.netgateway.proxy.configure
+    -  role: plusclouds.netgateway.loadbalancer.add
   vars: 
     - balancer_vhosts:
-        - { name: "",  upstreams: ["", "" ] }
-    - balancing_method: "" #default round robin empty, least_conn, ip-hash
-
+        - { domain_name: "demo",  upstreams: ["10.100.0.100:80", "10.100.0.88:90" ] }
+    - balancing_method: "least_conn" #default round robin empty, least_conn, ip-hash
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

@@ -1,7 +1,7 @@
 ---
-- name: Delete host line in {{ upstream_name }} file.
+- name: Delete host line in {{ domain_name }} file.
   lineinfile:
-    path: "/etc/nginx/sites-enabled/{{ upstream_name }}.conf"
-    regexp: 'server {{ upstream }}'
+    path: "/etc/nginx/sites-enabled/{{ domain_name }}.conf"
+    regexp: 'server {{ node }}'
     state: absent
   notify: Reload Nginx

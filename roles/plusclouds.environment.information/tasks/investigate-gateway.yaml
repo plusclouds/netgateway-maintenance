@@ -37,7 +37,8 @@
   register: netgateway
   delegate_to: localhost
 
-
+- debug:
+    var: netgateway
 - name: Add host to group netservers
   add_host:
     name: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"

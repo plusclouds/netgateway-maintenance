@@ -1,5 +1,5 @@
 ---
 - name: Nginx | Vhosts copy
-  template: src=vhosts.j2 dest=/etc/nginx/sites-enabled/{{ item.name }}.conf
+  template: src=vhosts.j2 dest=/etc/nginx/sites-enabled/{{ item.domain_name }}.conf
   with_items: "{{ balancer_vhosts }}"
   notify: Reload Nginx
