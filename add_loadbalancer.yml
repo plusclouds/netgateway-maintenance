@@ -6,7 +6,7 @@
   roles:
     -  role: plusclouds.environment.information
   vars:
-    datacenterNode: yVMNlGrzlo
+    datacenter_node: yVMNlGrzlo
 
 - name: Add loadbalancer
   hosts: netgateway

@@ -8,8 +8,8 @@
   when: wan is defined
 
 - set_fact:
-    datacenterNode: "{{ datacenterNode }}"
-  when: datacenterNode is defined
+    datacenter_node: "{{ datacenter_node }}"
+  when: datacenter_node is defined
 
 - set_fact:
     network: "{{ hostvars['localhost']['network'] }}"
@@ -20,14 +20,14 @@
   when: hostvars['localhost']['wan'] is defined
 
 - set_fact:
-    datacenterNode: "{{ hostvars['localhost']['datacenterNode'] }}"
-  when: hostvars['localhost']['datacenterNode'] is defined
+    datacenter_node: "{{ hostvars['localhost']['datacenter_node'] }}"
+  when: hostvars['localhost']['datacenter_node'] is defined
   
 
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines?name={{ server_name }}&datacenterNode={{ datacenterNode }}&type=system&fields=ip_addr,username,password&include=datacenterNode
+    url: http://apiv2/v2/iaas/virtual-machines?name={{ server_name }}&datacenterNode={{ datacenter_node }}&type=system&fields=ip_addr,username,password&include=datacenterNode
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -60,7 +60,7 @@
     public_ip_addr: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     public_netmask: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.network.data.netmask }}"
     public_gateway: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.network.data.gateway }}"
-    datacenterNode: "{{ netgateway.json.data.0.datacenterNode.data.id }}"
+    datacenter_node: "{{ netgateway.json.data.0.datacenter_node.data.id }}"
     vm_id: "{{ netgateway.json.data.0.id }}"
     username: "root"
 
