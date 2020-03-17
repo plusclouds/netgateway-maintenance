@@ -15,8 +15,8 @@
   roles:
     -  role: plusclouds.netgateway.loadbalancer.add
   vars: 
-    - balancer_vhosts:
-        - { domain_name: "demo",  upstreams: ["10.100.0.100:80", "10.100.0.88:90" ] }
+    - domain_name: "demo.com" 
+    - nodes: "10.100.0.100:81,10.100.0.88:82,10.100.0.93:20,10.100.0.93:21,10.100.0.93:22" 
     - balancing_method: "least_conn" #default round robin empty, least_conn, ip-hash
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
