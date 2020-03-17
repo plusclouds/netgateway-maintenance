@@ -60,7 +60,7 @@
     public_ip_addr: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     public_netmask: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.network.data.netmask }}"
     public_gateway: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.network.data.gateway }}"
-    datacenter_node: "{{ netgateway.json.data.0.datacenterNode.data.id }}"
+    datacenter_node: "{{ datacenter_node }}"
     vm_id: "{{ netgateway.json.data.0.id }}"
     username: "root"
 

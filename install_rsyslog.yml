@@ -14,6 +14,6 @@
   roles:
     -  role: plusclouds.netgateway.rsyslog.install
   vars:
-    - rsyslog_remote: "test.com" # bos bırakabilirsin
+    - rsyslog_remote: "" # bos bırakabilirsin
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
