@@ -1,6 +1,6 @@
 - set_fact:
     public_network_card_ref: "{{ wan }}"
-    
+
 - name: Set Virtual Interface 0 for cloned vm
   uri:
     url: http://apiv2/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/set-network-card
