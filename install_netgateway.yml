@@ -10,7 +10,7 @@
   vars:
     - wan: "VGxLmRrpeX"
     - network: "XvAYPwnNEp"
-    - datacenterNode: "yVMNlGrzlo"
+    - datacenter_node: "yVMNlGrzlo"
 
 - name: Install netgateway services to server
   hosts: netgateway

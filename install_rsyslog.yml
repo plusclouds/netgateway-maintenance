@@ -4,16 +4,16 @@
   gather_facts: false
   roles:
     -  role: plusclouds.environment.information
+  vars:
+    datacenter_node: yVMNlGrzlo
 
-- name: Add Proxy Rule
+- name: Install rsyslog to Netgateway
   hosts: netgateway
   become: false
   gather_facts: false
   roles:
-    -  role: plusclouds.netgateway.proxy.configure
-  vars: 
-    - domain_name: myproxy.com
-    - ip_address: 8.8.4.4
-    - port: 80
+    -  role: plusclouds.netgateway.rsyslog.install
+  vars:
+    - rsyslog_remote: "test.com" # bos bırakabilirsin
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
