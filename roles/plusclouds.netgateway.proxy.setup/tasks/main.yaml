@@ -6,7 +6,7 @@
   import_tasks: debian.yaml
 #
 #- name: Nginx | Vhosts copy
-#  template: src=vhosts.j2 dest=/etc/nginx/sites-enabled/proxy-{{ application }}.conf
+#  template: src=vhosts.j2 dest=/etc/nginx/sites-enabled/proxy-{{ server_name }}.conf
 #  notify: restart nginx
 
 #- name: Enable init.d

@@ -1,0 +1,20 @@
+---
+- name: Discover Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.environment.information
+
+- name: Add NAT Rule
+  hosts: netgateway
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.iptables.add.rule
+  vars: 
+    - source_port: 8081
+    - destination_ip: 10.128.199.14
+    - destination_port: 81
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false

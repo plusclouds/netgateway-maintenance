@@ -1,0 +1,10 @@
+---
+- name: Drop Subnet Configuration
+  hosts: netgateway
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.dhcp.drop.subnet
+  vars: 
+    - start_ip_range: 
+    - finish_ip_range:

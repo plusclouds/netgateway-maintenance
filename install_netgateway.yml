@@ -1,0 +1,29 @@
+---
+- name: Deploy Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.deploy
+    -  role: plusclouds.environment.information
+    -  role: plusclouds.netgateway.set
+  vars:
+    - wan: "VGxLmRrpeX"
+    - network: "XvAYPwnNEp"
+    - datacenter_node: "yVMNlGrzlo"
+
+- name: Install netgateway services to server
+  hosts: netgateway
+  become: false
+  gather_facts: true
+  roles:
+   -  role: plusclouds.environment.information
+   -  role: plusclouds.netgateway.set.ipaddr
+   -  role: plusclouds.netgateway.proxy.setup
+   -  role: plusclouds.netgateway.iptables.setup
+   -  role: plusclouds.netgateway.dhcp.setup
+   -  role: plusclouds.netgateway.dhcp.add.subnet
+   -  role: plusclouds.random.password.change
+   -  role: plusclouds.vm.set.password
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false

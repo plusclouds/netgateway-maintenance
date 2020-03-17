@@ -1,2 +1,0 @@
-# PlusClouds.Automation.NetGateway
-

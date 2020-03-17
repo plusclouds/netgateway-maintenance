@@ -1,0 +1,19 @@
+- name: Discover Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.environment.information
+  vars:
+    datacenter_node: yVMNlGrzlo
+
+- name: Install NTP to Netgateway
+  hosts: netgateway
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.ntp.install
+  vars:
+    - pools: tr.pool.ntp.org
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false
