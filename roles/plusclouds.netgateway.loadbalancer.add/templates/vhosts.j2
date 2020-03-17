@@ -1,5 +1,5 @@
-upstream {{ item.domain_name }} {
-{% for upstream in item.upstreams %}
+upstream {{ domain_name }} {
+{% for upstream in upstreams %}
 server {{ upstream }} max_fails=1 fail_timeout=10s;
 {% endfor %}
 {% if balancing_method is defined and balancing_method|length %}
@@ -9,10 +9,10 @@ server {{ upstream }} max_fails=1 fail_timeout=10s;
 
 server {
      listen         80;
-     server_name    {{ item.domain_name }};
+     server_name    {{ domain_name }};
 
      location / {
-          proxy_pass http://{{ item.domain_name }};
+          proxy_pass http://{{ domain_name }};
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
