@@ -3,7 +3,7 @@
   hosts: localhost
   become: false
   gather_facts: false
-  roles:
+  roles: 
     -  role: plusclouds.netgateway.deploy
     -  role: plusclouds.environment.information
     -  role: plusclouds.netgateway.set
