@@ -2,6 +2,14 @@
 - name: include vars
   include_vars: "{{ playbook_dir }}/config.yml"
 
+- fail: msg="The variable {{item}} is not defined or empty"
+  when: ({{item}} is not defined) or ({{item}} == None ) or ({{item}} == "")
+  with_items:
+    - server_name
+    - network
+    - wan
+    - datacenter_node
+    
 - name: Create Netgateway Servers
   include_tasks: "netgateway_server_deployment.yml"
 
