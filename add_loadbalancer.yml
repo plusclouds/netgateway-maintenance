@@ -1,4 +1,3 @@
-
 - name: Discover Netgateway Server
   hosts: localhost
   become: false
