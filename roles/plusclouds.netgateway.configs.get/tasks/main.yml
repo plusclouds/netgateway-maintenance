@@ -1,0 +1,35 @@
+---
+- name: include vars
+  include_vars: "{{ playbook_dir }}/config.yml"
+
+- name: Create Netgateway
+  include_tasks: "create_new_netgateway.yaml"
+  when: (netgateway_id is not defined) or (netgateway_id == None ) or (netgateway_id == "")
+
+- name: Get DHCP Conf
+  include_tasks: "get_dhcp.yaml"
+  when: deploy_dhcp
+
+- name: Get NAT Conf
+  include_tasks: "create_new_netgateway.yaml"
+  when: deploy_nat
+
+- name: Get Proxy Conf
+  include_tasks: "create_new_netgateway.yaml"
+  when: deploy_proxy
+
+- name: Get Loadbalancer Conf
+  include_tasks: "create_new_netgateway.yaml"
+  when: deploy_loadbalancer
+
+- name: Get NTP Conf
+  include_tasks: "create_new_netgateway.yaml"
+  when: deploy_ntp
+
+- name: Get VPN Conf
+  include_tasks: "create_new_netgateway.yaml"
+  when: deploy_vpn
+
+- name: Get Firewall Conf
+  include_tasks: "create_new_netgateway.yaml"
+  when: deploy_firewall
