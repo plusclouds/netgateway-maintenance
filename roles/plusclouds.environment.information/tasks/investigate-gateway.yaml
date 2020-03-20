@@ -14,6 +14,10 @@
   when: wan is defined
 
 - set_fact:
+    wan: "{{ netgateway_id }}"
+  when: netgateway_id is defined
+
+- set_fact:
     datacenter_node: "{{ datacenter_node }}"
   when: datacenter_node is defined
 

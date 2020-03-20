@@ -1,0 +1,8 @@
+stages:
+  - deploy
+
+build_environment:
+  stage: deploy
+  script:
+    - mkdir /home/ansible/system-playbooks/plusclouds.automation.netgateway -p
+    - rsync -ac * /home/ansible/system-playbooks/plusclouds.automation.netgateway --delete

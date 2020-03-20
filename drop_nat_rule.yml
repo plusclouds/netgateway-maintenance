@@ -4,6 +4,7 @@
   become: false
   gather_facts: false
   roles:
+    -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
 
 - name: Drop NAT Configuration
