@@ -6,7 +6,7 @@ deploy:
   stage: deploy
   script:
     - mkdir /home/ansible/system-playbooks/plusclouds.automation.netgateway -p
-    - rsync -ac * /home/ansible/system-playbooks/plusclouds.automation.netgateway --delete
+    - rsync -ac --no-perms --no-owner --no-group * /home/ansible/system-playbooks/plusclouds.automation.netgateway --delete
 
 sync:
   stage: sync
