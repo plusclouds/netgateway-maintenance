@@ -1,4 +1,3 @@
----
 - name: Discover Netgateway Server
   hosts: localhost
   become: false
@@ -6,16 +5,16 @@
   roles:
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
+    -  role: plusclouds.netgateway.dhcp.set
+  vars:
+    datacenter_node: yVMNlGrzlo
 
-- name: Add NAT Rule
+- name: Install isc-dhcp-server
   hosts: netgateway
   become: false
   gather_facts: false
   roles:
-    -  role: plusclouds.netgateway.iptables.add.rule
-  vars: 
-    - source_port: 8081
-    - destination_ip: 10.128.199.14
-    - destination_port: 81
+    -  role: plusclouds.netgateway.dhcp.setup
+    -  role: plusclouds.netgateway.dhcp.add.subnet
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

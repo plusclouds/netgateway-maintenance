@@ -1,0 +1,15 @@
+---
+- name: Create New Netgateway 
+  uri:
+    url: http://apiv2/v2/packetbender/netgateways
+    method: POST
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 204
+    timeout: 200
+  delegate_to: localhost
+  register: new_netgateway
+
+- set_fact:
+    netgateway_id: "{{ new_netgateway.json.data.id }}"

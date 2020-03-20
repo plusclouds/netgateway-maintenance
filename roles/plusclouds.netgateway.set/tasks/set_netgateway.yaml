@@ -1,0 +1,12 @@
+---
+- name: Set VM as netgateway server
+  uri:
+    url: http://apiv2/v2/iaas/virtual-machines/{{ vm_id }}/save-username
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "username={{ username }}"
+    return_content: yes
+    status_code: 204
+    timeout: 200
+  delegate_to: localhost
