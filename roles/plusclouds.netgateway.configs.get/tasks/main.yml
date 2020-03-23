@@ -10,9 +10,9 @@
   include_tasks: "get_netgateway.yaml"
   when: netgateway is defined
 
-- name: Get NTP Conf
-  include_tasks: "get_ntp.yaml"
-  when: deploy_ntp
+#- name: Get NTP Conf
+#  include_tasks: "get_ntp.yaml"
+#  when: deploy_ntp
 #
 #- name: Get Proxy Conf
 #  include_tasks: "get_proxy.yaml"
