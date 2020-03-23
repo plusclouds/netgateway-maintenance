@@ -9,10 +9,10 @@
     -  role: plusclouds.netgateway.set
     -  role: plusclouds.environment.information
   vars:
-    - wan: "VGxLmRrpeX"
-    - network: "XvAYPwnNEp"
-    - datacenter_node: "yVMNlGrzlo"
-    - netgateway: "XzBrDxyrvg"
+    - wan: ""
+    - network: ""
+    - datacenter_node: ""
+    - netgateway: ""
 
 - name: Install netgateway services to server
   hosts: netgateway
