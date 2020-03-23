@@ -26,8 +26,8 @@
   include_tasks: "get_loadbalancer.yaml"
   when: deploy_loadbalancer
 
-- name: Get NTP Conf
-  include_tasks: "get_ntp.yaml"
+#- name: Get NTP Conf
+#  include_tasks: "get_ntp.yaml"
 #  when: deploy_ntp
 
 - name: Get VPN Conf
