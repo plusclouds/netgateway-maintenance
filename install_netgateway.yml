@@ -11,12 +11,8 @@
     - wan: "VGxLmRrpeX"
     - network: "XvAYPwnNEp"
     - datacenter_node: "yVMNlGrzlo"
-<<<<<<< HEAD
-    - netgateway_id: yVMNlGrzlo
-=======
-    - netgateway: ""
+    - netgateway_id: "yVMNlGrzlo"
     - user_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImU1OTU0N2Q5Y2M3NzBkNDU0NzRkODcxZDdhMjlkZWY5OWJjZmQwZWFkMjBkMGQwN2ExOGE0NjFhZGY1ZDE1OTQ5ZWI5ZjdkNDBkODg5ZDhlIn0.eyJhdWQiOiIyIiwianRpIjoiZTU5NTQ3ZDljYzc3MGQ0NTQ3NGQ4NzFkN2EyOWRlZjk5YmNmZDBlYWQyMGQwZDA3YTE4YTQ2MWFkZjVkMTU5NDllYjlmN2Q0MGQ4ODlkOGUiLCJpYXQiOjE1ODQ1MTUxNTcsIm5iZiI6MTU4NDUxNTE1NywiZXhwIjoxNjE2MDUxMTU3LCJzdWIiOiIyMTI3Iiwic2NvcGVzIjpbXX0.Tg7DArqnlp0rQBXoiDXlkXVjvcAG5gDIxalOk-CWmsyU1g-FzKYxjyg5BuuoBB_2AXG2PSzB8PmSvYLT0gLTz2t6nJkuHotFtEQkpHz6TECL1xaHD8l1SYdBhrpPU1nGe9GL9G1y2uUKD53WRE58F1AloHCHoJehWEUY5394mHqhiMQoHIRiuvFlPUa2Vl-I1x03SwWJJHGQBfqdxLeokh2YMKuiWgFcRnIDofzpTJ19fpIruzCKQc0ibKz5eVMiOm2G46yl1QBS69g2vnlGC0QS1ts5d_Y7NNSK6R3XtnLkznF8VRO0h7AprcGrJExddnnJv2ZdwxUWA0K0ILjaF7uuvJ-XdNKGxbeTzlgP48ZT9d6h_1eL0nAbpZPdevKg17JU4vVk0elRvrWpQsPzzvRfTvznf4bYf7eHN5Zn0g4FKOlQiGsDCVQh5gCfB1ee7qgbmd6bEcTOriRRLhAVIkrhk7aLQOv-ZD0wzcf6dDBFua7U4L6JZGcNbX31lNH3ac0K_-qlyGJqxTR0EYistdaFhtNikjOE--V4Pzu5_IG1xfA_Hcswp18aIRq3f5VorqJvVbMOd93zl3k4MZDtr7M00r_MyymbB32aKXHUUldxL9ws_BUlvQvO_4P9E_Gt9GQduwcslQfIbGbKrj0C0_YRBKH4MxyHa8kpBT8Auj4"
->>>>>>> 4-netgateway-configs
 
 - name: Install netgateway services to server
   hosts: netgateway
