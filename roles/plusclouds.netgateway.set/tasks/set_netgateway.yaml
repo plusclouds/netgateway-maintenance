@@ -1,0 +1,12 @@
+---
+- name: Set VM as netgateway 
+  uri:
+    url: http://apiv2/v2/packetbender/netgateways/{{ netgateway }}/set-virtual-machine
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "virtual_machine={{ vm_id }}"
+    return_content: yes
+    status_code: 200
+    timeout: 200
+  delegate_to: localhost

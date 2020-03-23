@@ -53,6 +53,9 @@
 - debug: 
     var: cloned_vm
 
+- set_fact:
+    vm_id: "{{ cloned_vm.json.data.id }}"
+
 - name: Wait until the template is cloned
   uri:
     url: http://apiv2/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/status

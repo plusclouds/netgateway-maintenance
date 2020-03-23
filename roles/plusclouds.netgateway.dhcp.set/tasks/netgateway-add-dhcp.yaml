@@ -1,23 +1,8 @@
 ---
-- name: Find netgateways server in related datacenter node
-  uri:
-    url: http://apiv2/v2/iaas/virtual-machines?name={{ server_name }}&type=system&fields=ip_addr,username,password
-    method: GET
-    headers:
-      Authorization: "Bearer {{ user_token }}"
-    return_content: yes
-    status_code: 200
-    timeout: 300
-  register: netgateway
-  delegate_to: localhost
-
-- debug:
-    var: netgateway.json.data.0.id
-
 - name: set server as a dhcp server
   uri:
     url: http://apiv2/v2/packetbender/dhcp/server
-    body: "name={{ server_name }}&virtual_machine_id={{ netgateway.json.data.0.id }}&type=isc"
+    body: "name={{ server_name }}&virtual_machine_id={{ vm_id }}&type=isc"
     method: POST
     headers:
       Authorization: "Bearer {{ user_token }}"

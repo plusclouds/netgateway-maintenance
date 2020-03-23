@@ -3,6 +3,7 @@
   become: false
   gather_facts: false
   roles:
+    -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
     datacenter_node: yVMNlGrzlo
@@ -14,6 +15,6 @@
   roles:
     -  role: plusclouds.netgateway.ntp.install
   vars:
-    - pools: tr.pool.ntp.org
+    - pools: ""
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
