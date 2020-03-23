@@ -1,10 +1,4 @@
 ---
-- fail: msg="The variable {{item}} is not defined or empty"
-  when: ({{item}} is not defined) or ({{item}} == None ) or ({{item}} == "")
-  with_items:
-    - server_name
-    - datacenter_node
-
 - set_fact:
     network: "{{ network }}"
   when: network is defined
@@ -14,8 +8,12 @@
   when: wan is defined
 
 - set_fact:
-    wan: "{{ netgateway_id }}"
+    netgateway_id: "{{ netgateway_id }}"
   when: netgateway_id is defined
+
+- set_fact:
+    netgateway_id: "{{ hostvars['localhost']['netgateway_id'] }}"
+  when: hostvars['localhost']['netgateway_id'] is defined
 
 - set_fact:
     datacenter_node: "{{ datacenter_node }}"
@@ -33,6 +31,11 @@
     datacenter_node: "{{ hostvars['localhost']['datacenter_node'] }}"
   when: hostvars['localhost']['datacenter_node'] is defined
   
+- fail: msg="The variable {{item}} is not defined or empty"
+  when: ({{item}} is not defined) or ({{item}} == None ) or ({{item}} == "")
+  with_items:
+    - server_name
+    - datacenter_node
 
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
