@@ -12,7 +12,7 @@
     - wan: "VGxLmRrpeX"
     - network: "XvAYPwnNEp"
     - datacenter_node: "yVMNlGrzlo"
-    #- netgateway_id: "yVMNlGrzlo"
+    - netgateway: "XzBrDxyrvg"
 
 - name: Install netgateway services to server
   hosts: netgateway

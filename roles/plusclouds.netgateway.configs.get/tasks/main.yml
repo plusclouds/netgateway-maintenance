@@ -4,11 +4,11 @@
 
 - name: Create Netgateway
   include_tasks: "create_new_netgateway.yaml"
-  when: (netgateway_id is not defined) or (netgateway_id == None ) or (netgateway_id == "")
+  when: (netgateway is not defined) or (netgateway == None ) or (netgateway == "")
 
 - name: Get Netgateway
   include_tasks: "get_netgateway.yaml"
-  when: netgateway_id is defined
+  when: netgateway is defined
 
 - name: Get DHCP Conf
   include_tasks: "get_dhcp.yaml"
@@ -26,9 +26,9 @@
   include_tasks: "get_loadbalancer.yaml"
   when: deploy_loadbalancer
 
-#- name: Get NTP Conf
-#  include_tasks: "get_ntp.yaml"
-#  when: deploy_ntp
+- name: Get NTP Conf
+  include_tasks: "get_ntp.yaml"
+  when: deploy_ntp
 
 - name: Get VPN Conf
   include_tasks: "get_vpn.yaml"

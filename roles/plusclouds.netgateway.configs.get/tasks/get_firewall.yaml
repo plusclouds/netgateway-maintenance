@@ -1,6 +1,6 @@
 - name: Find netgateways firewall conf
   uri:
-    url: http://apiv2/v2/packetbender/netgateways/{{ netgateway_id }}/firewall
+    url: http://apiv2/v2/packetbender/netgateways/{{ netgateway }}/firewall
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
