@@ -14,6 +14,8 @@
   become: false
   gather_facts: false
   roles:
+    -  role: plusclouds.environment.information
+    -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.dhcp.setup
     -  role: plusclouds.netgateway.dhcp.add.subnet
   environment:

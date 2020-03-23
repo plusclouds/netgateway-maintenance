@@ -13,6 +13,8 @@
   become: false
   gather_facts: false
   roles:
+    -  role: plusclouds.environment.information
+    -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.loadbalancer.add
   vars: 
     - domain_name: "demo.com" 

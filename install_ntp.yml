@@ -6,16 +6,19 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    netgateway: ""
+    - netgateway: ""
 
 - name: Install NTP to Netgateway
   hosts: netgateway
   become: false
   gather_facts: false
   roles:
+    -  role: plusclouds.environment.information
+    -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.ntp.install
   vars:
     - pools: ""
     - timezone: ""
+
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
