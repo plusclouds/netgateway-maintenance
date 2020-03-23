@@ -40,7 +40,7 @@
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines?name={{ server_name }}&datacenterNode={{ datacenter_node }}&type=system&fields=ip_addr,username,password&include=datacenterNode
+    url: http://apiv2/v2/iaas/virtual-machines/{{ vm_id }}?type=system&fields=ip_addr,username,password&include=datacenterNode
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -54,26 +54,25 @@
     var: netgateway
 - name: Add host to group netservers
   add_host:
-    name: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
+    name: "{{ netgateway.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     groups: netgateway
-    ansible_ssh_user: "{{ netgateway.json.data.0.username }}"
-    ansible_ssh_pass: "{{ netgateway.json.data.0.password }}"
+    ansible_ssh_user: "{{ netgateway.json.data.username }}"
+    ansible_ssh_pass: "{{ netgateway.json.data.password }}"
 
 - set_fact: 
-    vlan_ip_addr: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.gateway }}"
-    vlan_netmask: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.netmask }}"
-    vlan_subnet: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.subnet }}"
-    vlan_ip: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.ip_addr }}"
-    vlan_broadcast: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.network }}"
-    vlan_gateway: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.gateway }}"
-    vlan_start_ip_range: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.ip_range_start }}"
-    vlan_end_ip_range: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.ip_range_end }}"
-    vlan_network: "{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.ip_addr }}{{ netgateway.json.data.0.virtualNetworkCards.data.1.network.data.subnet }}"
-    node_name: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
-    public_ip_addr: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
-    public_netmask: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.network.data.netmask }}"
-    public_gateway: "{{ netgateway.json.data.0.virtualNetworkCards.data.0.network.data.gateway }}"
+    vlan_ip_addr: "{{ netgateway.json.data.virtualNetworkCards.data.1.network.data.gateway }}"
+    vlan_netmask: "{{ netgateway.json.data.virtualNetworkCards.data.1.network.data.netmask }}"
+    vlan_subnet: "{{ netgateway.json.data.virtualNetworkCards.data.1.network.data.subnet }}"
+    vlan_ip: "{{ netgateway.json.data.virtualNetworkCards.data.1.network.data.ip_addr }}"
+    vlan_broadcast: "{{ netgateway.json.data.virtualNetworkCards.data.1.network.data.network }}"
+    vlan_gateway: "{{ netgateway.json.data.virtualNetworkCards.data.1.network.data.gateway }}"
+    vlan_start_ip_range: "{{ netgateway.json.data.virtualNetworkCards.data.1.network.data.ip_range_start }}"
+    vlan_end_ip_range: "{{ netgateway.json.data.virtualNetworkCards.data.1.network.data.ip_range_end }}"
+    vlan_network: "{{ netgateway.json.data.virtualNetworkCards.data.1.network.data.ip_addr }}{{ netgateway.json.data.virtualNetworkCards.data.1.network.data.subnet }}"
+    node_name: "{{ netgateway.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
+    public_ip_addr: "{{ netgateway.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
+    public_netmask: "{{ netgateway.json.data.virtualNetworkCards.data.0.network.data.netmask }}"
+    public_gateway: "{{ netgateway.json.data.virtualNetworkCards.data.0.network.data.gateway }}"
     datacenter_node: "{{ datacenter_node }}"
-    vm_id: "{{ netgateway.json.data.0.id }}"
     username: "root"
 

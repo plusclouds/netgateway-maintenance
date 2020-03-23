@@ -24,7 +24,7 @@
     deploy_proxy: "{{ new_netgateway.json.data.is_proxy_enabled }}"
     deploy_rsyslog: "{{ new_netgateway.json.data.is_rsyslog_enabled }}"
     deploy_vpn: "{{ new_netgateway.json.data.is_vpn_enabled }}"
-    #deploy_ntp: "{{ new_netgateway.json.data.is_ntp_enabled }}"
+    deploy_ntp: "{{ new_netgateway.json.data.is_ntp_enabled }}"
     is_usable: "{{ new_netgateway.json.data.is_usable }}"
 
 - debug: 
@@ -36,7 +36,7 @@
     - deploy_loadbalancer
     - deploy_nat
     - deploy_dhcp
-    #- deploy_ntp
+    - deploy_ntp
     - deploy_firewall
     - is_usable
     - netgateway_id
