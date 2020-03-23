@@ -1,11 +1,10 @@
 ---
-- name: Create New Netgateway 
+- name: Get Netgateway 
   uri:
-    url: http://apiv2/v2/packetbender/netgateways
-    method: POST
+    url: http://apiv2/v2/packetbender/netgateways/{{ netgateway_id }}
+    method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
-    body: "wan={{ wan }}&network={{ network }}&datacenter_node={{ datacenter_node }}"
     return_content: yes
     status_code: 200
     timeout: 200
@@ -31,12 +30,12 @@
     var: "{{item}}"
   with_items:
     - deploy_vpn
+    #- deploy_ntp
     - deploy_rsyslog
     - deploy_proxy
     - deploy_loadbalancer
     - deploy_nat
     - deploy_dhcp
-    #- deploy_ntp
     - deploy_firewall
     - is_usable
     - netgateway_id

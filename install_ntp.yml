@@ -15,6 +15,6 @@
   roles:
     -  role: plusclouds.netgateway.ntp.install
   vars:
-    - pools: tr.pool.ntp.org
+    - pools: ""
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

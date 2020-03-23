@@ -9,3 +9,13 @@
     timeout: 300
   register: ntp_conf
   delegate_to: localhost
+
+- set_fact:
+    pools: "{{ntp_conf.json.pools}}"
+    timezone: "{{ntp_conf.json.timezone}}"
+
+- debug: 
+    var: timezone
+- debug: 
+    var: pools
+    

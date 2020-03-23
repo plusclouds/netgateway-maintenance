@@ -28,12 +28,8 @@
 - name: Add pools to ntp conf file
   lineinfile:
     path: /etc/ntp.conf
-    line: pool {{item}}.{{ pools }} iburst
-  with_items:
-     - 0
-     - 1
-     - 2
-     - 3
+    line: pool {{ item }} iburst
+  with_items: pools
 
 - name: reload ntp server
   service: name=ntp state=restarted
