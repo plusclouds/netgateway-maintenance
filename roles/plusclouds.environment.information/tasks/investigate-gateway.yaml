@@ -39,12 +39,6 @@
     datacenter_node: "{{ hostvars['localhost']['datacenter_node'] }}"
   when: hostvars['localhost']['datacenter_node'] is defined
   
-- fail: msg="The variable {{item}} is not defined or empty"
-  when: ({{item}} is not defined) or ({{item}} == None ) or ({{item}} == "")
-  with_items:
-    - server_name
-    - datacenter_node
-
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
   uri:
@@ -81,7 +75,6 @@
     public_ip_addr: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     public_netmask: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.netmask }}"
     public_gateway: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.gateway }}"
-    datacenter_node: "{{ datacenter_node }}"
     username: "root"
 
 #- shell: ssh-keygen -f "/root/.ssh/known_hosts" -R "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
