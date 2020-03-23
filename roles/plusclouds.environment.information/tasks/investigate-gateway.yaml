@@ -84,5 +84,5 @@
     datacenter_node: "{{ datacenter_node }}"
     username: "root"
 
-- shell: ssh-keygen -f "/root/.ssh/known_hosts" -R "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
-  ignore_errors: yes
+#- shell: ssh-keygen -f "/root/.ssh/known_hosts" -R "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
+#  ignore_errors: yes
