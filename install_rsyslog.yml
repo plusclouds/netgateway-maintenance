@@ -6,7 +6,7 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    datacenter_node: yVMNlGrzlo
+    - netgateway: ""
 
 - name: Install rsyslog to Netgateway
   hosts: netgateway

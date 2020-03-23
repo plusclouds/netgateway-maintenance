@@ -1,4 +1,3 @@
----
 - name: Discover Netgateway Server
   hosts: localhost
   become: false
@@ -6,6 +5,8 @@
   roles:
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
+  vars:
+    - netgateway: ""
 
 - name: Drop NAT Configuration
   hosts: netgateway

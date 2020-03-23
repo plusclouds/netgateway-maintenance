@@ -6,6 +6,8 @@
   roles:
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
+  vars:
+    - netgateway: ""
 
 - name: Add Proxy Rule
   hosts: netgateway

@@ -7,7 +7,7 @@
     -  role: plusclouds.environment.information
     -  role: plusclouds.netgateway.dhcp.set
   vars:
-    datacenter_node: yVMNlGrzlo
+    - netgateway: ""
 
 - name: Install isc-dhcp-server
   hosts: netgateway
