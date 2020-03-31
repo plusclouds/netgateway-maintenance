@@ -208,11 +208,7 @@
 # local-address	Local IP addresses to which we bind
 #
 # local-address=0.0.0.0
-{% if pdns_listen_all_interfaces %}
 local-address=0.0.0.0
-{%   elif not pdns_listen_all_interfaces %}
-local-address=127.0.0.1,{{ ansible_default_ipv4.address }}
-{%   endif %}
 
 #################################
 # local-address-nonexist-fail	Fail to start if one or more of the local-address's do not exist on this server
@@ -536,4 +532,5 @@ gmysql-host={{ pdns_db_host }}
 gmysql-user={{ pdns_db_user }}
 gmysql-dbname={{ pdns_db_name }}
 gmysql-password={{ pdns_db_pass }}
-gmysql-dnssec={{ pdns_dnssec }}
+gmysql-dnssec=yes
+gmysql-innodb-read-committed=no

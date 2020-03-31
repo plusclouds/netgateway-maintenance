@@ -17,3 +17,5 @@
     pdns_db_user: "pdns"
     pdns_db_pass: "{{ pdns_password.json.data.password }}"
     pdns_db_name: "pdns"
+    pdns_db_host: localhost
+    enable_pdns_server_logging: true
