@@ -13,7 +13,7 @@
 
 - set_fact:
     mysql_root_user: "root"
-    mysql_root_password: "oIdZfiGmJy"
+    mysql_root_password: "{{ password.json.data.password }}"
     pdns_db_user: "pdns"
     pdns_db_pass: "{{ pdns_password.json.data.password }}"
     pdns_db_name: "pdns"
