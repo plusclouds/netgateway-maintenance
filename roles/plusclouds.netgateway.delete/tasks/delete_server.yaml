@@ -1,6 +1,3 @@
-- name: include variables
-  include_vars: "{{ playbook_dir }}/config.yml"
-
 - name: "Force shutdown !!!!!!!!!!"
   uri:
     url: http://apiv2/v2/iaas/virtual-machines/{{ vm_id }}/shutdown

@@ -13,6 +13,7 @@
     - network: ""
     - datacenter_node: ""
     - netgateway: ""
+    - type: "small"
 
 - name: Install netgateway services to server
   hosts: netgateway
@@ -23,9 +24,5 @@
    -  role: plusclouds.netgateway.set.ipaddr
    -  role: plusclouds.random.password.change
    -  role: plusclouds.vm.set.password
-#   -  role: plusclouds.netgateway.proxy.setup
-#   -  role: plusclouds.netgateway.iptables.setup
-#   -  role: plusclouds.netgateway.dhcp.setup
-#   -  role: plusclouds.netgateway.dhcp.add.subnet
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
