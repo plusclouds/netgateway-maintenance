@@ -1,7 +1,4 @@
 ---
-- name: include vars
-  include_vars: "{{ playbook_dir }}/config.yml"
-
 - name: Import Task File
   import_tasks: debian.yaml
 #

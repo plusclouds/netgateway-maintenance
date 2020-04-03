@@ -53,15 +53,14 @@
   delegate_to: localhost
 
 - debug:
-    var: netgateway
+    var: netgateway_vm
+
 - name: Add host to group netservers
   add_host:
     name: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     groups: netgateway
     ansible_ssh_user: "{{ netgateway_vm.json.data.username }}"
     ansible_ssh_pass: "{{ netgateway_vm.json.data.password }}"
-
-- set_fact: 
     vlan_ip_addr: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.gateway }}"
     vlan_netmask: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.netmask }}"
     vlan_subnet: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.subnet }}"
@@ -75,10 +74,31 @@
     public_ip_addr: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     public_netmask: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.netmask }}"
     public_gateway: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.gateway }}"
+    network: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.id }}"
     username: "{{ netgateway_vm.json.data.username }}"
     server_name: "{{ server_name }}"
     vm_id: "{{ vm_id }}"
     netgateway: "{{ netgateway }}"
 
+- set_fact:
+    vlan_ip_addr: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.gateway }}"
+    vlan_netmask: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.netmask }}"
+    vlan_subnet: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.subnet }}"
+    vlan_ip: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.ip_addr }}"
+    vlan_broadcast: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.network }}"
+    vlan_gateway: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.gateway }}"
+    vlan_start_ip_range: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.ip_range_start }}"
+    vlan_end_ip_range: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.ip_range_end }}"
+    vlan_network: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.ip_addr }}{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.subnet }}"
+    node_name: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
+    public_ip_addr: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
+    public_netmask: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.netmask }}"
+    public_gateway: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.gateway }}"
+    network: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.id }}"
+    username: "{{ netgateway_vm.json.data.username }}"
+    server_name: "{{ server_name }}"
+    vm_id: "{{ vm_id }}"
+    netgateway: "{{ netgateway }}"
+    
 #- shell: ssh-keygen -f "/root/.ssh/known_hosts" -R "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
 #  ignore_errors: yes
