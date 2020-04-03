@@ -1,7 +1,4 @@
 ---
-- name: include vars
-  include_vars: "{{ playbook_dir }}/config.yml"
-
 - name: Create Netgateway
   include_tasks: "create_new_netgateway.yaml"
   when: (netgateway is not defined) or (netgateway == None ) or (netgateway == "")
