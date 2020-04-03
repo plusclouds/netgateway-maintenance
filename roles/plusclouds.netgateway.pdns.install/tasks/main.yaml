@@ -1,0 +1,67 @@
+---
+- name: set_facts
+  include_tasks: set_fact.yaml
+  
+- name: pdns_server | installing powerdns pre-reqs
+  apt:
+    name: "{{ item }}"
+    state: "present"
+    force: "yes"
+  with_items:
+    - git
+    - jq
+    - python-mysqldb
+  
+- name: pdns_server | install pdns server
+  apt: 
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - pdns-server
+    - pdns-backend-mysql
+
+- name: pdns_server | creating powerdns db
+  mysql_db:
+    login_user: "{{ mysql_root_user }}"
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ pdns_db_name }}"
+    state: "present"
+
+- name: pdns_server | creating powerdns user
+  mysql_user:
+    login_user: "{{ mysql_root_user }}"
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ pdns_db_user }}"
+    password: "{{ pdns_db_pass }}"
+    priv: "{{ pdns_db_name }}.*:ALL"
+    state: present
+
+- name: pdns_server | copying db schema file
+  copy:
+    src: "db_schema"
+    dest: "/tmp"
+
+- name: pdns_server | importing db schema
+  mysql_db:
+    login_user: "{{ mysql_root_user }}"
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ pdns_db_name }}"
+    state: "import"
+    target: "/tmp/db_schema"
+
+- name: pdns_server | configuring powerdns
+  template:
+    src: "pdns.conf.j2"
+    dest: "/etc/powerdns/pdns.conf"
+    owner: "root"
+    group: "root"
+
+- name: pdns_server | ensuring pdns service is enabled
+  service:
+    name: "pdns"
+    enabled: yes
+
+- name: pdns_server | restarting powerdns
+  service:
+    name: "pdns"
+    state: "restarted"

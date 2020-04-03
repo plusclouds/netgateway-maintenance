@@ -1,5 +1,2 @@
-- name: include vars
-  include_vars: "{{ playbook_dir }}/config.yml"
-
 - name: include change password role
   include_tasks: "set_pass.yaml"

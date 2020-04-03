@@ -25,7 +25,7 @@
 
 - name: Find template server in related datacenter node
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines/templates?distro={{ template }}&datacenterNode={{ datacenter_node }}
+    url: http://apiv2/v2/iaas/virtual-machines/templates?distro=plusclouds_linux&datacenterNode={{ datacenter_node }}
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"

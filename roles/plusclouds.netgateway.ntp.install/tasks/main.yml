@@ -29,7 +29,11 @@
   lineinfile:
     path: /etc/ntp.conf
     line: pool {{ item }} iburst
-  with_items: pools
+  with_items: 
+    - "{{ pools }}"
+    
+- name: Set Timezone
+  shell: timedatectl set-timezone {{ timezone }}
 
 - name: reload ntp server
   service: name=ntp state=restarted

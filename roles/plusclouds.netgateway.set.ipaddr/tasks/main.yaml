@@ -1,7 +1,4 @@
 ---
-- name: include vars
-  include_vars: "{{ playbook_dir }}/config.yml"
-  
 - name: Set Static IP Addresses
   template:
     src: interfaces.j2
@@ -18,3 +15,13 @@
   with_items:
     - ifconfig eth0 mtu 9000 up
     - ifconfig eth1 mtu 9000 up
+
+- name: set hostname
+  shell: hostnamectl set-hostname netgateway
+
+- name: add myself to /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '^127\.0\.0\.1[ \t]+localhost'
+    line: '127.0.0.1 localhost netgateway'
+    state: present

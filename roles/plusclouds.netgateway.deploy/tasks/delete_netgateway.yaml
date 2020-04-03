@@ -1,6 +1,3 @@
-- name: include variables
-  include_vars: "{{ playbook_dir }}/config.yml"
-
 - name: find all vms with name {{ server_name }}
   uri:
     url: http://apiv2/v2/iaas/virtual-machines?name={{ server_name }}&datacenterNode={{ datacenter_node }}

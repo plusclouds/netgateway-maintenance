@@ -6,13 +6,15 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    datacenter_node: yVMNlGrzlo
+    - netgateway: ""
 
 - name: Remove loadbalancer Node
   hosts: netgateway
   become: false
   gather_facts: false
   roles:
+    -  role: plusclouds.environment.information
+    -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.loadbalancer.remove
   vars: 
     - domain_name: "demo"

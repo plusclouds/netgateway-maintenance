@@ -1,0 +1,21 @@
+---
+- name: Get random password
+  uri:
+    url: http://apiv2/v2/generator/password?length=10
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: pdns_password
+  delegate_to: localhost
+
+- set_fact:
+    mysql_root_user: "root"
+    mysql_root_password: "{{ password.json.data.password }}"
+    pdns_db_user: "pdns"
+    pdns_db_pass: "{{ pdns_password.json.data.password }}"
+    pdns_db_name: "pdns"
+    pdns_db_host: localhost
+    enable_pdns_server_logging: true

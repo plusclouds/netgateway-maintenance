@@ -6,16 +6,16 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    datacenter_node: yVMNlGrzlo
+    - netgateway: ""
 
-- name: Add loadbalancer node
+- name: Install proxy to Netgateway
   hosts: netgateway
   become: false
   gather_facts: false
   roles:
-    -  role: plusclouds.netgateway.loadbalancer.node.add
-  vars: 
-    - domain_name: "demo"
-    - new_node: "10.100.0.999:999"
+    -  role: plusclouds.environment.information
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.netgateway.proxy.setup
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
+

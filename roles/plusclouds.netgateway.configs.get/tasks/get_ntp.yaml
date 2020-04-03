@@ -11,11 +11,11 @@
   delegate_to: localhost
 
 - set_fact:
-    pools: "{{ntp_conf.json.pools}}"
-    timezone: "{{ntp_conf.json.timezone}}"
+    pools: "{{ ntp_conf.json.pools }}"
+    timezone: "{{ ntp_conf.json.timezone }}"
 
 - debug: 
     var: timezone
+
 - debug: 
     var: pools
-    
