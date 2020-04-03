@@ -1,6 +1,3 @@
-- name: include vars
-  include_vars: "{{ playbook_dir }}/config.yml"
-
 - name: make sure ip_forwarding enabled
   shell: echo 1 > /proc/sys/net/ipv4/ip_forward
   
