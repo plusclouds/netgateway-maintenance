@@ -75,7 +75,10 @@
     public_ip_addr: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     public_netmask: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.netmask }}"
     public_gateway: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.gateway }}"
-    username: "root"
+    username: "{{ netgateway_vm.json.data.username }}"
+    server_name: "{{ server_name }}"
+    vm_id: "{{ vm_id }}"
+    netgateway: "{{ netgateway }}"
 
 #- shell: ssh-keygen -f "/root/.ssh/known_hosts" -R "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
 #  ignore_errors: yes
