@@ -25,7 +25,8 @@
     deploy_ntp: "{{ new_netgateway.json.data.is_ntp_enabled }}"
     is_usable: "{{ new_netgateway.json.data.is_usable }}"
     vm_id: "{{ new_netgateway.json.data.virtual_machine_id }}"
-
+    server_name: "{{ new_netgateway.json.data.name }}"
+    
 - debug: 
     var: "{{item}}"
   with_items:
