@@ -1,7 +1,7 @@
 ---
 - name: Set VM as netgateway 
   uri:
-    url: http://apiv2/v2/packetbender/netgateways/{{ netgateway }}/set-virtual-machine
+    url: {{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/set-virtual-machine
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"

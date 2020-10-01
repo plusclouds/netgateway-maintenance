@@ -1,7 +1,7 @@
 ---
 - name: Set username to netgateway server
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines/{{ vm_id }}/save-username
+    url: {{leo_url}}/v2/iaas/virtual-machines/{{ vm_id }}/save-username
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -13,7 +13,7 @@
 
 - name: Set password to netgateway server
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines/{{ vm_id }}/save-password
+    url: {{leo_url}}/v2/iaas/virtual-machines/{{ vm_id }}/save-password
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"

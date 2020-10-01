@@ -1,7 +1,7 @@
 ---
 - name: Get random password
   uri:
-    url: http://apiv2/v2/generator/password?length=10
+    url: {{leo_url}}/v2/generator/password?length=10
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"

@@ -1,6 +1,6 @@
 - name: find all vms with name {{ server_name }}
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines?name={{ server_name }}&datacenterNode={{ datacenter_node }}
+    url: {{leo_url}}/v2/iaas/virtual-machines?name={{ server_name }}&datacenterNode={{ datacenter_node }}
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -12,7 +12,7 @@
 
 - name: "Force shutdown !!!!!!!!!!"
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines/{{ item.id }}/shutdown
+    url: {{leo_url}}/v2/iaas/virtual-machines/{{ item.id }}/shutdown
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -23,7 +23,7 @@
 
 - name: "Delete halted VM !!!!!!!!!!"
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines/{{ item.id }}
+    url: {{leo_url}}/v2/iaas/virtual-machines/{{ item.id }}
     method: DELETE
     headers:
       Authorization: "Bearer {{ user_token }}"
