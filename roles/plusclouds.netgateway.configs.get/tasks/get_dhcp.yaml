@@ -12,7 +12,7 @@
 
 - name: Find netgateways dhcp conf
   uri:
-    url: {{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/dhcp
+    url: "{{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/dhcp"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -24,7 +24,7 @@
 
 - name: Find netgateways iplist conf
   uri:
-    url: {{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/iplist
+    url: "{{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/iplist"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"

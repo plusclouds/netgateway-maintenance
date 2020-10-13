@@ -1,6 +1,6 @@
 - name: Find netgateways nat conf
   uri:
-    url: {{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/nat
+    url: "{{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/nat"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"

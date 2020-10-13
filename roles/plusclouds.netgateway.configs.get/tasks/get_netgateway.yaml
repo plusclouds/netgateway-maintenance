@@ -1,7 +1,7 @@
 ---
 - name: Get Netgateway 
   uri:
-    url: {{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}
+    url: "{{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"

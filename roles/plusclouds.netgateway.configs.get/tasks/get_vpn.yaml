@@ -1,6 +1,6 @@
 - name: Find netgateways vpn conf
   uri:
-    url: {{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/vpn
+    url: "{{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/vpn"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
