@@ -1,6 +1,6 @@
 - name: Find netgateways ntp conf
   uri:
-    url: {{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/ntp
+    url: "{{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/ntp"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"

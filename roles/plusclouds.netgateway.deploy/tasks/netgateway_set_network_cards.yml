@@ -1,7 +1,7 @@
 ---
 - name: Set Virtual Interface 0 for cloned vm
   uri:
-    url: {{leo_url}}/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/set-network-card
+    url: "{{leo_url}}/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/set-network-card"
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -19,7 +19,7 @@
 
 - name: Set Virtual Interface 1 for cloned vm
   uri:
-    url: {{leo_url}}/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/set-network-card
+    url: "{{leo_url}}/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/set-network-card"
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -37,7 +37,7 @@
 
 - name: Add new IP to VIF0
   uri:
-    url: {{leo_url}}/v2/packetbender/ip
+    url: "{{leo_url}}/v2/packetbender/ip"
     method: POST
     headers:
       Authorization: "Bearer {{ user_token }}"

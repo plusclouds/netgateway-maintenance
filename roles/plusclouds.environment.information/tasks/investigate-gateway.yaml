@@ -42,7 +42,7 @@
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
   uri:
-    url: {{leo_url}}/v2/iaas/virtual-machines/{{ vm_id }}?type=system&fields=ip_addr,username,password&include=datacenterNode
+    url: "{{leo_url}}/v2/iaas/virtual-machines/{{ vm_id }}?type=system&fields=ip_addr,username,password&include=datacenterNode"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"

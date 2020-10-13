@@ -1,7 +1,7 @@
 ---
 - name: Create New Netgateway 
   uri:
-    url: {{leo_url}}/v2/packetbender/netgateways
+    url: "{{leo_url}}/v2/packetbender/netgateways"
     method: POST
     headers:
       Authorization: "Bearer {{ user_token }}"
