@@ -1,0 +1,10 @@
+---
+- name: Delete Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.netgateway.delete
+  vars:
+    - netgateway: ""

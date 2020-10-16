@@ -1,0 +1,2 @@
+- name: Change Password for root
+  shell: "(echo {{ password.json.data.password }}; echo {{ password.json.data.password }}) | passwd  {{ username }}"

@@ -1,0 +1,66 @@
+---
+- name: set server as a dhcp server
+  uri:
+    url: "{{leo_url}}/v2/packetbender/dhcp/server"
+    body: "name={{ server_name }}&virtual_machine_id={{ vm_id }}&type=isc"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: dhcp_server
+
+- name: add new subnet to db
+  uri:
+    url: "{{leo_url}}/v2/packetbender/dhcp/subnet"
+    body: "
+dhcp_server_id={{ dhcp_server.json.data.id }}&
+subnet={{ vlan_ip }}&
+netmask={{ vlan_netmask }}&
+range_start={{ vlan_start_ip_range }}&
+range_end={{ vlan_end_ip_range }}&
+option_subnet_mask={{ vlan_netmask }}&
+option_dns=8.8.4.4,4.4.2.2&
+option_routers={{ vlan_gateway }}&
+default_lease_time=36000&max_lease_time=72000&
+broadcast={{ vlan_broadcast }}&
+network_id={{ network }}&"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: new_subnet
+
+- debug:
+    var: new_subnet.json.data.id
+
+- name: Set as default dhcp server on this network
+  uri:
+    url: "{{leo_url}}/v2/iaas/networks/{{ network }}/set-dhcp-server"
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "dhcpServer={{ dhcp_server.json.data.id }}"
+    return_content: yes
+    status_code: 204
+  register: new_network
+
+- debug:
+    var: new_network
+
+- name: Set as default network server on this dhcp
+  uri:
+    url: "{{leo_url}}/v2/packetbender/dhcp/subnet/{{ new_subnet.json.data.id }}/set-network"
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "network={{ network }}"
+    return_content: yes
+    status_code: 200
+  register: new_dhcp
+
+- debug:
+    var: new_dhcp

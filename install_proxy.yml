@@ -1,0 +1,21 @@
+- name: Discover Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.environment.information
+  vars:
+    - netgateway: ""
+
+- name: Install proxy to Netgateway
+  hosts: netgateway
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.environment.information
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.netgateway.proxy.setup
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false
+

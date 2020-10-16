@@ -1,0 +1,24 @@
+- name: Discover Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.environment.information
+  vars:
+    - netgateway: ""
+    - leo_url: http://10.100.0.114
+
+- name: Install firewall to Netgateway
+  hosts: netgateway
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.environment.information
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.netgateway.iptables.setup
+  vars:
+    - leo_url: http://10.100.0.114
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false
+

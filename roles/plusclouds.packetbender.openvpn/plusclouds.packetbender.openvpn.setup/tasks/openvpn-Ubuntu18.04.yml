@@ -1,0 +1,106 @@
+---
+
+
+#Update Server
+- name: Update and upgrade apt packages
+  become: true
+  apt:
+    update_cache: yes
+    cache_valid_time: 86400
+
+
+#Install OpenVpn
+- name: Install openvpn Packages
+  apt:
+    name: "{{ item }}"
+    state: "present"
+  with_items: "{{ ubuntu_openvpn_packages }}"
+
+
+#forwarding rules
+- name: Forward IP rules
+  shell: "echo 1 > /proc/sys/net/ipv4/ip_forward"
+
+
+#forwarding rules
+- name: Set ip forwarding in the sysctl file and reload if necessary
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    sysctl_set: true
+    state: present
+    reload: true
+
+
+- name: Set IPTables
+  shell: iptables -I FORWARD -i tun0 -o eth1 -s {{ openvpn_ip }}/24 -m conntrack --ctstate NEW -j ACCEPT
+
+- name: Set IPTables
+  shell: iptables -I FORWARD -m conntrack --ctstate RELATED,ESTABLISHED          -j ACCEPT
+
+- name: Set IPTables
+  shell: iptables -t nat -I POSTROUTING -o eth1           -s {{openvpn_ip}}/24 -j MASQUERADE
+
+
+#Set OpenVpn Server Conf
+- name: Copy the customize server config file
+  template:
+    src: server.conf.j2
+    dest: /etc/openvpn/server.conf
+
+
+#Copy Easy RSA Files???
+- name: Copy Easy-RSA files to /etc/openvpn dir.
+  command: "cp -r /usr/share/easy-rsa/ /etc/openvpn"
+
+
+- name: Creates Key Folder
+  file:
+    state: directory
+    path: "/etc/openvpn/easy-rsa/keys"
+
+
+#- name: add NAT rules to ufw
+#  blockinfile:
+#    dest: /etc/ufw/before.rules
+#    insertbefore: BOF
+#    block: |
+#      # Nat table
+#      *nat
+#      :POSTROUTING ACCEPT [0:0]
+
+      # Nat rules
+#      -A POSTROUTING -s {{ openvpn_ip }}/24 -o eth1 -j MASQUERADE
+      # don't delete the 'COMMIT' line or these nat rules won't be processed
+#      COMMIT
+
+
+- name: Copy the client site keys script
+  template:
+    src: build.client.keys.sh.j2
+    dest: /etc/openvpn/easy-rsa/client-key.sh
+
+
+- name: Copy the server site keys script
+  template:
+    src: create-client.sh.j2
+    dest: /etc/openvpn/easy-rsa/create_conf.sh
+
+
+- name: Copy the server site keys script
+  template:
+    src: build.server.keys.sh.j2
+    dest: /etc/openvpn/easy-rsa/site-key.sh
+
+
+- name: Copy the server site keys script
+  template:
+    src: revoke-full.j2
+    dest: /etc/openvpn/easy-rsa/revoke-full
+    mode: 0o700
+
+
+- name: Execute the script
+  command: sh site-key.sh
+  args:
+     chdir: /etc/openvpn/easy-rsa

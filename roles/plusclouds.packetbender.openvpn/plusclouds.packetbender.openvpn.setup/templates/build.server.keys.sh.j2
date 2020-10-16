@@ -1,0 +1,14 @@
+#!/bin/sh
+
+. /etc/openvpn/easy-rsa/./vars
+
+./clean-all
+
+$EASY_RSA/pkitool --initca && \
+$EASY_RSA/pkitool --server server && \
+$OPENSSL dhparam -out /etc/openvpn/dh2048.pem 2048
+
+
+cp /etc/openvpn/easy-rsa/keys/server.crt /etc/openvpn
+cp /etc/openvpn/easy-rsa/keys/server.key /etc/openvpn
+cp /etc/openvpn/easy-rsa/keys/ca.crt /etc/openvpn

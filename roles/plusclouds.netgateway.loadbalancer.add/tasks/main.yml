@@ -1,0 +1,7 @@
+---
+- name: Separate facts
+  set_fact: upstreams="{{nodes.split(',')}}"
+
+- name: Nginx | Vhosts copy
+  template: src=vhosts.j2 dest=/etc/nginx/sites-enabled/{{ domain_name }}.conf
+  notify: Reload Nginx

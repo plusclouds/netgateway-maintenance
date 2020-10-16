@@ -1,0 +1,3 @@
+- name: Set IPTables
+  shell: "iptables -t nat -A PREROUTING -p tcp --dport {{ source_port }} -j DNAT --to-destination {{ destination_ip }}:{{ destination_port }}"
+

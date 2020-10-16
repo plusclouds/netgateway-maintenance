@@ -1,0 +1,22 @@
+- name: Discover Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.environment.information
+  vars:
+    - netgateway: ""
+
+- name: Remove loadbalancer Node
+  hosts: netgateway
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.environment.information
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.netgateway.loadbalancer.remove
+  vars: 
+    - domain_name: "demo"
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false

@@ -1,0 +1,21 @@
+---
+- name: Discover Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.environment.information
+  vars:
+    - netgateway: ""
+    
+- name: Drop Subnet Configuration
+  hosts: netgateway
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.netgateway.dhcp.drop.subnet
+  vars: 
+    - start_ip_range: 
+    - finish_ip_range:

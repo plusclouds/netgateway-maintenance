@@ -1,0 +1,21 @@
+---
+
+- name: Execute the script
+  command: sh revoke-full {{ client }}
+  args:
+     chdir: /etc/openvpn/easy-rsa
+
+
+- name: Copy the crl.pem file OpenVpn dir.
+  copy:
+    src: /etc/openvpn/easy-rsa/keys/crl.pem
+    dest: /etc/openvpn/crl.pem
+    remote_src: yes
+
+
+
+- name: Set OpenVpn server.conf file
+  replace:
+    path: /etc/openvpn/server.conf
+    regexp: '#crl-verify crl.pem'
+    replace: 'crl-verify crl.pem'

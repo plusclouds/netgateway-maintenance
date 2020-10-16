@@ -1,0 +1,39 @@
+---
+- name: Install ntp-server
+  apt:
+   name: "{{ item }}"
+   state: latest
+  with_items:
+   - ntp
+   - ntpstat
+   - ntpdate
+
+- name: Set Ntp Config File
+  replace:
+    path: "/etc/ntp.conf"
+    regexp: "pool ntp.debian.com"
+    replace: "#pool ntp.debian.com"
+
+- name: Set Ntp Config File
+  replace:
+    path: "/etc/ntp.conf"
+    regexp: 'pool {{ item }}.debian.pool.ntp.org iburst'
+    replace: '#pool {{ item }}.debian.pool.ntp.org iburst'
+  with_items:
+      - 0
+      - 1
+      - 2
+      - 3
+
+- name: Add pools to ntp conf file
+  lineinfile:
+    path: /etc/ntp.conf
+    line: pool {{ item }} iburst
+  with_items: 
+    - "{{ pools }}"
+    
+- name: Set Timezone
+  shell: timedatectl set-timezone {{ timezone }}
+
+- name: reload ntp server
+  service: name=ntp state=restarted

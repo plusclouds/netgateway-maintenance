@@ -1,0 +1,20 @@
+---
+- fail: msg="The variable {{item}} is not defined or empty"
+  when: ({{item}} is not defined) or ({{item}} == None ) or ({{item}} == "")
+  with_items:
+    - server_name
+    - network
+    - wan
+    - datacenter_node
+
+- set_fact:
+    server_name: Netgateway
+
+- name: Create Netgateway Servers
+  include_tasks: "netgateway_server_deployment.yml"
+
+- name: Create Netgateway Networks
+  include_tasks: "netgateway_set_network_cards.yml"
+
+- name: Boot Netgateway Server
+  include_tasks: "boot_server.yml"

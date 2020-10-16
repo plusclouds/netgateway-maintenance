@@ -1,0 +1,15 @@
+stages:
+  - deploy
+  - sync
+
+deploy:
+  stage: deploy
+  script:
+    - mkdir /home/ansible/system-playbooks/plusclouds.automation.netgateway -p
+    - rsync -rc --no-perms --no-owner --no-group * /home/ansible/system-playbooks/plusclouds.automation.netgateway --delete
+
+sync:
+  stage: sync
+  script:
+    - chmod +x update-and-test.sh
+    - bash update-and-test.sh

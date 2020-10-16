@@ -1,0 +1,2 @@
+- name: Create Netgateway Servers
+  include_tasks: "investigate-gateway.yaml"

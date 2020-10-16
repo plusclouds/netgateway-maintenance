@@ -1,0 +1,13 @@
+---
+- set_fact:
+    proxy_address: "{{ ip_address }}:{{ port }}"
+    listen_port: 80
+    
+- name: Check if Proxy Config Exists
+  stat: path=/etc/nginx/sites-enabled/{{ domain_name }}.conf
+  register: proxy_config
+
+- name: Create Proxy Config
+  template: src=proxy_conf.j2 dest=/etc/nginx/sites-enabled/{{ domain_name }}.conf owner=root group=root mode=0600
+  when: proxy_config.stat.exists == False
+  notify: Reload Nginx

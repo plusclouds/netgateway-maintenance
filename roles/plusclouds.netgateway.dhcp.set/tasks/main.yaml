@@ -1,0 +1,3 @@
+---
+- name: Create Netgateway Servers
+  include_tasks: "netgateway-add-dhcp.yaml"

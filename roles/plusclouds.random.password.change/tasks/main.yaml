@@ -1,0 +1,5 @@
+- name: Get Password
+  include_tasks: "get-random-pass.yaml"
+
+- name: Set Password
+  include_tasks: "set-random-pass.yaml"

@@ -1,0 +1,26 @@
+- name: "Force shutdown !!!!!!!!!!"
+  uri:
+    url: "{{leo_url}}/v2/iaas/virtual-machines/{{ vm_id }}/shutdown"
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "force=1"
+    return_content: yes
+    status_code: 204
+
+- name: wait for config apply
+  wait_for:
+    timeout: 10
+  
+- name: "Delete halted VM !!!!!!!!!!"
+  uri:
+    url: "{{leo_url}}/v2/iaas/virtual-machines/{{ vm_id }}"
+    method: DELETE
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    body: "force=1" 
+    return_content: yes
+    status_code: 204
+  ignore_errors: True
+
+- meta: end_play
