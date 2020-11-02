@@ -10,7 +10,8 @@ key server.key  # This file should be kept secret
 dh dh2048.pem
 server {{ openvpn_network }}
 push "route {{openvpn_route}}"
-crl-verify crl.pem
+push "route {{vlan_ip}} {{vlan_netmask}}"
+#crl-verify crl.pem
 {% if push_gateway %}
 #push "redirect-gateway def1"
 {% endif %}

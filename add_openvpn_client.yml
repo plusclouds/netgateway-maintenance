@@ -1,4 +1,3 @@
----
 - name: Discover Netgateway Server
   hosts: localhost
   become: false
@@ -7,15 +6,16 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    - netgateway: ""
-
-- name: Drop Proxy Configuration
+    - netgateway: "jGMNKqvLbK"
+    - user_token: ""
+    - leo_url: http://10.100.0.114
+- name: Add client
   hosts: netgateway
-  become: false
-  gather_facts: false
   roles:
-    -  role: plusclouds.netgateway.proxy.drop
-  vars: 
-    - domain_name: myproxy.com
+    -  role: plusclouds.packetbender.openvpn/plusclouds.packetbender.openvpn.add.client
+  vars:
+    -  client: yigithan.saglam
+    -  user_token: ""
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
+

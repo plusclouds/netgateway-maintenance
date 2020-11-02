@@ -6,19 +6,15 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    - netgateway: "RZMLnbqLGj"
+    - netgateway: "XKpNJyXreW"
     - user_token: ""
-
-- name: Install proxy to Netgateway
+    - leo_url: http://10.100.0.114
+- name: Revoke client
   hosts: netgateway
-  become: false
-  gather_facts: false
   roles:
-    -  role: plusclouds.database.mysql.install
-    -  role: plusclouds.netgateway.pdns.install
+    -  role: plusclouds.packetbender.openvpn/plusclouds.packetbender.openvpn.revoke.client
   vars:
-    - user_token: ""
+    -  client: yigithan
+    -  user_token: ""
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
-
-

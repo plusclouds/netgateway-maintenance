@@ -6,7 +6,7 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    - netgateway: "XvArPMkNEp"
+    - netgateway: "jGMNKqvLbK"
     - user_token: ""
     - leo_url: http://10.100.0.114
 - name: Install openvpn to Netgateway

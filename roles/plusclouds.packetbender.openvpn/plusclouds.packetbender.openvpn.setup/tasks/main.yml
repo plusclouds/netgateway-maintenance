@@ -16,7 +16,7 @@
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
 
 
-- name: Setup Ubuntu 18.04 openvpn Server
+- name: Setup Deabian openvpn Server
   include_tasks: openvpn-Ubuntu14.04.yml
   when: ansible_distribution == 'Debian'
 

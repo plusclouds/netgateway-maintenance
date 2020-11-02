@@ -104,3 +104,11 @@
   command: sh site-key.sh
   args:
      chdir: /etc/openvpn/easy-rsa
+
+- name: Start openvpn systemd service
+  become: true
+  systemd:
+    name: openvpn@server
+    state: started
+    daemon_reload: yes
+    enabled: yes
