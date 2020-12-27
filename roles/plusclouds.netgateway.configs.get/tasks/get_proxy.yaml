@@ -1,6 +1,6 @@
 - name: Find netgateways proxy conf
   uri:
-    url: http://apiv2/v2/packetbender/netgateways/{{ netgateway }}/proxy
+    url: "{{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/proxy"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"

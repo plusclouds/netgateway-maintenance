@@ -6,6 +6,7 @@
     - network
     - wan
     - datacenter_node
+
 - set_fact:
     server_name: Netgateway
 
