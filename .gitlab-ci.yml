@@ -20,6 +20,6 @@ deploy_to_production:
   tags:
     - master
   script:
-    - ansible-playbook -i /var/playbooks/plusclouds.leo.maintain/hosts /var/playbooks/plusclouds.leo.maintain/update_ansible_system_playbook.yml --extra-vars "package_name=plusclouds.automation.virtualmachineoperations"
+    - ansible-playbook -i /var/playbooks/plusclouds.leo.maintain/hosts /var/playbooks/plusclouds.leo.maintain/update_ansible_system_playbook.yml --extra-vars "package_name=plusclouds.automation.netgateway"
   only:
     - master
