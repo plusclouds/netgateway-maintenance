@@ -1,15 +1,25 @@
 stages:
+  - build
   - deploy
-  - sync
 
-deploy:
+build_environment:
+  stage: build
+  tags:
+    - master
+  script:
+    - export COMMIT_TIME=$(git show -s --format=%ct $CI_COMMIT_SHA)
+    - rm .git* -r
+    - rm /var/www/$CI_PROJECT_NAME.latest.tar.gz -f
+    - tar czf /var/www/$CI_PROJECT_NAME.latest.tar.gz .
+    - tar czf /var/www/$CI_PROJECT_NAME.$COMMIT_TIME.tar.gz .
+  only:
+    - master
+
+deploy_to_production:
   stage: deploy
+  tags:
+    - master
   script:
-    - mkdir /home/ansible/system-playbooks/plusclouds.automation.netgateway -p
-    - rsync -rc --no-perms --no-owner --no-group * /home/ansible/system-playbooks/plusclouds.automation.netgateway --delete
-
-sync:
-  stage: sync
-  script:
-    - chmod +x update-and-test.sh
-    - bash update-and-test.sh
+    - ansible-playbook -i /var/playbooks/plusclouds.leo.maintain/hosts /var/playbooks/plusclouds.leo.maintain/update_ansible_system_playbook.yml --extra-vars "package_name=plusclouds.automation.netgateway"
+  only:
+    - master
