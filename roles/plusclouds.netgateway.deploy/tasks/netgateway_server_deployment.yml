@@ -6,7 +6,7 @@
   when: type == "small"
 
 - set_fact:
-    cpu: "2"
+    cpu: "4"
     ram_size: "2048"
     disk_size: "20480"
   when: type == "medium"
@@ -35,17 +35,22 @@
   register: template_info
   delegate_to: localhost
 
+- debug:
+    var: template_info
+
 - name: Import selected template from image repository
   uri:
     url: "{{leo_url}}/v2/iaas/machine-images/{{ template_info.json.data.0.id }}/clone"
+    body: "name={{ server_name }}&total_cpu={{ cpu }}&total_ram={{ ram_size }}&total_disk={{ disk_size }}&datacenter_node={{ datacenter_node }}"
     method: POST
     headers:
       Authorization: "Bearer {{ user_token }}"
-    body: "name={{ server_name }}&total_cpu={{ cpu }}&total_ram={{ ram_size }}&total_disk={{ disk_size }}&datacenter_node={{ datacenter_node }}"
+    return_content: yes
     status_code: 201
+    timeout: 300
   register: cloned_vm
 
-- debug: 
+- debug:
     var: cloned_vm
 
 - set_fact:
@@ -62,5 +67,5 @@
     timeout: 300
   register: cloned_vm_status
   until: cloned_vm_status.json.data.status == "halted"
-  retries: 20
+  retries: 10
   delay: 3

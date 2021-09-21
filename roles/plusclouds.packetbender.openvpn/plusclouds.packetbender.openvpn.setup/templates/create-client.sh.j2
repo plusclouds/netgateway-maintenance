@@ -1,0 +1,25 @@
+
+ovpn="/etc/openvpn/easy-rsa/keys/$1.ovpn"
+
+echo "ca.crt ekleniyor"
+echo '<ca>' >> $ovpn
+cat /etc/openvpn/ca.crt >> $ovpn
+echo '</ca>' >> $ovpn
+sleep 1
+
+echo "$1.crt ekleniyor"
+echo '<cert>' >> $ovpn
+cat /etc/openvpn/easy-rsa/keys/$1.crt >> $ovpn
+echo '</cert>' >> $ovpn
+sleep 1
+
+echo "$1.key ekleniyor"
+echo '<key>' >> $ovpn
+cat /etc/openvpn/easy-rsa/keys/$1.key >> $ovpn
+echo '</key>' >> $ovpn
+sleep 1
+
+echo "$1.ovpn kök dizine alınıyor"
+cp $ovpn /home/$1.ovpn
+sleep 1
+echo "Bitti!"

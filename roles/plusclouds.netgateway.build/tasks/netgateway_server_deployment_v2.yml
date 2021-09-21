@@ -1,0 +1,71 @@
+---
+- set_fact:
+    cpu: "2"
+    ram_size: "1024"
+    disk_size: "10240"
+  when: type == "small"
+
+- set_fact:
+    cpu: "4"
+    ram_size: "2048"
+    disk_size: "20480"
+  when: type == "medium"
+
+- set_fact:
+    cpu: "6"
+    ram_size: "4096"
+    disk_size: "40960"
+  when: type == "large"
+
+- set_fact:
+    cpu: "8"
+    ram_size: "8192"
+    disk_size: "81920"
+  when: type == "xlarge"
+  
+- name: Find image in related datacenter node
+  uri:
+    url: "{{leo_url}}/v2/repo/images?distro=debian&version=v9.9"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: image_info
+  delegate_to: localhost
+
+- debug:
+    var: image_info
+
+- name: Clone the image
+  uri:
+    url: "{{leo_url}}/v2/iaas/machine-images/{{ image_info.json.data.0.id }}/clone"
+    body: "name={{ server_name }}&hostname={{ hostname }}&total_cpu={{ cpu }}&total_ram={{ ram_size }}&total_disk={{ disk_size }}&datacenter_node={{ datacenter_node }}&compute_member={{ compute_member }}"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 201
+    timeout: 300
+  register: cloned_vm
+
+- debug: 
+    var: cloned_vm
+
+- set_fact:
+    vm_id: "{{ cloned_vm.json.data.id }}"
+
+- name: Wait until the image is cloned
+  uri:
+    url: "{{leo_url}}/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/status"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: cloned_vm_status
+  until: cloned_vm_status.json.data.status == "halted"
+  retries: 40
+  delay: 3

@@ -1,0 +1,31 @@
+---
+
+- name: Execute the script
+  command: sh revoke-full {{ client }}
+  args:
+     chdir: /etc/openvpn/easy-rsa
+
+- name: Ensure absence of old freeze files
+  file:
+    path: '{{ item }}'
+    state: absent
+  with_items:
+    - /etc/openvpn/easy-rsa/keys/{{client}}.csr
+    - /etc/openvpn/easy-rsa/keys/{{client}}.crt
+    - /etc/openvpn/easy-rsa/keys/{{client}}.key
+    - /etc/openvpn/easy-rsa/keys/{{client}}.ovpn
+
+    
+
+- name: Copy the crl.pem file OpenVpn dir.
+  copy:
+    src: /etc/openvpn/easy-rsa/keys/crl.pem
+    dest: /etc/openvpn/crl.pem
+    remote_src: yes
+
+
+
+- replace:
+    path: /etc/openvpn/server.conf
+    regexp: '#crl-verify crl.pem'
+    replace: 'crl-verify crl.pem'

@@ -1,0 +1,14 @@
+---
+# defaults file for plusclouds.netgateway.openvpn
+
+ubuntu_openvpn_packages:
+  - openvpn
+centos_openvpn_packages:
+  - epel-release
+  - openvpn
+
+
+push_gateway: false
+openvpn_ip: 10.108.0.0
+openvpn_network: "{{openvpn_ip}} {{public_netmask}}"
+openvpn_route: "{{ openvpn_network }}"

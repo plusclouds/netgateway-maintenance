@@ -6,8 +6,9 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    - netgateway: ""
+    - netgateway: "RZMNnxBLGj"
     - leo_url: http://10.100.0.114
+    - user_token: ""
 
 - name: Install firewall to Netgateway
   hosts: netgateway
@@ -19,6 +20,7 @@
     -  role: plusclouds.netgateway.iptables.setup
   vars:
     - leo_url: http://10.100.0.114
+    - user_token: ""
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
 

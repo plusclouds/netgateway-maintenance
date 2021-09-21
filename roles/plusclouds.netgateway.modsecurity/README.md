@@ -1,0 +1,1 @@
+this build runs on nginx 1.18
