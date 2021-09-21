@@ -1,0 +1,31 @@
+---
+- name: Deploy Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.build
+  vars:
+    - server_name: "site-NetgatewayC"
+    - hostname: "site-NetgatewayC"
+    - wan: "VxMNyjXYkv"
+    - network: "XKpNJQBreW"
+    - datacenter_node: "yDQLBvLwmR"
+    - compute_member: "VGxLmDRYpe"
+    - type: "small"
+    - user_token: ""
+    - leo_url: http://10.100.0.114
+
+
+- name: Install netgateway services to server
+  hosts: netgateway
+  become: false
+  gather_facts: true
+  roles:
+   -  role: plusclouds.netgateway.set.ipaddr
+  vars:
+    - user_token: ""
+    - netgateway: "{{netgateway_id}}"
+    - leo_url: http://10.100.0.114
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false

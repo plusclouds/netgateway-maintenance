@@ -6,7 +6,7 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    - netgateway: "XKpNJyXreW"
+    - netgateway: "oJXNMwVLEe"
     - user_token: ""
     - leo_url: http://10.100.0.114
 - name: Revoke client
@@ -14,7 +14,7 @@
   roles:
     -  role: plusclouds.packetbender.openvpn/plusclouds.packetbender.openvpn.revoke.client
   vars:
-    -  client: yigithan
+    -  client: ahmetdereli
     -  user_token: ""
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

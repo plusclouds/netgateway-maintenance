@@ -9,10 +9,10 @@
     -  role: plusclouds.netgateway.set
     -  role: plusclouds.environment.information
   vars:
-    - wan: "VxMNyjXYkv"
-    - network: "jGMNKjzrbK"
+    - wan: "aRLeQyjLlv"
+    - network: "nqRNqdorWG"
     - datacenter_node: "yDQLBvLwmR"
-    - netgateway: "jGMNKqvLbK"
+    - netgateway: "geKYgxRLzP"
     - type: "small"
     - user_token: ""
 

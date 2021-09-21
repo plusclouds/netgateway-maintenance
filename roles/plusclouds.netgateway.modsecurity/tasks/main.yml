@@ -1,0 +1,30 @@
+---
+# tasks file for nginx_1.18.modsecurity
+
+- name: Setup nginx-modsec for Ubuntu14.04
+  include_tasks: modsec-Ubuntu14.04.yml
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
+
+
+- name: Setup nginx-modsec for Ubuntu16.04
+  include_tasks: modsec-Ubuntu16.04.yml
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
+
+
+- name: Setup nginx-modsec for Ubuntu18.04
+  include_tasks: modsec-Ubuntu18.04.yml
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
+
+
+- name: Setup nginx-modsec for Deabian
+  include_tasks: modsec-Debian.yml
+  when: ansible_distribution == 'Debian'
+
+- name: Setup CentOS 6 openvpn Server
+  include_tasks: modsec-CentOS6.yml
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'
+
+
+- name: Setup CentOS 7 openvpn Server
+  include_tasks: modsec-CentOS7.yml
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'

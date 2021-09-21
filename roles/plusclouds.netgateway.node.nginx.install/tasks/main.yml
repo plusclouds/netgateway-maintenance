@@ -1,0 +1,13 @@
+---
+- name: Setup Ubuntu openvpn Server
+  include_tasks: openvpn-Ubuntu.yml
+  when: ansible_distribution == 'Ubuntu' 
+
+- name: Setup Debian openvpn Server
+  include_tasks: openvpn-Debian.yml
+  when: ansible_distribution == 'Debian'
+
+- name: Setup CentOS openvpn Server
+  include_tasks: openvpn-CentOS.yml
+  when: ansible_distribution == 'CentOS'
+

@@ -6,7 +6,9 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    - netgateway: ""
+    - netgateway: "jGMNKqvLbK"
+    - user_token: ""
+    - leo_url: http://10.100.0.114
 
 - name: Add loadbalancer node
   hosts: netgateway
@@ -17,7 +19,9 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.loadbalancer.node.add
   vars: 
-    - domain_name: "demo"
-    - new_node: "10.100.0.999:999"
+    - domain_name: "demo.com"
+    - new_node: "10.128.30.75:999"
+    - user_token: ""
+    - leo_url: http://10.100.0.114
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

@@ -1,0 +1,13 @@
+---
+# tasks file for plusclouds.strongswan.setup
+- name: Setup strongswan for Ubuntu
+  include_tasks: strongswan-Ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Setup strongswan for Deabian
+  include_tasks: strongswan-Debian.yml
+  when: ansible_distribution == 'Debian'
+
+- name: Setup strongswan for CentOS
+  include_tasks: strongswan-CentOS.yml
+  when: ansible_distribution == 'CentOS'

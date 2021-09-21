@@ -7,7 +7,7 @@
     -  role: plusclouds.environment.information
     -  role: plusclouds.netgateway.dhcp.set
   vars:
-    - netgateway: "jGMNKqvLbK"
+    - netgateway: "nMkNOZzrqW"
     - user_token: ""
     - leo_url: http://10.100.0.114
 

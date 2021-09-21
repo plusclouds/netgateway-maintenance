@@ -1,0 +1,37 @@
+---
+- fail: msg="The variable {{item}} is not defined or empty"
+  when: ({{item}} is not defined) or ({{item}} == None ) or ({{item}} == "")
+  with_items:
+    - server_name
+    - hostname
+    - network
+    - wan
+    - datacenter_node
+    - compute_member
+    - type
+
+- name: Create Netgateway Servers
+  include_tasks: "netgateway_server_deployment_v2.yml"
+
+- name: Create Netgateway Networks
+  include_tasks: "vm_set_network_cards.yml"
+
+- name: Boot Netgateway Server
+  include_tasks: "boot_server.yml"
+
+- name: Create Netgateway
+  include_tasks: "create_new_netgateway.yaml"
+  when: (netgateway is not defined) or (netgateway == None ) or (netgateway == "")
+
+- name: Get Netgateway
+  include_tasks: "get_netgateway.yaml"
+  when: netgateway is defined
+
+- name: Set Netgateway
+  include_tasks: "set_netgateway.yaml"
+
+- name: Complete variables
+  include_tasks: "complete_variables.yml"
+#
+#- name: static ip
+#  include_tasks: "static_ip.yml"

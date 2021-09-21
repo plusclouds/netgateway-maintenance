@@ -1,0 +1,23 @@
+# basic configuration
+config setup
+        charondebug="{{charondebug}}"
+        uniqueids={{uniqueids}}
+        strictcrlpolicy={{strictcrlpolicy}}
+
+# connection to paris datacenter
+conn amsterdam-to-paris
+	authby={{authby}}
+	left={{left}}
+ 	leftid={{leftid}}
+ 	leftsubnet={{leftsubnet}}
+ 	right={{right}}
+ 	rightsubnet={{rightsubnet}}
+	ike={{ike}}
+	esp={{esp}}
+	keyingtries={{keyingtries}}
+	ikelifetime={{ikelifetime}}
+	lifetime={{lifetime}}
+	dpddelay={{dpddelay}}
+	dpdtimeout={{dpdtimeout}}
+	dpdaction={{dpdaction}}
+	auto={{auto}}
