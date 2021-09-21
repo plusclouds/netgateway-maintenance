@@ -8,6 +8,8 @@
     -  role: plusclouds.environment.information
   vars:
     - netgateway: ""
+    - user_token: ""
+    - leo_url: http://10.100.0.114
 
 - name: Drop Proxy Configuration
   hosts: netgateway
@@ -17,5 +19,7 @@
     -  role: plusclouds.netgateway.proxy.drop
   vars: 
     - domain_name: myproxy.com
+    - user_token: ""
+    - leo_url: http://10.100.0.114
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

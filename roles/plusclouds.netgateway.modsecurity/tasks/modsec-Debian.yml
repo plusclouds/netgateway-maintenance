@@ -1,0 +1,268 @@
+---
+- name: " presetup for modsecurity install on Debian install threaded "
+  apt: name="{{ item  }}" update_cache=yes
+  with_items:
+    - make
+    - gcc
+    - automake
+    - autoconf
+    - libtool
+    - libpcre3
+    - libpcre3-dev
+    - libxml2
+    - libgd-dev
+    - libxml2-dev
+    - libxslt-dev
+    - libcurl4-openssl-dev
+    - liblmdb-dev
+    - libgeoip-dev
+    - libyajl-dev
+    - apache2-dev
+    - pkgconf
+    - wget
+    - libpcre++-dev
+    - zlib1g-dev
+    - unzip
+    - libssl-dev
+    - git
+    - curl
+    - gnupg2
+    - ca-certificates
+    - lsb-release
+    - build-essential
+
+  ignore_errors: True 
+
+- name: To set up the apt repository for stable nginx packages
+  command: echo "deb http://nginx.org/packages/debian `lsb_release -cs` nginx" \ | tee /etc/apt/sources.list.d/nginx.list
+
+- name: Update repositories cache and install nginx package
+  apt:
+    name: nginx
+    update_cache: yes
+
+- name: "stop nginx "
+  shell: systemctl stop nginx
+
+- name: "remove nginx "
+  shell: apt-get remove nginx nginx-common -y
+
+- name: Check that the downloads exists
+  stat:
+    path: /downloads
+  register: downloads_result
+
+- name: create downloads
+  command: mkdir /downloads
+  when: not downloads_result.stat.exists
+
+- name: Check that the ssdeep exists
+  stat:
+    path: /downloads/ssdeep
+  register: ssdeep_result
+
+- name: git clone ssdeep
+  command: git clone https://github.com/ssdeep-project/ssdeep
+  args:
+    chdir: /downloads/
+  when: not ssdeep_result.stat.exists
+
+- name: bootstrap
+  command: ./bootstrap
+  args:
+    chdir: /downloads/ssdeep/
+
+- name: ssdeep configure
+  command: ./configure
+  args:
+    chdir: /downloads/ssdeep/
+
+- name: ssdeep make
+  command: make
+  args:
+    chdir: /downloads/ssdeep/
+
+- name: ssdeep install
+  command: make install
+  args:
+    chdir: /downloads/ssdeep/
+
+- name: Check that the somefile.conf exists
+  stat:
+    path: /downloads/ModSecurity
+  register: stat_result
+
+- name: git clone modsec
+  command: git clone --depth 1 -b v3/master --single-branch https://github.com/SpiderLabs/ModSecurity
+  args:
+    chdir: /downloads/
+  when: not stat_result.stat.exists
+
+- name: git submodule init
+  command: git submodule init
+  args:
+    chdir: /downloads/ModSecurity/
+
+- name: git submodule update
+  command: git submodule update
+  args:
+    chdir: /downloads/ModSecurity/    
+
+- name: building modsec
+  command: sh build.sh
+  args:
+    chdir: /downloads/ModSecurity/
+
+- name: configuration of modsec
+  command: ./configure
+  args:
+    chdir: /downloads/ModSecurity/
+
+- name: make of modsec
+  command: make
+  args:
+    chdir: /downloads/ModSecurity/
+  ignore_errors: True 
+
+- name: make install of modsec
+  command: make install
+  args:
+    chdir: /downloads/ModSecurity/
+
+- name: Check that the ModSecurity-nginx exists
+  stat:
+    path: /downloads/ModSecurity-nginx
+  register: connector_result
+
+- name: git clone ModSecurity-nginx
+  command: git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git
+  args:
+    chdir: /downloads/
+  when: not connector_result.stat.exists
+
+- name: "Download modsecurity.conf-recommended"
+  get_url:
+    url: http://nginx.org/download/nginx-1.18.0.tar.gz
+    dest: /downloads/
+    mode: 0655
+
+- name: "untar nginx"
+  command: tar -xvzf /downloads/nginx-1.18.0.tar.gz
+  args:
+    chdir: /downloads/
+
+
+- name: "Configure and make nginx "
+  shell: cd /downloads/nginx-1.18.0/ && ./configure --sbin-path=/usr/sbin/nginx --with-http_sub_module --with-http_ssl_module --with-http_stub_status_module --prefix=/usr/share/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --add-dynamic-module=../ModSecurity-nginx
+  args:
+    chdir: /downloads/nginx-1.18.0
+
+- name: "make and make install "
+  shell: make && make install
+  args:
+    chdir: /downloads/nginx-1.18.0
+
+- name: "cp modules"
+  shell: cp objs/ngx_http_modsecurity_module.so /usr/share/nginx/modules/
+  args:
+    chdir: /downloads/nginx-1.18.0
+
+
+- name: "Download v3.2.0.tar.gz"
+  get_url:
+    url: https://github.com/SpiderLabs/owasp-modsecurity-crs/archive/v3.2.0.tar.gz
+    dest: /downloads/
+    mode: 0655
+
+- name: "untar v3.2.0.tar.gz"
+  command: tar -xvzf /downloads/owasp-modsecurity-crs-3.2.0.tar.gz
+  args:
+    chdir: /downloads/
+  ignore_errors: True
+
+- name: "move owasp"
+  command: mv owasp-modsecurity-crs-3.2.0 owasp-modsecurity-crs
+  args:
+    chdir: /downloads/
+
+- name: "move owasp"
+  command: mv owasp-modsecurity-crs/crs-setup.conf.example owasp-modsecurity-crs/crs-setup.conf
+  args:
+    chdir: /downloads/
+  ignore_errors: True
+
+- name: "move owasp"
+  command: mv owasp-modsecurity-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf.example  owasp-modsecurity-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
+  args:
+    chdir: /downloads/
+  ignore_errors: True
+
+- name: "move owasp"
+  command:  mv owasp-modsecurity-crs /usr/local/
+  args:
+    chdir: /downloads/
+  ignore_errors: True
+
+- name: "Template nginx.conf"
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+
+- name: Check that the modsec file exists
+  stat:
+    path: /etc/nginx/modsec
+  register: modsec_result
+
+- name: create modsec file in nginx
+  command: mkdir /etc/nginx/modsec 
+  when: not modsec_result.stat.exists
+
+- name: "Copy unicode"
+  command: cp /downloads/ModSecurity/unicode.mapping /etc/nginx/modsec
+  ignore_errors: True
+  become: Yes
+
+- name: Check that the ModSecurity configuration file exists
+  stat:
+    path: /etc/nginx/modsec/modsecurity.conf-recommended
+  register: conf_result
+
+- name: "Download modsecurity.conf-recommended"
+  get_url:
+    url: https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended
+    dest: /etc/nginx/modsec/
+    mode: 0655
+  when: not conf_result.stat.exists
+
+- name: cp modsec conf
+  command: cp /downloads/ModSecurity/modsecurity.conf-recommended /etc/nginx/modsec/modsecurity.conf
+
+#- name: "Change the SecRuleEngine directive in the configuration"
+#  command: sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf
+
+- name: "modsecurity.conf"
+  template: src=modsecurity.conf.j2 dest=/etc/nginx/modsec/modsecurity.conf
+
+
+- name: "Template nginx.conf"
+  template: src=main.conf.j2 dest=/etc/nginx/modsec/main.conf
+
+- name: Check that the sites-available file exists
+  stat:
+    path: /etc/nginx/sites-available
+  register: sites_result
+
+- name: create sites-available
+  command: mkdir /etc/nginx/sites-available
+  when: not sites_result.stat.exists
+
+- name: create sites-available
+  command: touch /etc/nginx/sites-available/default
+  when: not sites_result.stat.exists
+
+- name: "Template nginx.conf"
+  template: src=default.j2 dest=/etc/nginx/sites-available/default
+
+- name: "rebuild the cache"
+  command: ldconfig
+
+- name: "Start nginx service"
+  shell: nginx -t

@@ -1,0 +1,16 @@
+---
+- name: Install packages
+  apt: 
+    name: '{{ item }}'
+    state: present
+    update_cache: yes
+  with_items:
+    - software-properties-common
+    - build-essential
+    - nginx
+
+- name: Remove default config
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: restart nginx

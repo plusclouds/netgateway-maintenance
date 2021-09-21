@@ -1,0 +1,43 @@
+---
+
+#Plusclouds netgateway openvpn setup
+- name: Install openvpn Packages
+  yum:
+    name: "{{ item }}"
+    state: "present"
+  with_items: "{{ centos_openvpn_packages }}"
+
+
+- name: Forward IP rules
+  shell: "echo 1 > /proc/sys/net/ipv4/ip_forward"
+
+
+- name: Copy the Customize Site File
+  template:
+    src: server.conf.j2
+    dest: /etc/openvpn/server.conf
+
+
+- name: Copy Easy-RSA files to /etc/openvpn dir.
+  command: "cp -r /usr/share/easy-rsa/ /etc/openvpn"
+
+
+- name: Creates Key Folder
+  file:
+    state: directory
+    path: "/etc/openvpn/easy-rsa/keys"
+
+
+- name: add NAT rules to ufw
+  blockinfile:
+    dest: /etc/ufw/before.rules
+    insertbefore: BOF
+    block: |
+      # Nat table
+      *nat
+      :POSTROUTING ACCEPT [0:0]
+
+      # Nat rules
+      -A POSTROUTING -s {{ openvpn_ip }}/24 -o eth1 -j MASQUERADE
+      # don't delete the 'COMMIT' line or these nat rules won't be processed
+      COMMIT

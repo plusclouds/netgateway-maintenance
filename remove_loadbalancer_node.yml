@@ -6,18 +6,19 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    - netgateway: ""
-
+    - netgateway: "jGMNKqvLbK"
+    - user_token: ""
+    - leo_url: http://10.100.0.114
 - name: Remove loadbalancer Node
   hosts: netgateway
   become: false
   gather_facts: false
   roles:
-    -  role: plusclouds.environment.information
-    -  role: plusclouds.netgateway.configs.get
+  #  -  role: plusclouds.environment.information
+  #  -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.loadbalancer.node.remove
   vars: 
-    - domain_name: "demo"
-    - node: "10.100.0.99:999"
+    - domain_name: "demo.com"
+    - node: "10.128.30.75:80"
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

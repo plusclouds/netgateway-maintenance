@@ -1,0 +1,46 @@
+- name: Discover Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.environment.information
+  vars:
+    - netgateway: "ZaRNeZAYlv"
+    - user_token: ""
+    - leo_url: http://10.100.0.114
+
+- name: Install strongswan to Netgateway
+  hosts: netgateway
+  become: false
+  gather_facts: true
+  roles:
+    -  role: plusclouds.netgateway.strongswan.add.node
+  vars:
+#for secret configuration
+    - PSK_key: "I6GQ9sc2cwUH9SprflO4/1wHXLzs7Wdf5u19alYxaVgbQ9kGZ+TsuKJybfJGamab"
+    - left_prefix: 16
+    - right_prefix: 16
+    - left_network: "10.129.0.0"
+    - right_network: "10.128.0.0"
+#for iptables configuration
+    - charondebug: "all"
+    - uniqueids: "yes"
+    - strictcrlpolicy: "no"
+    - authby: "secret"
+    - left: "%defaultroute"
+    - leftid: "185.44.192.81"
+    - leftsubnet: "10.129.0.1/16"
+    - right: "185.44.192.68"
+    - rightsubnet: "10.128.0.1/16"
+    - ike: "aes256-sha2_256-modp1024!"
+    - esp: "aes256-sha2_256!"
+    - keyingtries: 0
+    - ikelifetime: "1h"
+    - lifetime: "8h"
+    - dpddelay: 30
+    - dpdtimeout: 120
+    - dpdaction: "restart"
+    - auto: "start"
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false

@@ -6,7 +6,9 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    - netgateway: ""
+    - netgateway: "BgmNvblNxe"
+    - user_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImJkNzU4YTYxMzZhNTA4ZWU2OTQyMjI4NzFlOWIwMzJmYzhhYWNmY2Q5NzQ4NWI0ZjMzNzgxMTMwOWQ1YTMwNzg0NWZjYjVhMmI2MmE3ZmRlIn0.eyJhdWQiOiIyNCIsImp0aSI6ImJkNzU4YTYxMzZhNTA4ZWU2OTQyMjI4NzFlOWIwMzJmYzhhYWNmY2Q5NzQ4NWI0ZjMzNzgxMTMwOWQ1YTMwNzg0NWZjYjVhMmI2MmE3ZmRlIiwiaWF0IjoxNjExMzI4Nzg0LCJuYmYiOjE2MTEzMjg3ODQsImV4cCI6MTY0Mjg2NDc4NCwic3ViIjoiMTI3OTQiLCJzY29wZXMiOltdfQ.ZXqihW9MgCYdQ2_BlgBQxHS8atI5IfxFf-vdHIwcRI30a0w77F1DQrBGZQAGAx9OOVCPXXK3P54I0HdrwjrdJFchLuqNRzapb_3ffb3DBvgvuW-ityHp6n0FA4bRjIZj9awiB77l94roMqk8ln-E37ot9tQf3n6nCsGdy_6BfZiwQ53hKRZEdUnUS9l8-hFt6vL0luW4q2Z5Urp1RnxTCoTfMnVxXaNI7SBrhH-Gs3GZjIeNqyHkCPC29GPDQXNkOYYVcp7FNC7p_DS7xnjInB6AHWvTooG08ppzWysOL-wplUqrVdTL3O-VsDCkAKiGKVIiqBi-3caPtoGRmFudTTw6mAls0yRleI0YmPDzBZBv0_VKg8TkzaxNlpbyOmFL1m6brNJKWZ5iRlR7YZLvHl2deM_2Is3buQeHG7CX-EaYXa00NC1FubeqoXzRoAWnK_P4nfm3J1PjQVS94abx_WRnQxne-zaXH-T5ZbKqWDQUbOV3FZXUbzu7FQqN8gKBtyoJ7SZeHwBvUBOGfIgunjYQwRR_ibOUHlqQd53XDHdnLYH0E8mREGo8lgVr2nwLq0j8deop3d2pyVpcyGwmTkZlILZmAIk5X6DFaRO6_FfOFj_Tm-WOXZU4g94Dmrc9_XxsEOq4IblXWBWffQNubC0AVC0I-zf81lpnN0MyTYo"
+    - leo_url: http://10.100.0.114
 
 - name: Install NTP to Netgateway
   hosts: netgateway
@@ -17,8 +19,10 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.ntp.install
   vars:
-    - pools: ""
-    - timezone: ""
+    - user_token: ""
+    - leo_url: http://10.100.0.114
+    - pools: "0.pool.ntp.org"
+    - timezone: "Europe/Istanbul"
 
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

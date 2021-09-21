@@ -1,0 +1,36 @@
+---
+
+
+- name: Copy the server site keys script
+  template:
+    src: client.conf.j2
+    dest: /etc/openvpn/easy-rsa/keys/{{ client }}.ovpn
+
+
+
+
+- name: Copy the server site keys script
+  template:
+    src: build.client.keys.sh.j2
+    dest: /etc/openvpn/easy-rsa/client-key.sh
+
+
+- name: Execute the script
+  command: sh client-key.sh
+  args:
+     chdir: /etc/openvpn/easy-rsa
+
+
+
+
+
+- name: Copy the server site keys script
+  template:
+    src: client_conf.sh.j2
+    dest: /etc/openvpn/easy-rsa/create_conf.sh
+
+
+- name: Execute the script
+  command: sh create_conf.sh
+  args:
+     chdir: /etc/openvpn/easy-rsa

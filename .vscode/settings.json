@@ -1,0 +1,16 @@
+{
+    "ansible.fileCopyConfig": [
+        {
+            "server": "185.44.192.254",
+            "sourcePath": "/Users/ygthns/Desktop/plusclouds.automation.netgateway-dev/",
+            "targetPath": "plusclouds.automation.netgateway-dev/",
+            "copyOnSave": true
+        },
+        {
+            "server": "93.94.254.231",
+            "sourcePath": "/Users/ygthns/Desktop/plusclouds.automation.netgateway-dev/",
+            "targetPath": "plusclouds.automation.netgateway-dev/",
+            "copyOnSave": true
+        }
+    ]
+}

@@ -1,0 +1,27 @@
+- name: Update ipsec.conf file
+  template:
+    src: ipsec.conf.j2
+    dest: /etc/ipsec.conf
+    owner: root
+    group: root
+    mode: 0640
+
+- name: Update ipsec.secrets file
+  template:
+    src: ipsec.secrets.j2
+    dest: /etc/ipsec.secrets
+    owner: root
+    group: root
+    mode: 0600
+
+
+- name: Set IPTables
+  shell: iptables -t nat -A POSTROUTING -s {{left_network}}/{{left_prefix}} -d {{right_network}}/{{right_prefix}} -j MASQUERADE
+
+- name: start and enable service
+  service:
+    name: strongswan
+    state: started
+    enabled: true
+  tags:
+    - configuration
