@@ -1,6 +1,6 @@
 - name: Find netgateways subnet conf
   uri:
-    url: {{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/subnet
+    url: "{{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/subnet"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"

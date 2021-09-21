@@ -55,7 +55,7 @@
 - debug:
     var: netgateway_vm
 
-- name: Add host to group netservers
+- name: Add host to group netgateways
   add_host:
     name: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     groups: netgateway
