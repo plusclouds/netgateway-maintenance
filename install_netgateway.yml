@@ -3,20 +3,19 @@
   hosts: localhost
   become: false
   gather_facts: false
-  roles: 
+  roles:
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.deploy
     -  role: plusclouds.netgateway.set
     -  role: plusclouds.environment.information
   vars:
-    - wan: "aRLeQyjLlv"
-    - network: "nqRNqdorWG"
-    - datacenter_node: "yDQLBvLwmR"
-    - netgateway: "geKYgxRLzP"
-    - type: "small"
+    - wan: "yVMNlGrzlo"
+    - network: "geKYgvNzPO"
+    - datacenter_node: "zVGNXorAoR"
+    - netgateway: "GqdrRBgrPe"
+    - type: "medium"
     - user_token: ""
-
-    - leo_url: http://10.100.0.114
+    - leo_url: http://10.100.0.25
 
 - name: Install netgateway services to server
   hosts: netgateway
@@ -31,4 +30,4 @@
   vars:
     - user_token: ""
 
-    - leo_url: http://10.100.0.114
+    - leo_url: http://10.100.0.25

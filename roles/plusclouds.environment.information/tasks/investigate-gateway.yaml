@@ -38,7 +38,7 @@
 - set_fact:
     datacenter_node: "{{ hostvars['localhost']['datacenter_node'] }}"
   when: hostvars['localhost']['datacenter_node'] is defined
-  
+
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
   uri:
@@ -54,8 +54,8 @@
 
 - debug:
     var: netgateway_vm
-    
-- name: Add host to group netservers
+
+- name: Add host to group netgateways
   add_host:
     name: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     groups: netgateway
@@ -76,7 +76,7 @@
     public_gateway: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.gateway }}"
     #public_ip_addr: 185.44.192.47
     #public_netmask: 255.255.255.0
-    #public_gateway: 185.44.192.1    
+    #public_gateway: 185.44.192.1
     network: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.id }}"
     username: "{{ netgateway_vm.json.data.username }}"
     server_name: "{{ server_name }}"
@@ -105,6 +105,6 @@
     server_name: "{{ server_name }}"
     vm_id: "{{ vm_id }}"
     netgateway: "{{ netgateway }}"
-    
+
 #- shell: ssh-keygen -f "/root/.ssh/known_hosts" -R "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
 #  ignore_errors: yes
