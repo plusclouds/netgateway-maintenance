@@ -67,5 +67,5 @@
     timeout: 300
   register: cloned_vm_status
   until: cloned_vm_status.json.data.status == "halted"
-  retries: 10
+  retries: 30
   delay: 3
