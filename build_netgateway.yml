@@ -6,8 +6,8 @@
   roles:
     -  role: plusclouds.netgateway.build
   vars:
-    - server_name: "site-NetgatewayC"
-    - hostname: "site-NetgatewayC"
+    - server_name: "NtpTest"
+    - hostname: "NtpTest"
     - wan: "VxMNyjXYkv"
     - network: "XKpNJQBreW"
     - datacenter_node: "yDQLBvLwmR"
