@@ -1,6 +1,6 @@
 - name: "Force shutdown !!!!!!!!!!"
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines/{{ vm_id }}/shutdown
+    url: "{{leo_url}}/v2/iaas/virtual-machines/{{ vm_id }}/shutdown"
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -14,7 +14,7 @@
   
 - name: "Delete halted VM !!!!!!!!!!"
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines/{{ vm_id }}
+    url: "{{leo_url}}/v2/iaas/virtual-machines/{{ vm_id }}"
     method: DELETE
     headers:
       Authorization: "Bearer {{ user_token }}"

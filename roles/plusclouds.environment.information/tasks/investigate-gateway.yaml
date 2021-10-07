@@ -38,11 +38,11 @@
 - set_fact:
     datacenter_node: "{{ hostvars['localhost']['datacenter_node'] }}"
   when: hostvars['localhost']['datacenter_node'] is defined
-  
+
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines/{{ vm_id }}?type=system&fields=ip_addr,username,password&include=datacenterNode
+    url: "{{leo_url}}/v2/iaas/virtual-machines/{{ vm_id }}?type=system&fields=ip_addr,username,password&include=datacenterNode"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -55,7 +55,7 @@
 - debug:
     var: netgateway_vm
 
-- name: Add host to group netservers
+- name: Add host to group netgateways
   add_host:
     name: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     groups: netgateway
@@ -74,6 +74,9 @@
     public_ip_addr: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     public_netmask: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.netmask }}"
     public_gateway: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.gateway }}"
+    #public_ip_addr: 185.44.192.47
+    #public_netmask: 255.255.255.0
+    #public_gateway: 185.44.192.1
     network: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.id }}"
     username: "{{ netgateway_vm.json.data.username }}"
     server_name: "{{ server_name }}"
@@ -94,11 +97,14 @@
     public_ip_addr: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     public_netmask: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.netmask }}"
     public_gateway: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.gateway }}"
+    #public_ip_addr: 185.44.192.47
+    #public_netmask: 255.255.255.0
+    #public_gateway: 185.44.192.1
     network: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.id }}"
     username: "{{ netgateway_vm.json.data.username }}"
     server_name: "{{ server_name }}"
     vm_id: "{{ vm_id }}"
     netgateway: "{{ netgateway }}"
-    
+
 #- shell: ssh-keygen -f "/root/.ssh/known_hosts" -R "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
 #  ignore_errors: yes

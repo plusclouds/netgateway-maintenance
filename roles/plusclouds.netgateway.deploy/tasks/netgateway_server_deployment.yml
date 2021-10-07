@@ -25,7 +25,7 @@
 
 - name: Find template server in related datacenter node
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines/templates?distro=plusclouds_linux&datacenterNode={{ datacenter_node }}
+    url: "{{leo_url}}/v2/repo/images?name=debian&version=v9.9"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -38,10 +38,10 @@
 - debug:
     var: template_info
 
-- name: Clone the template
+- name: Import selected template from image repository
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines/{{ template_info.json.data.0.id }}/clone
-    body: "name={{ server_name }}&total_cpu={{ cpu }}&total_ram={{ ram_size }}&total_disk={{ disk_size }}"
+    url: "{{leo_url}}/v2/iaas/machine-images/{{ template_info.json.data.0.id }}/clone"
+    body: "name={{ server_name }}&total_cpu={{ cpu }}&total_ram={{ ram_size }}&total_disk={{ disk_size }}&datacenter_node={{ datacenter_node }}"
     method: POST
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -50,7 +50,7 @@
     timeout: 300
   register: cloned_vm
 
-- debug: 
+- debug:
     var: cloned_vm
 
 - set_fact:
@@ -58,7 +58,7 @@
 
 - name: Wait until the template is cloned
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/status
+    url: "{{leo_url}}/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/status"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -67,5 +67,5 @@
     timeout: 300
   register: cloned_vm_status
   until: cloned_vm_status.json.data.status == "halted"
-  retries: 10
+  retries: 30
   delay: 3

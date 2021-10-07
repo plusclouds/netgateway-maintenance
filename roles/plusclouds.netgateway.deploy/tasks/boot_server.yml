@@ -1,7 +1,7 @@
 ---
 - name: Boot the server
   uri:
-    url: http://apiv2/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/start
+    url: "{{leo_url}}/v2/iaas/virtual-machines/{{ cloned_vm.json.data.id }}/start"
     method: PUT
     headers:
       Authorization: "Bearer {{ user_token }}"

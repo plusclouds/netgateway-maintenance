@@ -1,6 +1,6 @@
 - name: Find netgateways loadbalancer conf
   uri:
-    url: http://apiv2/v2/packetbender/netgateways/{{ netgateway }}/load-balancer
+    url: "{{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/load-balancer"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"

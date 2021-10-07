@@ -8,3 +8,12 @@
   service:
     name: nginx
     state: restarted
+
+- name: Enable init.d
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+#- name: Enable init.d
+#  shell: nginx -s reopen

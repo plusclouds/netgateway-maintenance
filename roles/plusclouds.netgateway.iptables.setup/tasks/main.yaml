@@ -17,3 +17,18 @@
 
 - name: Apply rules
   shell: iptables-restore /home/iptables.out
+
+- name: Install iptables-persistent
+  apt:
+    name: iptables-persistent
+    state: "present"
+
+- name: Forward rules to persistent save file
+  template:
+    src: iptables-save.j2
+    dest: /etc/iptables/rules.v4
+
+- name: Save iptables rules
+  shell: "iptables-save > /etc/iptables/rules.v4"
+
+

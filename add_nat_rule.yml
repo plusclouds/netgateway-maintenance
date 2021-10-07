@@ -8,6 +8,7 @@
     -  role: plusclouds.environment.information
   vars:
     - netgateway: ""
+    - leo_url: http://10.100.0.114
 
 - name: Add NAT Rule
   hosts: netgateway
@@ -18,8 +19,9 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.iptables.add.rule
   vars: 
-    - source_port: 8081
-    - destination_ip: 10.128.199.14
-    - destination_port: 81
+    - source_port: 23
+    - destination_ip: 10.128.187.109
+    - destination_port: 22
+    - leo_url: http://10.100.0.114
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

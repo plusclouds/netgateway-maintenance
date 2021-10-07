@@ -6,7 +6,9 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    - netgateway: ""
+    - netgateway: "oJXNMwVLEe"
+    - user_token: ""
+    - leo_url: http://10.100.0.114
 
 - name: Install proxy to Netgateway
   hosts: netgateway
@@ -16,6 +18,10 @@
     -  role: plusclouds.environment.information
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.proxy.setup
+  vars:
+    - netgateway: "oJXNMwVLEe"
+    - user_token: ""
+    - leo_url: http://10.100.0.114
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
 

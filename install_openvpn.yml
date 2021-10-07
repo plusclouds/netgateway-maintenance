@@ -1,0 +1,20 @@
+- name: Discover Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.environment.information
+  vars:
+    - netgateway: "oJXNMwVLEe"
+    - user_token: ""
+    - leo_url: http://10.100.0.114
+- name: Install openvpn to Netgateway
+  hosts: netgateway
+  roles:
+    -  role: plusclouds.packetbender.openvpn/plusclouds.packetbender.openvpn.setup
+  vars:
+    -  user_token: ""
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false
+
