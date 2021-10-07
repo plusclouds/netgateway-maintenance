@@ -1,4 +1,11 @@
 ---
+- set_fact:
+    pool_list: []
+
+- name: Create the list
+  set_fact: 
+    pool_list: "{{ pools.split(',') }}"
+
 - name: Install ntp-server
   apt:
    name: "{{ item }}"
@@ -18,7 +25,7 @@
     path: /etc/ntp.conf
     line: pool {{ item }} iburst
   with_items: 
-    - "{{ pools }}"
+    - "{{ pool_list }}"
     
 - name: Set Timezone
   shell: timedatectl set-timezone {{ timezone }}

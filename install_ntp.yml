@@ -21,7 +21,7 @@
   vars:
     - user_token: ""
     - leo_url: http://10.100.0.114
-    - pools: [0.pool.ntp.org, 1.pool.ntp.org, 2.pool.ntp.org]
+    - pools: "0.pool.ntp.org,1.pool.ntp.org,2.pool.ntp.org"
     - timezone: "Europe/Istanbul"
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
