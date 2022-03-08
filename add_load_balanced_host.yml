@@ -13,14 +13,14 @@
 - name: Add loadbalancer
   hosts: netgateway
   become: false
-  gather_facts: false
+  gather_facts: true
   roles:
    # -  role: plusclouds.environment.information
    # -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.loadbalancer.add
-  vars: 
-    - domain_name: "demo.com" 
-    - nodes: "10.128.8.57:80,10.128.68.85:80,10.128.156.189:80,10.128.30.75:80" 
+  vars:
+    - domain_name: "demo.com"
+    - nodes: "10.128.8.57:80,10.128.68.85:80,10.128.156.189:80,10.128.30.75:80"
     - balancing_method: "least_conn" #default round robin empty, least_conn, ip-hash
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

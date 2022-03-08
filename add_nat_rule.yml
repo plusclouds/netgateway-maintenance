@@ -13,12 +13,12 @@
 - name: Add NAT Rule
   hosts: netgateway
   become: false
-  gather_facts: false
+  gather_facts: true
   roles:
     -  role: plusclouds.environment.information
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.iptables.add.rule
-  vars: 
+  vars:
     - source_port: 23
     - destination_ip: 10.128.187.109
     - destination_port: 22

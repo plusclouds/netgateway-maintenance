@@ -14,12 +14,12 @@
 - name: Add Proxy Rule
   hosts: netgateway
   become: false
-  gather_facts: false
+  gather_facts: true
   roles:
     -  role: plusclouds.environment.information
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.proxy.configure
-  vars: 
+  vars:
     - netgateway: "jGMNKqvLbK"
     - user_token: ""
     - leo_url: http://10.100.0.114
