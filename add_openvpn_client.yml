@@ -6,16 +6,17 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.environment.information
   vars:
-    - netgateway: "BgmNvblNxe"
+    - netgateway: "jGMNKKzNbK"
     - user_token: ""
     - leo_url: http://10.100.0.114
 - name: Add client
   hosts: netgateway
+  gather_facts: true
   roles:
     -  role: plusclouds.packetbender.openvpn/plusclouds.packetbender.openvpn.add.client
   vars:
-    -  client: ahmetfd
-    -  user_token: ""
+    -  client: user2
+    - netgateway: "jGMNKKzNbK"
+    - user_token: ""
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
-

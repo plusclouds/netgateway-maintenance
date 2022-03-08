@@ -14,10 +14,10 @@
 - name: Drop Proxy Configuration
   hosts: netgateway
   become: false
-  gather_facts: false
+  gather_facts: true
   roles:
     -  role: plusclouds.netgateway.proxy.drop
-  vars: 
+  vars:
     - domain_name: myproxy.com
     - user_token: ""
     - leo_url: http://10.100.0.114

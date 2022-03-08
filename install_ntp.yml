@@ -13,7 +13,7 @@
 - name: Install NTP to Netgateway
   hosts: netgateway
   become: false
-  gather_facts: false
+  gather_facts: true
   roles:
     -  role: plusclouds.environment.information
     -  role: plusclouds.netgateway.configs.get

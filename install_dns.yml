@@ -12,7 +12,7 @@
 - name: Install proxy to Netgateway
   hosts: netgateway
   become: false
-  gather_facts: false
+  gather_facts: true
   roles:
     -  role: plusclouds.database.mysql.install
     -  role: plusclouds.netgateway.pdns.install
@@ -20,5 +20,3 @@
     - user_token: ""
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
-
-
