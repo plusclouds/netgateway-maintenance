@@ -19,6 +19,7 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.iptables.add.rule
   vars:
+    - interface: eth0
     - source_port: 23
     - destination_ip: 10.128.187.109
     - destination_port: 22
