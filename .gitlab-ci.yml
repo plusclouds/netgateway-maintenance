@@ -7,8 +7,8 @@ build_environment:
   tags:
     - master
   script:
-    - rm .git* -r
-    - rm .vscode -r
+    - rm .git* -rf
+    - rm .vscode -rf
     - rm /var/www/services/netgateway.tar.gz -f
     - tar czf /var/www/services/netgateway.tar.gz .
   only:
