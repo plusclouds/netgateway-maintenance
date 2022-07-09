@@ -3,12 +3,12 @@ iface lo inet loopback
 
 auto eth0
 iface eth0 inet static
-    address {{ public_ip_addr }}
-    netmask {{ public_netmask }}
-    gateway {{ public_gateway }}
+    address {{ netgateway_meta.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}
+    netmask {{ netgateway_meta.json.data.virtualNetworkCards.data.0.network.data.netmask }}
+    gateway {{ netgateway_meta.json.data.virtualNetworkCards.data.0.network.data.gateway }}
     dns_nameservers 8.8.4.4 4.4.2.2
 
 auto eth1
 iface eth1 inet static
-    address {{ vlan_ip_addr }}
-    netmask {{ vlan_netmask }}
+    address {{  netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.gateway }}
+    netmask {{  netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.netmask }}

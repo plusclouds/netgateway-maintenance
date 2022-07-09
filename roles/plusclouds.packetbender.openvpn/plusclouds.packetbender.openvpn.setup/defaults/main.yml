@@ -10,5 +10,5 @@ centos_openvpn_packages:
 
 push_gateway: false
 openvpn_ip: 10.108.0.0
-openvpn_network: "{{openvpn_ip}} {{public_netmask}}"
+openvpn_network: "{{openvpn_ip}} 255.255.255.0"
 openvpn_route: "{{ openvpn_network }}"

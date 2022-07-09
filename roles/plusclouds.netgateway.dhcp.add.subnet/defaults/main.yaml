@@ -1,12 +1,11 @@
 ---
 # defaults file for plusclouds.netgateway.dhcp.add.subnet
-subnet: "{{ vlan_ip }}"
-netmask: "{{ vlan_netmask }}"
-start_ip_range: "{{ vlan_start_ip_range }}"
-finish_ip_range: "{{ vlan_end_ip_range }}"
+subnet: "{{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.netmask.ip_addr }}"
+netmask: "{{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.ip_range_end.netmask }}"
+start_ip_range: "{{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.ip_range_start  }}"
+finish_ip_range: "{{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.ip_range_end }}"
 broadcast_address: "{{ vlan_broadcast }}"
-routers_address: "{{ vlan_gateway }}"
+routers_address: "{{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.gateway }}"
 domain_name: "plusclouds.leo"
 domain_name_servers: "8.8.4.4, 4.4.2.2"
-network_id: ""
 backup: yes
