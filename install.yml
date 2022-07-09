@@ -1,0 +1,24 @@
+---
+- name: Install netgateway services to server
+  hosts: localhost
+  become: false
+  gather_facts: true
+  roles:
+   -  role: plusclouds.check.metadata
+   -  role: plusclouds.netgateway.set.ipaddr
+   -  role: plusclouds.netgateway.iptables.setup
+   -  role: plusclouds.netgateway.dhcp.setup
+   -  role: plusclouds.netgateway.dhcp.add.subnet
+   -  role: plusclouds.packetbender.openvpn/plusclouds.packetbender.openvpn.setup
+   -  role: plusclouds.netgateway.proxy.setup
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false
+
+# set ip addresess
+# install iptables
+# install openvpn
+# install proxy&loadbalancer
+# install ntp
+# install rsyslog
+# install dhcp
+# add subnets

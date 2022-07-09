@@ -1,0 +1,28 @@
+---
+- name: Find netgateways Metadata in related datacenter node
+  uri:
+    url: "http://10.100.0.25/v2/packetbender/netgateways/metadata?uuid=b984eec5-67a3-b1d6-2fca-993437b7f8ef"
+    method: GET
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: netgateway_meta
+
+- debug:
+    var: netgateway_meta
+
+- name: public ip address
+  debug:
+    var: netgateway_meta.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr
+
+
+- debug:
+    var: netgateway_meta.json.data.virtualNetworkCards.data.0.network.data.netmask
+- debug:
+    var: netgateway_meta.json.data.virtualNetworkCards.data.0.network.data.gateway
+
+- debug:
+    var: netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.gateway
+
+- debug:
+    var: netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.netmask

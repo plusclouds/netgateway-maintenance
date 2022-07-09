@@ -1,2 +1,2 @@
-subnets: {{ vlan_network }}
+subnets: {{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.gateway }}/{{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.netmask }}
 ips:
