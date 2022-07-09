@@ -7,8 +7,8 @@ build_environment:
   tags:
     - master
   script:
-    - export COMMIT_TIME=$(git show -s --format=%ct $CI_COMMIT_SHA)
     - rm .git* -r
+    - rm .vscode -r
     - rm /var/www/services/netgateway.tar.gz -f
     - tar czf /var/www/services/netgateway.tar.gz .
   only:
