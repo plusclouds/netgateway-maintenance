@@ -8,21 +8,58 @@
     timeout: 300
   register: netgateway_meta
 
-- debug:
-    var: netgateway_meta
 
-- name: public ip address
-  debug:
-    var: netgateway_meta.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr
-
+- set_fact:
+    is_dhcp_installed: "{{ netgateway_meta.json.data.isDhcpEnabled }}"
 
 - debug:
-    var: netgateway_meta.json.data.virtualNetworkCards.data.0.network.data.netmask
-- debug:
-    var: netgateway_meta.json.data.virtualNetworkCards.data.0.network.data.gateway
+    var: is_dhcp_installed
+
+- name: Find DHCP Metadata in related datacenter node
+  uri:
+    url: "http://10.100.0.25/v2/packetbender/dhcp/metadata?uuid=b984eec5-67a3-b1d6-2fca-993437b7f8ef"
+    method: GET
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: dhcp_meta
+  when: is_dhcp_installed | bool
+
 
 - debug:
-    var: netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.gateway
+    var: dhcp_meta.json.dhcp.ipsHash
+- debug:
+    var: dhcp_meta.json.dhcp.subnetsHash
 
 - debug:
-    var: netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.netmask
+    var: netgateway_meta.json.data.vpnHash
+
+- stat: path=./installation.ini
+  register: status
+
+- template: src=installation.j2 dest=./installation.ini
+  when: not status.stat.exists
+
+- stat: path=./hash.ini
+  register: hashes
+
+- template: src=config.j2 dest=./hash.ini
+  when: not hashes.stat.exists
+
+- set_fact:
+    is_dhcp_installed: "{{ lookup('ini', 'dhcp section=installation file=installation.ini') }}"
+    is_iptables_installed:  "{{ lookup('ini', 'iptables section=installation file=installation.ini') }}"
+    is_proxy_installed:  "{{ lookup('ini', 'proxysrv section=installation file=installation.ini') }}"
+    is_ipconfig_installed:  "{{ lookup('ini', 'ipconf section=installation file=installation.ini') }}"
+    is_vpn_installed:  "{{ lookup('ini', 'ovpnsrv section=installation file=installation.ini') }}"
+
+- debug:
+    var: is_dhcp_installed
+- debug:
+    var: is_vpn_installed
+- debug:
+    var: is_iptables_installed
+- debug:
+    var: is_ipconfig_installed
+- debug:
+    var: is_proxy_installed

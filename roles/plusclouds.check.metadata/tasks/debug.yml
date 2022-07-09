@@ -1,0 +1,19 @@
+- name: public ip address
+  debug:
+    var: netgateway_meta.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr
+
+- name: netmask
+  debug:
+    var: netgateway_meta.json.data.virtualNetworkCards.data.0.network.data.netmask
+
+- name: router
+  debug:
+    var: netgateway_meta.json.data.virtualNetworkCards.data.0.network.data.gateway
+
+- name:  vlan first ip
+  debug:
+    var: netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.gateway
+
+- name: vlan netmask
+  debug:
+    var: netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.netmask
