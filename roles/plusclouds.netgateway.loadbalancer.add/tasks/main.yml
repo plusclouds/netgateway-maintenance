@@ -7,7 +7,10 @@
 #  notify: Reload Nginx
 
 - set_fact:
-    nginx_host_config: "{{ netgateway_meta.json.data.loadBalancer.hosts }}"
+    nginx_host_config: "{{ netgateway_meta.json.data.loadBalancer.hosts.0.configuration }}"
+
+- set_fact:
+    nginx_domain_name: "{{ netgateway_meta.json.data.loadBalancer.hosts.0.domain_name }}"
 
 - name: Nginx | Nginx conf copy
   template: src=nginxconf.j2 dest=/etc/nginx/nginx.conf
@@ -23,6 +26,6 @@
 
 
 - name: Nginx | Host conf copy
-  template: src=host_config.j2 dest=/etc/nginx/sites-enabled/test.conf
+  template: src=host_config.j2 dest=/etc/nginx/sites-enabled/{{ nginx_domain_name }}.conf
   notify: Reload Nginx
   with_items: "{{ nginx_host_config }}"

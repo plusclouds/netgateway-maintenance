@@ -16,6 +16,12 @@
 - debug:
     var: is_dhcp_installed
 
+#- set_fact:
+#   vpn_server_conf: "{{ netgateway_meta.json.data.vpn.vpn_conf }}"
+
+#- set_fact:
+#   vpn_client_conf: "{{ netgateway_meta.json.data.vpn.vpn_client_conf }}"
+
 - set_fact:
    nginx_conf: "{{ netgateway_meta.json.data.loadBalancer.nginx_conf }}"
 
@@ -34,6 +40,12 @@
 - debug:
     var: item
   loop: "{{ nginx_host_config }}"
+
+#- debug:
+ #   var: vpn_server_conf
+
+#- debug:
+#    var: vpn_client_conf
 
 - debug:
     var: nginx_host_config
