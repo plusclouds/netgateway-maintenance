@@ -1,5 +1,0 @@
----
-- name: Set up modsec for nginx1.18
-  hosts: dbservers
-  roles:
-    - role: plusclouds.nginx_1.18.modsecurity

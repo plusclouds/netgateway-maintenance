@@ -5,7 +5,6 @@
   gather_facts: true
   roles:
    -  role: plusclouds.check.metadata
-
    -  role: plusclouds.netgateway.set.ipaddr
       when: not ipconf | bool
    -  role: plusclouds.netgateway.iptables.setup
@@ -18,10 +17,10 @@
       when: not ovpnsrv | bool
    -  role: plusclouds.netgateway.proxy.setup
       when: not proxysrv | bool
-
-
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
+  vars:
+    - leo_url: "http://10.100.0.25"
 
 # set ip addresess
 # install iptables
