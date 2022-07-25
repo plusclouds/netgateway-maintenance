@@ -1,28 +1,93 @@
 ---
 - name: Find netgateways Metadata in related datacenter node
   uri:
-    url: "http://10.100.0.25/v2/packetbender/netgateways/metadata?uuid=b984eec5-67a3-b1d6-2fca-993437b7f8ef"
+    url: "{{leo_url}}/v2/packetbender/netgateways/metadata?uuid=b984eec5-67a3-b1d6-2fca-993437b7f8ef"
     method: GET
+    headers:
+      Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImNkMGNkYmQ0ZDcyMGZlMWE3NzdhMTY5OTJjZGJlNzFiMzQ1ZDllMmZkMDNjNjA2NmUwYWJkNGJmYTY4NzEzY2E4NWU2NDAxNWE3NWYyYmE3In0.eyJhdWQiOiIzOSIsImp0aSI6ImNkMGNkYmQ0ZDcyMGZlMWE3NzdhMTY5OTJjZGJlNzFiMzQ1ZDllMmZkMDNjNjA2NmUwYWJkNGJmYTY4NzEzY2E4NWU2NDAxNWE3NWYyYmE3IiwiaWF0IjoxNjU4NjcwODk5LCJuYmYiOjE2NTg2NzA4OTksImV4cCI6MTY5MDIwNjg5OSwic3ViIjoiMTY3MDMiLCJzY29wZXMiOltdfQ.PHQFrUo8kKIuwPtZRXCm68YwQqvbSQWwprHBopmzCyuPfdNl9aUQ_hTZQpoogPzsqtiStcitnzWOyJ5P0Ka7AQYwDTfCgTa2chIRoKXs5MThoIZKvA63KGoCfJH9sfEu-mOW4FzkJG3XjiI663U7wpaTFvCAD5dOLOiI9npsqkZcV7E8NDAR6JvtBgpTBB8YBtZ8CPceKTTSW5KmEWd7F3NevW--wvEzeM5CeB6yeKJwwbpmQPmGzOWSCSHV1r3DF8Tj5lYSSJ6YC7pHr4mhty0x4JfY2Jac4aPnusrPlY9Pe8GgG8e6h40AxmA4dnZT6OVkh4FORgonndgS8iCcmMjrsGYNOSPnJaSy_qFQk1rXfFbg6IQ90AvmkqbJWx2lLadfgKMItsnZsZp-1ewRaZS7x6_ZNcfGR-pSzUBvyJTLwC-rWXNxWM4MBOVMbkRRrlWhpI90XBYcT6z8XfW8S_eb5t1o_tD5SZlB9pUnwWzE57MgR0sLotAuGE2FfH9O-aGoU1TMk58zEzzbBO0KjwQq7Gmw6T_LS1YLhUY3o1640tgWY8omuqH5khR1gwVISCGZomKZabcBX9Edg-s8Fsf9WDeh0hfKiaV8mX2R0XXxxPEAhmTPKkvIW1wCbAQQAYZjB8WL42RcwXdnS5h8uFWm0wWocb9oVtf9A8ox_YE"
     return_content: yes
     status_code: 200
     timeout: 300
   register: netgateway_meta
 
-- debug:
-    var: netgateway_meta
-
-- name: public ip address
-  debug:
-    var: netgateway_meta.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr
-
+- set_fact:
+    is_dhcp_installed: "{{ netgateway_meta.json.data.isDhcpEnabled }}"
 
 - debug:
-    var: netgateway_meta.json.data.virtualNetworkCards.data.0.network.data.netmask
-- debug:
-    var: netgateway_meta.json.data.virtualNetworkCards.data.0.network.data.gateway
+    var: is_dhcp_installed
+
+- set_fact:
+   nginx_conf: "{{ netgateway_meta.json.data.loadBalancer.nginx_conf }}"
+
+- set_fact:
+   nginx_host_config: "{{ netgateway_meta.json.data.loadBalancer.hosts }}"
+
+- set_fact:
+   fastcgi_conf: "{{ netgateway_meta.json.data.loadBalancer.fastcgi_conf }}"
+
+- set_fact:
+   proxy_conf: "{{ netgateway_meta.json.data.loadBalancer.proxy_conf }}"
+
+- set_fact:
+   mimes_conf: "{{ netgateway_meta.json.data.loadBalancer.mimes_conf }}"
 
 - debug:
-    var: netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.gateway
+    var: item
+  loop: "{{ nginx_host_config }}"
 
 - debug:
-    var: netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.netmask
+    var: nginx_host_config
+
+- debug:
+    var: nginx_conf
+
+- debug:
+    var: proxy_conf
+
+- name: Find DHCP Metadata in related datacenter node
+  uri:
+    url: "http://10.100.0.25/v2/packetbender/dhcp/metadata?uuid=b984eec5-67a3-b1d6-2fca-993437b7f8ef"
+    method: GET
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: dhcp_meta
+  when: is_dhcp_installed | bool
+
+- debug:
+    var: dhcp_meta.json.dhcp.ipsHash
+- debug:
+    var: dhcp_meta.json.dhcp.subnetsHash
+
+- debug:
+    var: netgateway_meta.json.data.vpnHash
+
+- stat: path=./installation.ini
+  register: status
+
+- template: src=installation.j2 dest=./installation.ini
+  when: not status.stat.exists
+
+- stat: path=./hash.ini
+  register: hashes
+
+- template: src=config.j2 dest=./hash.ini
+  when: not hashes.stat.exists
+
+- set_fact:
+    is_dhcp_installed: "{{ lookup('ini', 'dhcp section=installation file=installation.ini') }}"
+    is_iptables_installed:  "{{ lookup('ini', 'iptables section=installation file=installation.ini') }}"
+    is_proxy_installed:  "{{ lookup('ini', 'proxysrv section=installation file=installation.ini') }}"
+    is_ipconfig_installed:  "{{ lookup('ini', 'ipconf section=installation file=installation.ini') }}"
+    is_vpn_installed:  "{{ lookup('ini', 'ovpnsrv section=installation file=installation.ini') }}"
+
+- debug:
+    var: is_dhcp_installed
+- debug:
+    var: is_vpn_installed
+- debug:
+    var: is_iptables_installed
+- debug:
+    var: is_ipconfig_installed
+- debug:
+    var: is_proxy_installed

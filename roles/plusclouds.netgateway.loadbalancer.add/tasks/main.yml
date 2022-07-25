@@ -1,7 +1,28 @@
 ---
-- name: Separate facts
-  set_fact: upstreams="{{nodes.split(',')}}"
+#- name: Separate facts
+#  set_fact: upstreams="{{ nodes.split(",") }}"
 
-- name: Nginx | Vhosts copy
-  template: src=vhosts.j2 dest=/etc/nginx/sites-enabled/{{ domain_name }}.conf
+#- name: Nginx | Vhosts copy
+#  template: src=vhosts.j2 dest=/etc/nginx/sites-enabled/{{ domain_name }}.conf
+#  notify: Reload Nginx
+
+- set_fact:
+    nginx_host_config: "{{ netgateway_meta.json.data.loadBalancer.hosts }}"
+
+- name: Nginx | Nginx conf copy
+  template: src=nginxconf.j2 dest=/etc/nginx/nginx.conf
+
+- name: Nginx | Fastcgi conf copy
+  template: src=fastcgi_conf.j2 dest=/etc/nginx/fastcgi.conf
+
+- name: Nginx | Mimes conf copy
+  template: src=mimes_conf.j2 dest=/etc/nginx/mime.types
+
+- name: Nginx | Proxy conf copy
+  template: src=proxy.j2 dest=/etc/nginx/proxy_params
+
+
+- name: Nginx | Host conf copy
+  template: src=host_config.j2 dest=/etc/nginx/sites-enabled/test.conf
   notify: Reload Nginx
+  with_items: "{{ nginx_host_config }}"

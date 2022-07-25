@@ -1,7 +1,7 @@
 mode server
 tls-server
 port 1194
-local {{ netgateway_meta.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}
+local {{ node_name }}
 proto tcp
 dev tun
 ca ca.crt
@@ -10,7 +10,7 @@ key server.key  # This file should be kept secret
 dh dh2048.pem
 server {{ openvpn_network }}
 push "route {{ openvpn_route }}"
-push "route {{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.network }} {{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.netmask }}"
+push "route {{ vlan_broadcast }} {{ vlan_netmask }}"
 #crl-verify crl.pem
 {% if push_gateway %}
 #push "redirect-gateway def1"

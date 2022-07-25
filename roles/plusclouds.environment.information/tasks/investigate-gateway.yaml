@@ -20,8 +20,7 @@
   when: datacenter_node is defined
 
 - set_fact:
-    vm_id: "{{ vm_id }}"
-  when: vm_id is defined
+    vm_id: "{{ netgateway_meta.json.data.virtual_machine_id }}"
 
 - set_fact:
     vm_id: "{{ hostvars['localhost']['vm_id'] }}"
@@ -42,7 +41,7 @@
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
   uri:
-    url: "{{leo_url}}/v2/iaas/virtual-machines/{{ vm_id }}?type=system&fields=ip_addr,username,password&include=datacenterNode"
+    url: "{{leo_url}}/v2/packetbender/netgateways/metadata?uuid=b984eec5-67a3-b1d6-2fca-993437b7f8ef"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -74,12 +73,16 @@
     public_ip_addr: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     public_netmask: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.netmask }}"
     public_gateway: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.gateway }}"
+    nginx_conf: "{{ netgateway_vm.json.data.loadBalancer.nginx_conf }}"
+    #nginx_host_config: "{{ netgateway_vm.json.data.loadBalancer.0.hosts }}"
+    fastcgi_conf: "{{ netgateway_vm.json.data.loadBalancer.fastcgi_conf }}"
+    proxy_conf: "{{ netgateway_vm.json.data.loadBalancer.proxy_conf }}"
+    mimes_conf: "{{ netgateway_vm.json.data.loadBalancer.mimes_conf }}"
     #public_ip_addr: 185.44.192.47
     #public_netmask: 255.255.255.0
     #public_gateway: 185.44.192.1
-    network: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.id }}"
+    #network: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.id }}"
     username: "{{ netgateway_vm.json.data.username }}"
-    server_name: "{{ server_name }}"
     vm_id: "{{ vm_id }}"
     netgateway: "{{ netgateway }}"
 
@@ -97,12 +100,16 @@
     public_ip_addr: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.ipList.data.0.ip_addr }}"
     public_netmask: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.netmask }}"
     public_gateway: "{{ netgateway_vm.json.data.virtualNetworkCards.data.0.network.data.gateway }}"
+    nginx_conf: "{{ netgateway_vm.json.data.loadBalancer.nginx_conf }}"
+    #nginx_host_config: "{{ netgateway_vm.json.data.loadBalancer.0.hosts }}"
+    fastcgi_conf: "{{ netgateway_vm.json.data.loadBalancer.fastcgi_conf }}"
+    proxy_conf: "{{ netgateway_vm.json.data.loadBalancer.proxy_conf }}"
+    mimes_conf: "{{ netgateway_vm.json.data.loadBalancer.mimes_conf }}"
     #public_ip_addr: 185.44.192.47
     #public_netmask: 255.255.255.0
     #public_gateway: 185.44.192.1
-    network: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.id }}"
+    #network: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.id }}"
     username: "{{ netgateway_vm.json.data.username }}"
-    server_name: "{{ server_name }}"
     vm_id: "{{ vm_id }}"
     netgateway: "{{ netgateway }}"
 
