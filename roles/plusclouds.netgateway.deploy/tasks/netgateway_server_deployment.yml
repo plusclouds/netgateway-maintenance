@@ -40,8 +40,8 @@
 
 - name: Import selected template from image repository
   uri:
-    url: "{{leo_url}}/v2/iaas/machine-images/{{ template_info.json.data.0.id }}/clone"
-    body: "name={{ server_name }}&total_cpu={{ cpu }}&total_ram={{ ram_size }}&total_disk={{ disk_size }}&datacenter_node={{ datacenter_node }}"
+    url: "{{leo_url}}/v2/iaas/virtual-machines/wizards/create"
+    body: "name={{ server_name }}&datacenter_node={{ datacenter_node }}&product_catalog_id={{ product_catalog_id }}&virtual_machine_image_id={{ virtual_machine_image_id }}"
     method: POST
     headers:
       Authorization: "Bearer {{ user_token }}"

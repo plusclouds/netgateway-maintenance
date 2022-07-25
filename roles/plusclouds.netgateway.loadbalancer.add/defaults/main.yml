@@ -1,4 +1,4 @@
 ---
-balancer_vhosts:
-    - { name: "",  upstreams: ["", "" ] }
-balancing_method: "least_conn"  #default round robin empty, least_conn, ip-hash
+#nodes: "{{ netgateway_meta.loadBalancer.nodes }}"
+#balancing_method: "{{ netgateway_meta.loadBalancer.balancing_method }}"
+#domain_name: "{{ netgateway_meta.loadBalancer.domain_name }}"

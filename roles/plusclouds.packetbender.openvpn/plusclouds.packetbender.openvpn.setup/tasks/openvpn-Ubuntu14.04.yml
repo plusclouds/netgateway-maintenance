@@ -97,10 +97,10 @@
     dest: /etc/openvpn/easy-rsa/revoke-full
     mode: 0o700
 
-- name: Openssl bug fixer
-  command: cp openssl-1.0.0.cnf openssl.cnf
-  args:
-     chdir: /etc/openvpn/easy-rsa
+#- name: Openssl bug fixer
+#  command: cp openssl-1.0.0.cnf openssl.cnf
+#  args:
+#     chdir: /etc/openvpn/easy-rsa
 
 - name: Execute the script
   command: sh site-key.sh

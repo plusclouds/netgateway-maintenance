@@ -1,4 +1,11 @@
 ---
+- set_fact:
+    pool_list: []
+
+- name: Create the list
+  set_fact: 
+    pool_list: "{{ pools.split(',') }}"
+
 - name: Install ntp-server
   apt:
    name: "{{ item }}"
@@ -8,29 +15,17 @@
    - ntpstat
    - ntpdate
 
-- name: Set Ntp Config File
-  replace:
-    path: "/etc/ntp.conf"
-    regexp: "pool ntp.debian.com"
-    replace: "#pool ntp.debian.com"
-
-- name: Set Ntp Config File
-  replace:
-    path: "/etc/ntp.conf"
-    regexp: 'pool {{ item }}.debian.pool.ntp.org iburst'
-    replace: '#pool {{ item }}.debian.pool.ntp.org iburst'
-  with_items:
-      - 0
-      - 1
-      - 2
-      - 3
+- name: configuring ntp.conf
+  template:
+    src: ntp.conf.j2
+    dest: /etc/ntp.conf
 
 - name: Add pools to ntp conf file
   lineinfile:
     path: /etc/ntp.conf
     line: pool {{ item }} iburst
   with_items: 
-    - "{{ pools }}"
+    - "{{ pool_list }}"
     
 - name: Set Timezone
   shell: timedatectl set-timezone {{ timezone }}
