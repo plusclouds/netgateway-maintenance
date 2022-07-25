@@ -1,7 +1,0 @@
----
-- name: Nginx | Vhosts copy
-  lineinfile:
-    path: /etc/nginx/sites-enabled/{{ domain_name }}.conf
-    insertafter: 'upstream {{ domain_name }} {'
-    line: 'server {{ new_node }} max_fails=1 fail_timeout=10s;'
-  notify: Reload Nginx
