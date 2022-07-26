@@ -1,6 +1,6 @@
 ---
 # defaults file for plusclouds.netgateway.dhcp.add.subnet
-subnet: "{{ netgateway_vm.json.data.virtualNetworkCards.data.1.network.data.network }}"
+subnet: "{{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.network }}"
 netmask: "{{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.netmask }}"
 start_ip_range: "{{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.ip_range_start  }}"
 finish_ip_range: "{{ netgateway_meta.json.data.virtualNetworkCards.data.1.network.data.ip_range_end }}"
