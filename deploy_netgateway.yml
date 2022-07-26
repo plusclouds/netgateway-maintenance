@@ -1,0 +1,18 @@
+---
+- name: Deploy Netgateway Server
+  hosts: localhost
+  become: false
+  gather_facts: false
+  roles:
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.netgateway.deploy
+    -  role: plusclouds.netgateway.set
+    -  role: plusclouds.environment.information
+  vars:
+    - wan: "yVMNlGrzlo"
+    - network: "geKYgvNzPO"
+    - datacenter_node: "zVGNXorAoR"
+    - netgateway: "GqdrRBgrPe"
+    - type: "medium"
+    - user_token: ""
+    - leo_url: http://10.100.0.25
