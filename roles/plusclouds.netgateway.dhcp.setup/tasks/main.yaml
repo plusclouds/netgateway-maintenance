@@ -17,3 +17,9 @@
 
 - name: Save config
   include_tasks: save-config.yaml
+
+- set_fact:
+   subnet_hash: "{{ netgateway_meta.json.data.networkHash }}"
+
+- debug:
+   var: subnet_hash

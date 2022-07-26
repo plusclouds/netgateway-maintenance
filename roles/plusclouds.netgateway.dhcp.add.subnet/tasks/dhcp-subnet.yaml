@@ -24,3 +24,9 @@
 
 - name: Restart DHCP service
   command: "/etc/init.d/isc-dhcp-server restart"
+
+- set_fact:
+    subnet_hash: "{{ netgateway_meta.json.data.networkHash }}"
+
+- debug:
+    var: subnet_hash

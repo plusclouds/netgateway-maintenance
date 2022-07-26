@@ -31,4 +31,8 @@
 - name: Save iptables rules
   shell: "iptables-save > /etc/iptables/rules.v4"
 
+- set_fact:
+   iptables_hash: "{{ netgateway_meta.json.data.firewallHash }}"
 
+- debug:
+   var: iptables_hash

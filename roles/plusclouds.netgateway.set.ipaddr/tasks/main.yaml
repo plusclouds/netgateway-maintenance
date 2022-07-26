@@ -25,3 +25,9 @@
     regexp: '^127\.0\.0\.1[ \t]+localhost'
     line: '127.0.0.1 localhost netgateway'
     state: present
+
+- set_fact:
+   ip_hash: "{{ netgateway_meta.json.data.networkHash }}"
+
+- debug:
+   var: ip_hash

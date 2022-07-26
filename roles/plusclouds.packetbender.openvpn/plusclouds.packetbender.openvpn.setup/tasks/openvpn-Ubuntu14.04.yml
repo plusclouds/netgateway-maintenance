@@ -117,3 +117,8 @@
 
 #- name: start openvpn service
  # shell: systemctl start openvpn@server
+- set_fact:
+   ovpnsrv_hash: "{{ netgateway_meta.json.data.vpnHash }}"
+
+- debug:
+   var: ovpnsrv_hash

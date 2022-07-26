@@ -24,8 +24,14 @@
 - name: Nginx | Proxy conf copy
   template: src=proxy.j2 dest=/etc/nginx/proxy_params
 
+
 - name: Nginx | Host conf copy
   template: src=host_config.j2 dest=/etc/nginx/sites-enabled/{{ nginx_domain_name }}.conf
   notify: Reload Nginx
   with_items: "{{ nginx_host_config }}"
 
+- set_fact:
+   loadbalancer_hash: "{{ netgateway_meta.json.data.loadBalancerHash}}"
+
+- debug:
+   var: loadbalancer_hash
