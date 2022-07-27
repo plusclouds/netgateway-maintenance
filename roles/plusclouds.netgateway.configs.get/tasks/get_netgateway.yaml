@@ -1,0 +1,42 @@
+---
+- name: Get Netgateway 
+  uri:
+    url: "{{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+      Accept: application/json
+    return_content: yes
+    status_code: 200
+    timeout: 200
+  delegate_to: localhost
+  register: new_netgateway
+
+- debug:
+    var: new_netgateway
+
+- set_fact:
+    deploy_dhcp: "{{ new_netgateway.json.data.is_dhcp_enabled }}"
+    deploy_firewall: "{{ new_netgateway.json.data.is_firewall_enabled }}"
+    deploy_nat: "{{ new_netgateway.json.data.is_nat_enabled }}"
+    deploy_loadbalancer: "{{ new_netgateway.json.data.is_load_balancer_enabled }}"
+    deploy_proxy: "{{ new_netgateway.json.data.is_proxy_enabled }}"
+    deploy_rsyslog: "{{ new_netgateway.json.data.is_rsyslog_enabled }}"
+    deploy_vpn: "{{ new_netgateway.json.data.is_vpn_enabled }}"
+    deploy_ntp: "{{ new_netgateway.json.data.is_ntp_enabled }}"
+    is_usable: "{{ new_netgateway.json.data.is_usable }}"
+    vm_id: "{{ new_netgateway.json.data.virtual_machine_id }}"
+    server_name: "{{ new_netgateway.json.data.name }}"
+    
+- debug: 
+    var: "{{item}}"
+  with_items:
+    - deploy_vpn
+    - deploy_ntp
+    - deploy_rsyslog
+    - deploy_proxy
+    - deploy_loadbalancer
+    - deploy_nat
+    - deploy_dhcp
+    - deploy_firewall
+    - is_usable

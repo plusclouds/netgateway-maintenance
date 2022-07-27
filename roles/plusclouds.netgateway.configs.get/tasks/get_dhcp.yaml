@@ -1,0 +1,35 @@
+- name: Find netgateways subnet conf
+  uri:
+    url: {{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/subnet
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: subnet_conf
+  delegate_to: localhost
+
+- name: Find netgateways dhcp conf
+  uri:
+    url: "{{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/dhcp"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: dhcp_conf
+  delegate_to: localhost
+
+- name: Find netgateways iplist conf
+  uri:
+    url: "{{leo_url}}/v2/packetbender/netgateways/{{ netgateway }}/iplist"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ user_token }}"
+    return_content: yes
+    status_code: 200
+    timeout: 300
+  register: iplist_conf
+  delegate_to: localhost

@@ -1,0 +1,36 @@
+---
+- name: Create Netgateway
+  include_tasks: "create_new_netgateway.yaml"
+  when: (netgateway is not defined) or (netgateway == None ) or (netgateway == "")
+
+- name: Get Netgateway
+  include_tasks: "get_netgateway.yaml"
+  when: netgateway is defined
+
+#- name: Get NTP Conf
+#  include_tasks: "get_ntp.yaml"
+#  when: deploy_ntp
+#
+#- name: Get Proxy Conf
+#  include_tasks: "get_proxy.yaml"
+#  when: deploy_proxy
+#
+#- name: Get DHCP Conf
+#  include_tasks: "get_dhcp.yaml"
+#  when: deploy_dhcp
+#
+#- name: Get NAT Conf
+#  include_tasks: "get_nat.yaml"
+#  when: deploy_nat
+#
+#- name: Get Loadbalancer Conf
+#  include_tasks: "get_loadbalancer.yaml"
+#  when: deploy_loadbalancer
+#
+#- name: Get VPN Conf
+#  include_tasks: "get_vpn.yaml"
+#  when: deploy_vpn
+#
+#- name: Get Firewall Conf
+#  include_tasks: "get_firewall.yaml"
+#  when: deploy_firewall

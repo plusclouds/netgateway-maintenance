@@ -9,10 +9,10 @@
     -  role: plusclouds.netgateway.set
     -  role: plusclouds.environment.information
   vars:
-    - wan: "yVMNlGrzlo"
-    - network: "geKYgvNzPO"
-    - datacenter_node: "zVGNXorAoR"
-    - netgateway: "GqdrRBgrPe"
+    - wan: "zVGNXorAoR"
+    - network: "bERNzdeLva"
+    - datacenter_node: "yVMNlGrzlo"
+    - netgateway: "bERLzqEYva"
     - type: "medium"
-    - user_token: ""
+    - user_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImNkMGNkYmQ0ZDcyMGZlMWE3NzdhMTY5OTJjZGJlNzFiMzQ1ZDllMmZkMDNjNjA2NmUwYWJkNGJmYTY4NzEzY2E4NWU2NDAxNWE3NWYyYmE3In0.eyJhdWQiOiIzOSIsImp0aSI6ImNkMGNkYmQ0ZDcyMGZlMWE3NzdhMTY5OTJjZGJlNzFiMzQ1ZDllMmZkMDNjNjA2NmUwYWJkNGJmYTY4NzEzY2E4NWU2NDAxNWE3NWYyYmE3IiwiaWF0IjoxNjU4NjcwODk5LCJuYmYiOjE2NTg2NzA4OTksImV4cCI6MTY5MDIwNjg5OSwic3ViIjoiMTY3MDMiLCJzY29wZXMiOltdfQ.PHQFrUo8kKIuwPtZRXCm68YwQqvbSQWwprHBopmzCyuPfdNl9aUQ_hTZQpoogPzsqtiStcitnzWOyJ5P0Ka7AQYwDTfCgTa2chIRoKXs5MThoIZKvA63KGoCfJH9sfEu-mOW4FzkJG3XjiI663U7wpaTFvCAD5dOLOiI9npsqkZcV7E8NDAR6JvtBgpTBB8YBtZ8CPceKTTSW5KmEWd7F3NevW--wvEzeM5CeB6yeKJwwbpmQPmGzOWSCSHV1r3DF8Tj5lYSSJ6YC7pHr4mhty0x4JfY2Jac4aPnusrPlY9Pe8GgG8e6h40AxmA4dnZT6OVkh4FORgonndgS8iCcmMjrsGYNOSPnJaSy_qFQk1rXfFbg6IQ90AvmkqbJWx2lLadfgKMItsnZsZp-1ewRaZS7x6_ZNcfGR-pSzUBvyJTLwC-rWXNxWM4MBOVMbkRRrlWhpI90XBYcT6z8XfW8S_eb5t1o_tD5SZlB9pUnwWzE57MgR0sLotAuGE2FfH9O-aGoU1TMk58zEzzbBO0KjwQq7Gmw6T_LS1YLhUY3o1640tgWY8omuqH5khR1gwVISCGZomKZabcBX9Edg-s8Fsf9WDeh0hfKiaV8mX2R0XXxxPEAhmTPKkvIW1wCbAQQAYZjB8WL42RcwXdnS5h8uFWm0wWocb9oVtf9A8ox_YE"
     - leo_url: http://10.100.0.25
