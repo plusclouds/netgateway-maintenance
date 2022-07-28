@@ -2,6 +2,7 @@
 - fail: msg="The variable {{item}} is not defined or empty"
   when: ({{item}} is not defined) or ({{item}} == None ) or ({{item}} == "")
   with_items:
+    - server_name
     - network
     - wan
     - datacenter_node

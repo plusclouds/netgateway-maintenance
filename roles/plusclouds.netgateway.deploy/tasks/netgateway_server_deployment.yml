@@ -23,9 +23,6 @@
     disk_size: "81920"
   when: type == "xlarge"
 
-- set_fact:
-    server_name: "netgateway"
-
 - name: Find template server in related datacenter node
   uri:
     url: "{{leo_url}}/v2/repo/images?name=debian&version=v9.9"
