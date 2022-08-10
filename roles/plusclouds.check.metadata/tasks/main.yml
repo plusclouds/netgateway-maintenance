@@ -87,6 +87,14 @@
   when: not hashes.stat.exists
 
 - set_fact:
+    is_dhcp_enabled: "{{ netgateway_meta.json.data.isDhcpEnabled }}"
+    is_firewall_enabled: "{{ netgateway_meta.json.data.isFirewallEnabled }}"
+    is_loadbalancer_enabled: "{{ netgateway_meta.json.data.isLoadbalancerEnabled }}"
+    is_vpn_enabled: "{{ netgateway_meta.json.data.isVpnEnabled }}"
+    is_nat_enabled: "{{ netgateway_meta.json.data.isNatEnabled }}"
+    is_rsyslog_enabled: "{{ netgateway_meta.json.data.isRsyslogEnabled }}"
+
+- set_fact:
     is_dhcp_installed: "{{ lookup('ini', 'dhcp section=installation file=installation.ini') }}"
     is_iptables_installed:  "{{ lookup('ini', 'iptables section=installation file=installation.ini') }}"
     is_proxy_installed:  "{{ lookup('ini', 'proxysrv section=installation file=installation.ini') }}"
@@ -123,6 +131,18 @@
     var: is_ipconfig_installed
 - debug:
     var: is_proxy_installed
+- debug:
+    var: is_dhcp_enabled
+- debug:
+    var: is_firewall_enabled
+- debug:
+    var: is_loadbalancer_enabled
+- debug:
+    var: is_vpn_enabled
+- debug:
+    var: is_nat_enabled
+- debug:
+    var: is_rsyslog_enabled
 - debug:
     var: iptables_hash
 - debug:

@@ -28,6 +28,22 @@
       when: (rsyslog_hash != rsyslog_hash_meta)
    -  role: plusclouds.netgateway.ntp.install
       when: (ntp_hash != ntp_hash_meta)
+   -  role: plusclouds.netgateway.iptables.setup
+      when: 
+        - not is_iptables_installed | bool
+        - is_firewall_enabled == 1
+   -  role: plusclouds.netgateway.dhcp.setup
+      when:
+        - not is_dhcp_installed | bool
+        - is_dhcp_enabled == 1
+   -  role: plusclouds.netgateway.dhcp.add.subnet
+      when:
+        - not is_dhcp_installed | bool
+        - is_dhcp_enabled == 1
+   -  role: plusclouds.packetbender.openvpn/plusclouds.packetbender.openvpn.setup
+      when:
+        - not is_vpn_installed | bool
+        - is_vpn_enabled == 1
 
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

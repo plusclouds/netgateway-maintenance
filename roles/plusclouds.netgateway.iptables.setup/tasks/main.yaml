@@ -37,3 +37,9 @@
 
 - debug:
    var: iptables_hash
+
+- set_fact:
+   is_iptables_installed:  "{{ lookup('ini', 'iptables section=installation file=new_installation.ini') }}"
+
+- debug:
+   var: is_iptables_installed

@@ -1,10 +1,22 @@
 ---
-- set_fact:
-    pool_list: []
+#- set_fact:
+#    pool_list: []
 
-- name: Create the list
-  set_fact: 
-    pool_list: "{{ pools.split(',') }}"
+- set_fact:
+    timezone: "{{ netgateway_meta.json.data.ntp.timezone }}"
+
+- set_fact:
+    pools: "{{ netgateway_meta.json.data.ntp.pools }}"
+
+- debug:
+    var: pools
+
+- debug:
+    var: timezone
+
+#- name: Create the list
+#  set_fact: 
+#    pool_list: "{{ pools.split(',') }}"
 
 - name: Install ntp-server
   apt:
@@ -24,8 +36,7 @@
   lineinfile:
     path: /etc/ntp.conf
     line: pool {{ item }} iburst
-  with_items: 
-    - "{{ pool_list }}"
+  loop: "{{ pools }}"
     
 - name: Set Timezone
   shell: timedatectl set-timezone {{ timezone }}

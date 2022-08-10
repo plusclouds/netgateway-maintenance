@@ -31,3 +31,9 @@
 
 - debug:
    var: ip_hash
+
+- set_fact:
+   is_ipconfig_installed:  "{{ lookup('ini', 'ipconf section=installation file=new_installation.ini') }}"
+
+- debug:
+   var: is_ipconfig_installed

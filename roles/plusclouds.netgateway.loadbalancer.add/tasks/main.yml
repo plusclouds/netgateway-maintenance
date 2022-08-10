@@ -35,3 +35,9 @@
 
 - debug:
    var: loadbalancer_hash
+
+- set_fact:
+   is_proxy_installed:  "{{ lookup('ini', 'proxysrv section=installation file=new_installation.ini') }}"
+
+- debug:
+   var: is_proxy_installed
