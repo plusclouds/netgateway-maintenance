@@ -44,7 +44,8 @@
       when:
         - not is_vpn_installed | bool
         - is_vpn_enabled == 1
-
+   -  role: plusclouds.netgateway.new.hash
+   
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
   vars:
