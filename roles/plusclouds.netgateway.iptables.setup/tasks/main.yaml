@@ -32,14 +32,12 @@
 - name: Save iptables rules
   shell: "iptables-save > /etc/iptables/rules.v4"
 
-- set_fact:
-   iptables_hash: "{{ netgateway_meta.json.data.firewallHash }}"
+- lineinfile:
+    path: "{{ playbook_dir }}/hash.ini"
+    regexp: '^iptables_hash='
+    line: iptables_hash={{ iptables_hash_meta }}
 
-- debug:
-   var: iptables_hash
-
-- set_fact:
-   is_iptables_installed:  "{{ lookup('ini', 'iptables section=installation file=new_installation.ini') }}"
-
-- debug:
-   var: is_iptables_installed
+- lineinfile:
+    path: "{{ playbook_dir }}/installation.ini"
+    regexp: '^iptables='
+    line: iptables=true

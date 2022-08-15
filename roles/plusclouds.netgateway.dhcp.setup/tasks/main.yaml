@@ -23,9 +23,3 @@
 
 - debug:
    var: subnet_hash
-
-- set_fact:
-    is_dhcp_installed: "{{ lookup('ini', 'dhcp section=installation file=new_installation.ini') }}"
-
-- debug:
-    var: is_dhcp_installed

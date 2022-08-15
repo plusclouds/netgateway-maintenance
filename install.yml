@@ -32,6 +32,10 @@
       when: 
         - not is_iptables_installed | bool
         - is_firewall_enabled == 1
+   -  role: plusclouds.netgateway.loadbalancer.add
+      when:
+        - not is_proxy_installed | bool
+        - is_loadbalancer_enabled == 1
    -  role: plusclouds.netgateway.dhcp.setup
       when:
         - not is_dhcp_installed | bool
@@ -44,7 +48,7 @@
       when:
         - not is_vpn_installed | bool
         - is_vpn_enabled == 1
-   -  role: plusclouds.netgateway.new.hash
+
    
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false

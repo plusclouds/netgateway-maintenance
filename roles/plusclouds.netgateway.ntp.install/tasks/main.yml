@@ -43,3 +43,8 @@
 
 - name: reload ntp server
   service: name=ntp state=restarted
+
+- lineinfile:
+    path: "{{ playbook_dir }}/hash.ini"
+    regexp: '^ntpsrv_hash='
+    line: ntpsrv_hash={{ ntp_hash_meta }}

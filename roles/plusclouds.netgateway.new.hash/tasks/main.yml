@@ -1,3 +1,0 @@
----
-- name: New Hash.ini Create
-  template: src=new_hash_ini.j2 dest={{ playbook_dir }}/new_hash.ini

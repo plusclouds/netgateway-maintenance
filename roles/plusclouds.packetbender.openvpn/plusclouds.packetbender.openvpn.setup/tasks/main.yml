@@ -29,8 +29,12 @@
   include_tasks: openvpn-CentOS7.yml
   when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'
 
-- set_fact:
-   is_vpn_installed:  "{{ lookup('ini', 'ovpnsrv section=installation file=new_installation.ini') }}"
+- lineinfile:
+    path: "{{ playbook_dir }}/installation.ini"
+    regexp: '^ovpnsrv='
+    line: ovpnsrv=true
 
-- debug:
-   var: is_vpn_installed 
+- lineinfile:
+    path: "{{ playbook_dir }}/hash.ini"
+    regexp: '^ovpnsrv_hash='
+    line: ovpnsrv_hash={{ ovpnsrv_hash_meta }}

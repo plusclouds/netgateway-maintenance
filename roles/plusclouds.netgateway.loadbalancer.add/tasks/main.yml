@@ -30,14 +30,12 @@
   notify: Reload Nginx
   with_items: "{{ nginx_host_config }}"
 
-- set_fact:
-   loadbalancer_hash: "{{ netgateway_meta.json.data.loadBalancerHash}}"
+- lineinfile:
+    path: "{{ playbook_dir }}/hash.ini"
+    regexp: '^loadbalancer_hash='
+    line: loadbalancer_hash={{ loadbalancer_hash_meta }}
 
-- debug:
-   var: loadbalancer_hash
-
-- set_fact:
-   is_proxy_installed:  "{{ lookup('ini', 'proxysrv section=installation file=new_installation.ini') }}"
-
-- debug:
-   var: is_proxy_installed
+- lineinfile:
+    path: "{{ playbook_dir }}/installation.ini"
+    regexp: '^proxysrv='
+    line: proxysrv=true
