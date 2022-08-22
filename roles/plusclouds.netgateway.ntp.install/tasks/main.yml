@@ -48,3 +48,8 @@
     path: "{{ playbook_dir }}/hash.ini"
     regexp: '^ntpsrv_hash='
     line: ntpsrv_hash={{ ntp_hash_meta }}
+
+- lineinfile:
+    path: "{{ playbook_dir }}/installation.ini"
+    regexp: '^ntpsrv='
+    line: ntpsrv=true

@@ -26,16 +26,10 @@
     line: '127.0.0.1 localhost netgateway'
     state: present
 
-- set_fact:
-   ip_hash: "{{ netgateway_meta.json.data.networkHash }}"
-
-- debug:
-   var: ip_hash
-
 - lineinfile:
     path: "{{ playbook_dir }}/hash.ini"
     regexp: '^ip_hash='
-    line: ip_hash={{ ip_hash }}
+    line: ip_hash={{ ip_hash_meta }}
 
 - lineinfile:
     path: "{{ playbook_dir }}/installation.ini"

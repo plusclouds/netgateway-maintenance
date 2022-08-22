@@ -100,6 +100,9 @@
     is_proxy_installed:  "{{ lookup('ini', 'proxysrv section=installation file=installation.ini') }}"
     is_ipconfig_installed:  "{{ lookup('ini', 'ipconf section=installation file=installation.ini') }}"
     is_vpn_installed:  "{{ lookup('ini', 'ovpnsrv section=installation file=installation.ini') }}"
+    is_ntp_installed: "{{ lookup('ini', 'ntpsrv section=installation file=installation.ini') }}"
+    is_rsyslog_installed: "{{ lookup('ini', 'rsyslog section=installation file=installation.ini') }}"
+    is_prepare_ready: "{{ lookup('ini', 'is_prepare_ready section=installation file=installation.ini') }}"
 
 - set_fact: 
     iptables_hash: "{{ lookup('ini', 'iptables_hash section=config_hashes file=hash.ini') }}"
@@ -120,6 +123,8 @@
     proxysrv_hash_meta: "{{ netgateway_meta.json.data.proxyHash }}"
     ntp_hash_meta: "{{ netgateway_meta.json.data.ntpHash }}"
     rsyslog_hash_meta: "{{ netgateway_meta.json.data.rsyslogHash }}"
+    subnet_hash_meta: "{{ dhcp_meta.json.dhcp.subnetsHash }}"
+    ip_hash_meta: "{{ dhcp_meta.json.dhcp.ipsHash }}"
 
 - debug:
     var: is_dhcp_installed

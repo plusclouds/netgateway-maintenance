@@ -1,0 +1,21 @@
+---
+- name: Create installation.ini
+  template: src=installation.j2 dest={{ playbook_dir }}/installation.ini
+
+- name: Create Hash.ini
+  template: src=hash.j2 dest={{ playbook_dir }}/hash.ini
+
+- name: Execute the Set Ipaddr Role
+  import_role:
+    name: plusclouds.netgateway.set.ipaddr
+  when: not is_ipconfig_installed | bool
+
+- name: Execute the Iptables Setup Role
+  import_role:
+    name: plusclouds.netgateway.iptables.setup
+  when: not is_iptables_installed | bool
+
+- lineinfile:
+    path: "{{ playbook_dir }}/installation.ini"
+    regexp: '^is_prepare_ready='
+    line: is_prepare_ready=true
