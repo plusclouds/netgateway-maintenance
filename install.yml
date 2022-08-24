@@ -29,7 +29,11 @@
       when:
         - not is_rsyslog_installed | bool
         - is_rsyslog_enabled == "1"
-        
+   -  role: plusclouds.netgateway.pdns.install
+      when:
+        - not is_dns_installed | bool
+        - is_dns_enabled == "1"
+
    ############## HASH CONTROL
    -  role: plusclouds.netgateway.iptables.update
       when: (iptables_hash != iptables_hash_meta)

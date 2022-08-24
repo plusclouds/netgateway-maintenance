@@ -93,6 +93,7 @@
     is_vpn_enabled: "{{ netgateway_meta.json.data.isVpnEnabled }}"
     is_nat_enabled: "{{ netgateway_meta.json.data.isNatEnabled }}"
     is_rsyslog_enabled: "{{ netgateway_meta.json.data.isRsyslogEnabled }}"
+    is_dns_enabled: "{{ netgateway_meta.json.data.isDnsEnabled }}"
 
 - set_fact:
     is_dhcp_installed: "{{ lookup('ini', 'dhcp section=installation file=installation.ini') }}"
@@ -102,6 +103,7 @@
     is_vpn_installed:  "{{ lookup('ini', 'ovpnsrv section=installation file=installation.ini') }}"
     is_ntp_installed: "{{ lookup('ini', 'ntpsrv section=installation file=installation.ini') }}"
     is_rsyslog_installed: "{{ lookup('ini', 'rsyslog section=installation file=installation.ini') }}"
+    is_dns_installed: "{{ lookup('ini', 'pdns section=installation file=installation.ini') }}"
     is_prepare_ready: "{{ lookup('ini', 'is_prepare_ready section=installation file=installation.ini') }}"
 
 - set_fact: 
@@ -114,6 +116,7 @@
     ip_hash: "{{ lookup('ini', 'ip_hash section=config_hashes file=hash.ini') }}"
     subnet_hash: "{{ lookup('ini', 'subnet_hash section=config_hashes file=hash.ini') }}"
     rsyslog_hash: "{{ lookup('ini', 'rsyslog_hash section=config_hashes file=hash.ini') }}"
+    dns_hash: "{{ lookup('ini', 'dns_hash section=config_hashes file=hash.ini') }}"
 
 - set_fact:
     iptables_hash_meta: "{{ netgateway_meta.json.data.firewallHash }}"
@@ -125,6 +128,7 @@
     rsyslog_hash_meta: "{{ netgateway_meta.json.data.rsyslogHash }}"
     subnet_hash_meta: "{{ dhcp_meta.json.dhcp.subnetsHash }}"
     ip_hash_meta: "{{ dhcp_meta.json.dhcp.ipsHash }}"
+    dns_hash_meta: "{{ netgateway_meta.json.data.dnsHash }}"
 
 - debug:
     var: is_dhcp_installed
