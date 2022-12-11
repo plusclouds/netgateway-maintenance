@@ -25,7 +25,7 @@
 
 - name: Find template server in related datacenter node
   uri:
-    url: "{{leo_url}}/v2/repo/images?name=debian&version=v9.9"
+    url: "{{leo_url}}/v2/repo/images?name=debian&version=11"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"
@@ -38,9 +38,10 @@
 - debug:
     var: template_info
 
+
 - name: Import selected template from image repository
   uri:
-    url: "{{leo_url}}/v2/iaas/machine-images/{{ netgateway }}/clone"
+    url: "{{leo_url}}/v2/iaas/machine-images/{{ template_info.json.data.0.id }}/clone"
     body: "name={{ server_name }}&datacenter_node={{ datacenter_node }}&total_cpu= {{ cpu }}&total_ram= {{ ram_size }}&total_disk={{ disk_size }}&server_name= {{ server_name }}"
     method: POST
     headers:
