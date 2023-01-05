@@ -20,7 +20,7 @@
   when: datacenter_node is defined
 
 - set_fact:
-    vm_id: "{{ netgateway_meta.json.data.virtual_machine_id }}"
+    vm_id: "{{ cloned_vm.json.data.id }}"
 
 - set_fact:
     vm_id: "{{ hostvars['localhost']['vm_id'] }}"
@@ -41,7 +41,7 @@
 # API'dan listeyi talep et
 - name: Find netgateways server in related datacenter node
   uri:
-    url: "{{leo_url}}/v2/packetbender/netgateways/metadata?uuid=b984eec5-67a3-b1d6-2fca-993437b7f8ef"
+    url: "{{leo_url}}/v2/packetbender/netgateways/metadata?uuid=a9099d89-a0e9-36a7-929d-fa51979f6422"
     method: GET
     headers:
       Authorization: "Bearer {{ user_token }}"

@@ -7,12 +7,12 @@
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.deploy
     -  role: plusclouds.netgateway.set
-    -  role: plusclouds.environment.information
+  #  -  role: plusclouds.environment.information
   vars:
-    - wan: "yVMNlGrzlo"
-    - network: "geKYgvNzPO"
-    - datacenter_node: "zVGNXorAoR"
-    - netgateway: "GqdrRBgrPe"
+    - wan: "VxMNyjXYkv"
+    - network: "bDqYxDnYGo"
+    - datacenter_node: "yDQLBvLwmR"
+    - netgateway: "bGyYjWRLEx"
     - type: "medium"
     - user_token: ""
-    - leo_url: http://10.100.0.25
+    - leo_url: http://10.100.0.114

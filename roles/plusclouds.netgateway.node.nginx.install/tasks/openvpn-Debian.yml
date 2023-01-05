@@ -14,3 +14,8 @@
     path: /etc/nginx/sites-enabled/default
     state: absent
   notify: restart nginx
+
+- lineinfile:
+    path: "{{ playbook_dir }}/installation.ini"
+    regexp: '^proxysrv='
+    line: proxysrv=true

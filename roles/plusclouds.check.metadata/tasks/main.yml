@@ -1,10 +1,10 @@
 ---
 - name: Find netgateways Metadata in related datacenter node
   uri:
-    url: "{{leo_url}}/v2/packetbender/netgateways/metadata?uuid=b984eec5-67a3-b1d6-2fca-993437b7f8ef"
+    url: "{{leo_url}}/v2/packetbender/netgateways/metadata?uuid=d5b39b5c-8051-ea4c-6eaf-c320a1bceee6"
     method: GET
     headers:
-      Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImNkMGNkYmQ0ZDcyMGZlMWE3NzdhMTY5OTJjZGJlNzFiMzQ1ZDllMmZkMDNjNjA2NmUwYWJkNGJmYTY4NzEzY2E4NWU2NDAxNWE3NWYyYmE3In0.eyJhdWQiOiIzOSIsImp0aSI6ImNkMGNkYmQ0ZDcyMGZlMWE3NzdhMTY5OTJjZGJlNzFiMzQ1ZDllMmZkMDNjNjA2NmUwYWJkNGJmYTY4NzEzY2E4NWU2NDAxNWE3NWYyYmE3IiwiaWF0IjoxNjU4NjcwODk5LCJuYmYiOjE2NTg2NzA4OTksImV4cCI6MTY5MDIwNjg5OSwic3ViIjoiMTY3MDMiLCJzY29wZXMiOltdfQ.PHQFrUo8kKIuwPtZRXCm68YwQqvbSQWwprHBopmzCyuPfdNl9aUQ_hTZQpoogPzsqtiStcitnzWOyJ5P0Ka7AQYwDTfCgTa2chIRoKXs5MThoIZKvA63KGoCfJH9sfEu-mOW4FzkJG3XjiI663U7wpaTFvCAD5dOLOiI9npsqkZcV7E8NDAR6JvtBgpTBB8YBtZ8CPceKTTSW5KmEWd7F3NevW--wvEzeM5CeB6yeKJwwbpmQPmGzOWSCSHV1r3DF8Tj5lYSSJ6YC7pHr4mhty0x4JfY2Jac4aPnusrPlY9Pe8GgG8e6h40AxmA4dnZT6OVkh4FORgonndgS8iCcmMjrsGYNOSPnJaSy_qFQk1rXfFbg6IQ90AvmkqbJWx2lLadfgKMItsnZsZp-1ewRaZS7x6_ZNcfGR-pSzUBvyJTLwC-rWXNxWM4MBOVMbkRRrlWhpI90XBYcT6z8XfW8S_eb5t1o_tD5SZlB9pUnwWzE57MgR0sLotAuGE2FfH9O-aGoU1TMk58zEzzbBO0KjwQq7Gmw6T_LS1YLhUY3o1640tgWY8omuqH5khR1gwVISCGZomKZabcBX9Edg-s8Fsf9WDeh0hfKiaV8mX2R0XXxxPEAhmTPKkvIW1wCbAQQAYZjB8WL42RcwXdnS5h8uFWm0wWocb9oVtf9A8ox_YE"
+      Authorization: "Bearer {{ user_token }}"
     return_content: yes
     status_code: 200
     timeout: 300
@@ -16,11 +16,8 @@
 - debug:
     var: is_dhcp_installed
 
-#- set_fact:
-#   vpn_server_conf: "{{ netgateway_meta.json.data.vpn.vpn_conf }}"
-
-#- set_fact:
-#   vpn_client_conf: "{{ netgateway_meta.json.data.vpn.vpn_client_conf }}"
+- set_fact:
+   vpn_server_conf: "{{ netgateway_meta.json.data.vpn.vpn_server_conf }}"
 
 - set_fact:
    nginx_conf: "{{ netgateway_meta.json.data.loadBalancer.nginx_conf }}"
@@ -37,15 +34,18 @@
 - set_fact:
    mimes_conf: "{{ netgateway_meta.json.data.loadBalancer.mimes_conf }}"
 
+- set_fact:
+   iptables_conf: "{{ netgateway_meta.json.data.firewall }}"
+
+- debug:
+    var: iptables_conf
+
 - debug:
     var: item
   loop: "{{ nginx_host_config }}"
 
-#- debug:
- #   var: vpn_server_conf
-
-#- debug:
-#    var: vpn_client_conf
+- debug:
+    var: vpn_server_conf
 
 - debug:
     var: nginx_host_config
@@ -58,7 +58,7 @@
 
 - name: Find DHCP Metadata in related datacenter node
   uri:
-    url: "http://10.100.0.25/v2/packetbender/dhcp/metadata?uuid=b984eec5-67a3-b1d6-2fca-993437b7f8ef"
+    url: "{{leo_url}}/v2/packetbender/dhcp/metadata?uuid=b984eec5-67a3-b1d6-2fca-993437b7f8ef"
     method: GET
     return_content: yes
     status_code: 200
@@ -87,11 +87,48 @@
   when: not hashes.stat.exists
 
 - set_fact:
+    is_dhcp_enabled: "{{ netgateway_meta.json.data.isDhcpEnabled }}"
+    is_firewall_enabled: "{{ netgateway_meta.json.data.isFirewallEnabled }}"
+    is_loadbalancer_enabled: "{{ netgateway_meta.json.data.isLoadbalancerEnabled }}"
+    is_vpn_enabled: "{{ netgateway_meta.json.data.isVpnEnabled }}"
+    is_nat_enabled: "{{ netgateway_meta.json.data.isNatEnabled }}"
+    is_rsyslog_enabled: "{{ netgateway_meta.json.data.isRsyslogEnabled }}"
+    is_dns_enabled: "{{ netgateway_meta.json.data.isDnsEnabled }}"
+
+- set_fact:
     is_dhcp_installed: "{{ lookup('ini', 'dhcp section=installation file=installation.ini') }}"
     is_iptables_installed:  "{{ lookup('ini', 'iptables section=installation file=installation.ini') }}"
     is_proxy_installed:  "{{ lookup('ini', 'proxysrv section=installation file=installation.ini') }}"
     is_ipconfig_installed:  "{{ lookup('ini', 'ipconf section=installation file=installation.ini') }}"
     is_vpn_installed:  "{{ lookup('ini', 'ovpnsrv section=installation file=installation.ini') }}"
+    is_ntp_installed: "{{ lookup('ini', 'ntpsrv section=installation file=installation.ini') }}"
+    is_rsyslog_installed: "{{ lookup('ini', 'rsyslog section=installation file=installation.ini') }}"
+    is_dns_installed: "{{ lookup('ini', 'pdns section=installation file=installation.ini') }}"
+    is_prepare_ready: "{{ lookup('ini', 'is_prepare_ready section=installation file=installation.ini') }}"
+
+- set_fact: 
+    iptables_hash: "{{ lookup('ini', 'iptables_hash section=config_hashes file=hash.ini') }}"
+    loadbalancer_hash: "{{ lookup('ini', 'loadbalancer_hash section=config_hashes file=hash.ini') }}"
+    ovpnsrv_hash: "{{ lookup('ini', 'ovpnsrv_hash section=config_hashes file=hash.ini') }}"
+    network_hash: "{{ lookup('ini', 'network_hash section=config_hashes file=hash.ini') }}"
+    proxysrv_hash: "{{ lookup('ini', 'proxysrv_hash section=config_hashes file=hash.ini') }}"
+    ntp_hash: "{{ lookup('ini', 'ntpsrv_hash section=config_hashes file=hash.ini') }}"
+    ip_hash: "{{ lookup('ini', 'ip_hash section=config_hashes file=hash.ini') }}"
+    subnet_hash: "{{ lookup('ini', 'subnet_hash section=config_hashes file=hash.ini') }}"
+    rsyslog_hash: "{{ lookup('ini', 'rsyslog_hash section=config_hashes file=hash.ini') }}"
+    dns_hash: "{{ lookup('ini', 'dns_hash section=config_hashes file=hash.ini') }}"
+
+- set_fact:
+    iptables_hash_meta: "{{ netgateway_meta.json.data.firewallHash }}"
+    loadbalancer_hash_meta: "{{ netgateway_meta.json.data.loadBalancerHash }}"
+    ovpnsrv_hash_meta: "{{ netgateway_meta.json.data.vpnHash }}"
+    network_hash_meta: "{{ netgateway_meta.json.data.networkHash }}"
+    proxysrv_hash_meta: "{{ netgateway_meta.json.data.proxyHash }}"
+    ntp_hash_meta: "{{ netgateway_meta.json.data.ntpHash }}"
+    rsyslog_hash_meta: "{{ netgateway_meta.json.data.rsyslogHash }}"
+    subnet_hash_meta: "{{ dhcp_meta.json.dhcp.subnetsHash }}"
+    ip_hash_meta: "{{ dhcp_meta.json.dhcp.ipsHash }}"
+    dns_hash_meta: "{{ netgateway_meta.json.data.dnsHash }}"
 
 - debug:
     var: is_dhcp_installed
@@ -103,3 +140,47 @@
     var: is_ipconfig_installed
 - debug:
     var: is_proxy_installed
+- debug:
+    var: is_dhcp_enabled
+- debug:
+    var: is_firewall_enabled
+- debug:
+    var: is_loadbalancer_enabled
+- debug:
+    var: is_vpn_enabled
+- debug:
+    var: is_nat_enabled
+- debug:
+    var: is_rsyslog_enabled
+- debug:
+    var: iptables_hash
+- debug:
+    var: loadbalancer_hash
+- debug:
+    var: ovpnsrv_hash
+- debug:
+    var: network_hash
+- debug:
+    var: proxysrv_hash
+- debug:
+    var: ntp_hash
+- debug:
+    var: ip_hash
+- debug:
+    var: subnet_hash
+- debug:
+    var: rsyslog_hash
+- debug:
+    var: iptables_hash_meta
+- debug:
+    var: loadbalancer_hash_meta
+- debug:
+    var: ovpnsrv_hash_meta
+- debug:
+    var: network_hash_meta
+- debug:
+    var: proxysrv_hash_meta
+- debug:
+    var: ntp_hash_meta
+- debug:
+    var: rsyslog_hash_meta

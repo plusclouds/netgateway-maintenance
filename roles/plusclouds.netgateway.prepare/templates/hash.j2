@@ -1,0 +1,11 @@
+[config_hashes]
+iptables_hash={{ netgateway_meta.json.data.firewallHash }}
+loadbalancer_hash={{ netgateway_meta.json.data.loadBalancerHash }}
+ovpnsrv_hash={{ netgateway_meta.json.data.vpnHash }}
+network_hash={{ netgateway_meta.json.data.networkHash }}
+proxysrv_hash={{ netgateway_meta.json.data.proxyHash }}
+ntpsrv_hash={{ netgateway_meta.json.data.ntpHash }}
+ip_hash={{dhcp_meta.json.dhcp.ipsHash}}
+subnet_hash={{dhcp_meta.json.dhcp.subnetsHash}}
+rsyslog_hash={{ netgateway_meta.json.data.rsyslogHash }}
+dns_hash={{ netgateway_meta.json.data.dnsHash }}
