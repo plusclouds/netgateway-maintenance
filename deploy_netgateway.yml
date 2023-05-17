@@ -1,0 +1,11 @@
+---
+- name: Install netgateway services to server
+  hosts: localhost
+  become: false
+  gather_facts: true
+  roles:
+   -  role: plusclouds.check.metadata
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: false
+  vars:
+    - leo_url: "https://api.plusclouds.com"

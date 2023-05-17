@@ -20,7 +20,7 @@
   environment:
     ANSIBLE_HOST_KEY_CHECKING: false
   vars:
-    - leo_url: "http://10.100.0.25"
+    - leo_url: "http://api.plusclouds.com"
 
 # set ip addresess
 # install iptables
