@@ -9,26 +9,29 @@ verilebilir.
 Bu modül aşağıdaki özellikleri sağlamaktadır. Sağlamadığı söylenen özellikler
 yol haritasında bulunduğu anlamına gelmektedir;
 
-- Temel İşlevler
-- - [x] NetGateway otomatik yaratılması
+- Core features
+- - [ ] NetGateway automated configuration
 - - [ ] Reset to factory
-- [ ] Ağ Yönetimi ()
+- [ ] Network management
 - - [ ] Ağ'a bağlanma
 - - [ ] Ağ trafiğini üzerinden akıtmak ve gateway görevi görmek
-- [ ] VPN Yönetimi
-- - [ ] VPN yaratma
-- - [ ] VPN trafik izleme
-- - [ ] PlusClouds IAM desteği
-- [x] Proxy yönetimi
-- - [x] Proxy kuralı yaratma
-- - [ ] Proxy kuralı silme
-- - [ ] Proxy kuralı izleme
-- [ ] Load Balancer yönetimi
-- - [ ] LB host yaratma
-- - [ ] LB trafik dengesi denetimi yapma
-- - [ ] LB trafik izleme
-- [x] NAT yönetimi
-- - [x] NAT kuralı yaratma
-- - [ ] NAT kuralı silme
-- [ ] Firewall Yönetimi
-- - [ ] IPTables kuralları yönetimi
+- [x] NTP
+- [x] DHCP management
+- - [x] Subnet management
+- - [x] IP management
+- [ ] VPN management
+- - [x] OpenVPN deployment
+- - [ ] Creating VPN Client
+- - [ ] VPN traffic reporting
+- - [ ] PlusClouds IAM support
+- [ ] Proxy management
+- - [ ] Proxy rule management
+- - [ ] Proxy traffic reporting
+- [ ] Load Balancer management
+- - [ ] LB host management
+- - [ ] LB traffic load balancer management
+- - [ ] LB traffic traffic reporting
+- [ ] NAT management
+- - [ ] NAT rule management
+- [ ] Firewall management
+- - [ ] IPTables rule management
