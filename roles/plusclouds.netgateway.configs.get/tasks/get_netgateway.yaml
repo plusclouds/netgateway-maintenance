@@ -40,3 +40,4 @@
     - deploy_dhcp
     - deploy_firewall
     - is_usable
+    - vm_id

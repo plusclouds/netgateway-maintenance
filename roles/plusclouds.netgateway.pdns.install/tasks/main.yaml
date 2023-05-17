@@ -65,3 +65,13 @@
   service:
     name: "pdns"
     state: "restarted"
+
+- lineinfile:
+    path: "{{ playbook_dir }}/hash.ini"
+    regexp: '^dns_hash='
+    line: dns_hash={{ dns_hash_meta }}
+
+- lineinfile:
+    path: "{{ playbook_dir }}/installation.ini"
+    regexp: '^pdns='
+    line: pdns=true

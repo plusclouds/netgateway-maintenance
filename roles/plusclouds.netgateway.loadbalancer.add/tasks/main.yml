@@ -24,8 +24,18 @@
 - name: Nginx | Proxy conf copy
   template: src=proxy.j2 dest=/etc/nginx/proxy_params
 
+
 - name: Nginx | Host conf copy
   template: src=host_config.j2 dest=/etc/nginx/sites-enabled/{{ nginx_domain_name }}.conf
   notify: Reload Nginx
   with_items: "{{ nginx_host_config }}"
 
+- lineinfile:
+    path: "{{ playbook_dir }}/hash.ini"
+    regexp: '^loadbalancer_hash='
+    line: loadbalancer_hash={{ loadbalancer_hash_meta }}
+
+- lineinfile:
+    path: "{{ playbook_dir }}/installation.ini"
+    regexp: '^proxysrv='
+    line: proxysrv=true

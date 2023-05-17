@@ -1,13 +1,15 @@
+- set_fact:
+    iptables_config: "{{ netgateway_meta.json.data.firewall }}"
+
+- debug:
+    var: item
+  loop: "{{ iptables_config }}"
+
 - name: make sure ip_forwarding enabled
   shell: echo 1 > /proc/sys/net/ipv4/ip_forward
   
 - name: backup iptables
   shell: iptables-save > /home/iptables.old
-
-- name: Copy iptables-rules to home
-  template:
-    src: iptables-save.j2
-    dest: /home/iptables.out
 
 - name: Flush filter rules
   shell: iptables -F
@@ -15,20 +17,27 @@
 - name: Flush nat rules
   shell: iptables -F -t nat 
 
-- name: Apply rules
-  shell: iptables-restore /home/iptables.out
+- name: Configure iptables
+  shell: "{{ item.command }}"
+  loop: "{{ iptables_config }}"
+
+- name: backup iptables
+  shell: "iptables-save > /home/iptables.new"
 
 - name: Install iptables-persistent
   apt:
     name: iptables-persistent
     state: "present"
 
-- name: Forward rules to persistent save file
-  template:
-    src: iptables-save.j2
-    dest: /etc/iptables/rules.v4
-
 - name: Save iptables rules
   shell: "iptables-save > /etc/iptables/rules.v4"
 
+- lineinfile:
+    path: "{{ playbook_dir }}/hash.ini"
+    regexp: '^iptables_hash='
+    line: iptables_hash={{ iptables_hash_meta }}
 
+- lineinfile:
+    path: "{{ playbook_dir }}/installation.ini"
+    regexp: '^iptables='
+    line: iptables=true

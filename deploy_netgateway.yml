@@ -1,11 +1,19 @@
 ---
-- name: Install netgateway services to server
+- name: Deploy Netgateway Server
   hosts: localhost
   become: false
-  gather_facts: true
+  gather_facts: false
   roles:
-   -  role: plusclouds.check.metadata
-  environment:
-    ANSIBLE_HOST_KEY_CHECKING: false
+    -  role: plusclouds.check.metadata
+    -  role: plusclouds.netgateway.configs.get
+    -  role: plusclouds.netgateway.deploy
+    -  role: plusclouds.netgateway.set
+  #  -  role: plusclouds.environment.information
   vars:
-    - leo_url: "https://api.plusclouds.com"
+    - wan: "VxMNyjXYkv"
+    - network: "bDqYxDnYGo"
+    - datacenter_node: "yDQLBvLwmR"
+    - netgateway: "bGyYjWRLEx"
+    - type: "medium"
+    - user_token: ""
+    - leo_url: http://10.100.0.114

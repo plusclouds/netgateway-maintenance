@@ -22,8 +22,8 @@ This role will install and set up ntp for target host if it is not installed yet
   become: false
   gather_facts: false
   roles:
+    -  role: plusclouds.check.metadata
     -  role: plusclouds.environment.information
-    -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.ntp.install
   vars:
     - user_token: ""

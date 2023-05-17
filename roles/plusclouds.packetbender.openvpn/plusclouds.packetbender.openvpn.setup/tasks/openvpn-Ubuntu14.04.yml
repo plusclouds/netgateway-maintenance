@@ -41,10 +41,21 @@
 
 
 #Set OpenVpn Server Conf
-- name: Copy the customize server config file
-  template:
-    src: server.conf.j2
-    dest: /etc/openvpn/server.conf
+#- name: Copy the customize server config file
+#  template:
+#    src: server.conf.j2
+#    dest: /etc/openvpn/server.conf
+
+# Delete Old OpenVpn Server Conf
+- name: Delete old config
+  file:
+    path: /etc/openvpn/server.conf
+    state: absent
+
+# Set OpenVPN Server Conf
+- name: Copy server config
+  shell: "echo '{{ item }}' >> /etc/openvpn/server.conf"
+  loop: "{{ vpn_server_conf }}"
 
 
 #Copy Easy RSA Files???
@@ -97,10 +108,10 @@
     dest: /etc/openvpn/easy-rsa/revoke-full
     mode: 0o700
 
-#- name: Openssl bug fixer
-#  command: cp openssl-1.0.0.cnf openssl.cnf
-#  args:
-#     chdir: /etc/openvpn/easy-rsa
+- name: Openssl bug fixer
+  command: cp openssl-1.0.0.cnf openssl.cnf
+  args:
+     chdir: /etc/openvpn/easy-rsa
 
 - name: Execute the script
   command: sh site-key.sh

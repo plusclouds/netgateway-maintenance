@@ -24,3 +24,13 @@
 
 - name: Restart DHCP service
   command: "/etc/init.d/isc-dhcp-server restart"
+
+- lineinfile:
+    path: "{{ playbook_dir }}/hash.ini"
+    regexp: '^subnet_hash='
+    line: subnet_hash={{ subnet_hash_meta }}
+  
+- lineinfile:
+    path: "{{ playbook_dir }}/installation.ini"
+    regexp: '^dhcp='
+    line: dhcp=true

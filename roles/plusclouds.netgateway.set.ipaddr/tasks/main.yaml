@@ -25,3 +25,13 @@
     regexp: '^127\.0\.0\.1[ \t]+localhost'
     line: '127.0.0.1 localhost netgateway'
     state: present
+
+- lineinfile:
+    path: "{{ playbook_dir }}/hash.ini"
+    regexp: '^ip_hash='
+    line: ip_hash={{ ip_hash_meta }}
+
+- lineinfile:
+    path: "{{ playbook_dir }}/installation.ini"
+    regexp: '^ipconf='
+    line: ipconf=true

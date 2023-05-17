@@ -29,3 +29,8 @@
     name: "{{ rsyslog_service }}"
     state: started
     enabled: yes
+
+- lineinfile:
+    path: "{{ playbook_dir }}/hash.ini"
+    regexp: '^rsyslog_hash='
+    line: rsyslog_hash={{ rsyslog_hash_meta }}

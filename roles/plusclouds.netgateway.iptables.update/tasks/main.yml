@@ -1,0 +1,35 @@
+- set_fact:
+    iptables_config: "{{ netgateway_meta.json.data.firewall }}"
+
+- debug:
+    var: item
+  loop: "{{ iptables_config }}"
+  
+- name: backup iptables
+  shell: iptables-save > /home/iptables.backup
+
+- name: Flush filter rules
+  shell: iptables -F
+  
+- name: Flush nat rules
+  shell: iptables -F -t nat 
+
+- name: Configure iptables
+  shell: "{{ item.command }}"
+  loop: "{{ iptables_config }}"
+
+- name: backup iptables
+  shell: "iptables-save > /home/iptables.new"
+
+- name: Save iptables rules
+  shell: "iptables-save > /etc/iptables/rules.v4"
+
+- lineinfile:
+    path: "{{ playbook_dir }}/hash.ini"
+    regexp: '^iptables_hash='
+    line: iptables_hash={{ iptables_hash_meta }}
+
+- lineinfile:
+    path: "{{ playbook_dir }}/installation.ini"
+    regexp: '^iptables='
+    line: iptables=true
