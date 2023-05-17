@@ -4,6 +4,7 @@
   become: false
   gather_facts: false
   roles:
+    -  role: plusclouds.check.metadata
     -  role: plusclouds.netgateway.configs.get
     -  role: plusclouds.netgateway.deploy
     -  role: plusclouds.netgateway.set
